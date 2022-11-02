@@ -15,7 +15,7 @@ $ yarn start
 
 # generate static project
 $ yarn generate
-# generate static project
+# node version
 $ node -v 16.17.1
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
