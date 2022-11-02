@@ -42,5 +42,6 @@ export default {
 i18n: i18n,
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    postcss: null,
   }
 }
