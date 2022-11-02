@@ -17,6 +17,12 @@ $ yarn start
 $ yarn generate
 # node version
 $ node -v 16.17.1
+# add packages list
+$ nuxt/axios
+$ nuxtjs/i18n
+$ sass or scss 
+$ goole fonts
+$ nuxt/doyenv
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 
