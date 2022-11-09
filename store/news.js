@@ -19,8 +19,7 @@ export const actions = {
   try {
     const {results,pagination}= await this.$axios.get('news', {params: {...payload}})
     commit("SET_NEWS", results);
-    console.log(pagination, 'new data==>>')
-    commit('SET_NEWS_PAG', pagination.total)
+    commit('SET_NEWS_PAG', pagination.pageCount)
     return {data: results, pagination: pagination}
   } catch (err) {
     console.log(err)

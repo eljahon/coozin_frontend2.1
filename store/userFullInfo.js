@@ -19,7 +19,7 @@ export const actions = {
         }
       });
       commit('SET_USER_FULL_INFO', data.results)
-      commit('SET_USER_FULL_INFO_PAG', data.pagination.total)
+      commit('SET_USER_FULL_INFO_PAG', data.pagination.pageCount)
     } catch (err) {
       console.log(err)
     }
@@ -34,7 +34,6 @@ export const actions = {
         }
       });
       const _data = data.data;
-      console.log(data.data, '=>>>>')
       return {...data.data.attributes, id: data.data.id}
       commit('SET_USER_FULL_BY_ID', data.data)
     } catch (err) {

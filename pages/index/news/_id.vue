@@ -214,7 +214,6 @@ export default {
       })
         .then(res => {
           this.otherInfo = res.data
-          console.log('res ===>>', res)
         });
     },
     async fetchNewsById() {
@@ -227,7 +226,6 @@ export default {
         id: this.$route.query.id
       })
         .then(res => {
-          console.log('======>>by id', res)
           this.news = {
             id: res.data.id,
             ...res.data.attributes

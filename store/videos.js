@@ -25,10 +25,9 @@ export const actions = {
         }
         }
       )
-      console.log('video' ,_data)
       commit('SET_VIDEOS', _data)
       if (pagination.total) {
-        commit('SET_VIDEOS_PAG',pagination.total)
+        commit('SET_VIDEOS_PAG',pagination.pageCount)
       }
       return {_data, pagination}
     } catch (err) {

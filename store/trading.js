@@ -18,7 +18,6 @@ export const actions = {
          ...payload
        }
      });
-     // console.log('tradingposts===>>', results)
      commit('SET_TRADING_POSTS', results)
    } catch (err) {
      console.log(err)
@@ -34,7 +33,6 @@ export const actions = {
           ...params
         }
       });
-      // console.log('tradingposts===>>', results)
       commit('SET_TRADING_POSTS_BY_ID', data)
     } catch (err) {
       console.log(err)
@@ -49,7 +47,6 @@ export const actions = {
          ...payload
        }
      });
-     // console.log('tradingposts===>>', results)
      commit('SET_TRADING_POSTS', results)
      return results;
    } catch (err) {
@@ -74,7 +71,6 @@ export const actions = {
        }
        category.current = false
      })
-     console.log('/trading-category/nested===>>', categories)
      // commit('SET_TRADING_POSTS', results)
      return categories;
    } catch (err) {

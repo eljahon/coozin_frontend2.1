@@ -106,7 +106,6 @@ export default {
       }
       await this.$store.dispatch('userFullInfo/get_user_full_by_id', {..._query}).then((res) => {
         this.informationDetail = res;
-        console.log('then res', res)
       })
     }
   }
