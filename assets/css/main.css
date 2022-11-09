@@ -1,0 +1,6 @@
+.leaflet-top {
+    z-index: 800 !important;
+}
+.leaflet-bottom {
+    z-index: 800 !important;
+}

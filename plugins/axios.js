@@ -9,15 +9,20 @@ export default function ({ $axios, redirect, $auth }) {
           }
 
   $axios.onError(error => {
+    const code = error.response.status;
     console.log('error', error)
     if (code === 400) {
 
     }
   })
-  $axios.setBaseURL(process.env.VUE_APP_BASE_URL);
+  $axios.setBaseURL(process.env.NUXT_APP_BASE_URL);
   $axios.onRequest((config) => {
     config.paramsSerializer = function (params) {
       return qs.stringify(filterNonNull(params), { encodeValuesOnly: true });
     };
   });
+  $axios.onResponse(data => {
+    // console.log('onResponse====>>>>', data)
+    return data.data
+  })
 }
