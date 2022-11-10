@@ -33,9 +33,8 @@ export const actions = {
           ...params
         }
       });
-      const _data = data.data;
-      return {...data.data.attributes, id: data.data.id}
-      commit('SET_USER_FULL_BY_ID', data.data)
+      return {...data}
+      commit('SET_USER_FULL_BY_ID', data)
     } catch (err) {
       console.log(err)
     }

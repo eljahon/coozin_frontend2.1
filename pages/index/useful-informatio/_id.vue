@@ -20,7 +20,7 @@
 <!--            <img v-else class="h-10 w-10 object-cover rounded-full" src="https://silkozari.com/web/images/miscellaneous/avatar.jpg">-->
             <div class="block ml-4">
               <p v-if="informationDetail.consultant !== null" class="text-sm text-gray-600">
-                {{ `${informationDetail.consultant.data.attributes.userinfo.data.attributes.name ?informationDetail.consultant.data.attributes.userinfo.data.attributes.name : ''} ${informationDetail.consultant.data.attributes.userinfo.data.attributes.surname ? informationDetail.consultant.data.attributes.userinfo.data.attributes.surname : ''}` }}
+                {{ `${informationDetail.consultant.userinfo.name ?informationDetail.consultant.userinfo.name : ''} ${informationDetail.consultant.userinfo.surname ? informationDetail.consultant.userinfo.surname : ''}` }}
               </p>
               <div class="flex justify-between space-x-1 text-xs text-gray-500 pt-2">
                 <div>

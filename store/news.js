@@ -47,9 +47,10 @@ export const actions = {
   async get_news_by_id({ commit, dispatch }, payload) {
     const {params, id} =payload;
     try {
-      const {data,pagination}= await this.$axios.get('news/'+id, {params: {...params}})
+      const data= await this.$axios.get('news/'+id, {params: {...params}})
+      console.log(data)
       commit("SET_NEWS_BY_ID", data);
-      return {data: data, pagination: pagination}
+      return {data: data}
       // console.log(data, 'new data==>>')
     } catch (err) {
       console.log(err)

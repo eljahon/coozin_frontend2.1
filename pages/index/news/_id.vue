@@ -107,7 +107,7 @@
 
               <div v-if="news.content !== 'None'" class="my-3 text-base text-gray-700" v-html="news.content" />
               <p v-if="news.consultant !== null" class="text-base text-gray-700 font-semibold my-3">
-                {{ `${news.consultant.data.attributes.username ?news.consultant.data.attributes.username : ''}` }}
+                {{ `${news.consultant.username ?news.consultant.username : ''}` }}
               </p>
             </div>
           </div>
@@ -226,9 +226,10 @@ export default {
         id: this.$route.query.id
       })
         .then(res => {
+          console.log('new by id', res)
           this.news = {
             id: res.data.id,
-            ...res.data.attributes
+            ...res.data
           }
         })
         .finally(() => {

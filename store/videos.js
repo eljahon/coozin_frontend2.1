@@ -13,23 +13,16 @@ export const mutations = {
 export const actions = {
  async  get_videos_list({ commit }, payload) {
     try {
-      const {data, meta: {pagination}} =await this.$axios.get('videos', {
+      const {results, pagination} =await this.$axios.get('videos', {
         params: {
           ...payload
         }
       })
-      const _data = data.map((el) => {
-        return {
-          id: el.id,
-          ...el.attributes
-        }
-        }
-      )
-      commit('SET_VIDEOS', _data)
+      commit('SET_VIDEOS', results)
       if (pagination.total) {
         commit('SET_VIDEOS_PAG',pagination.pageCount)
       }
-      return {_data, pagination}
+      return {results, pagination}
     } catch (err) {
       console.log(err)
     }

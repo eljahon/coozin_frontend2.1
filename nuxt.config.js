@@ -24,7 +24,7 @@ export default {
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["@/assets/css/main.css"],
-target: 'static',
+// target: 'static',
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~/plugins/axios.js" },
@@ -47,52 +47,53 @@ target: 'static',
     "@nuxtjs/axios",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/dayjs",
+    "@nuxtjs/auth"
   ],
   dayjs: {
     locales: ["en", "ja"],
     defaultLocale: "en",
     plugins: [], // Your Day.js plugin
   },
-  // auth: {
-  //   localStorage: false,
-  //   cookie: {
-  //     expires: 7
-  //   },
-  //   strategies: {
-  //     local: {
-  //       token: {
-  //         property: 'token',
-  //         maxAge: 30 * 24 * 60 * 60,
-  //         global: true,
-  //         type: 'Bearer'
-  //       },
-  //       // user: {
-  //       //   property: 'user',
-  //       //   autoFetch: true
-  //       // },
-  //       endpoints: {
-  //         login: { url: '/auth/local', method: 'post' },
-  //         // refresh: { url: '/auth/token/refresh', method: 'post' },
-  //         user: false,
-  //         logout: false
-  //         // tokenRequired: true,
-  //         // tokenType: 'Bearer',
-  //         // facebook: {
-  //         //   client_id: 'your facebook app id',
-  //         //   userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email',
-  //         //   scope: ['public_profile', 'email']
-  //         // },
-  //         // google: { client_id: 'your gcloud oauth app client id' }
-  //       },
-  //       redirect: {
-  //         login: '/',
-  //         logout: '/',
-  //         user: '/profile',
-  //         callback: '/'
-  //       }
-  //     }
-  //   }
-  // },
+  auth: {
+    localStorage: false,
+    cookie: {
+      expires: 7
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          maxAge: 30 * 24 * 60 * 60,
+          global: true,
+          type: 'Bearer'
+        },
+        // user: {
+        //   property: 'user',
+        //   autoFetch: true
+        // },
+        endpoints: {
+          login: { url: '/auth/local', method: 'post' },
+          // refresh: { url: '/auth/token/refresh', method: 'post' },
+          user: false,
+          logout: false
+          // tokenRequired: true,
+          // tokenType: 'Bearer',
+          // facebook: {
+          //   client_id: 'your facebook app id',
+          //   userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email',
+          //   scope: ['public_profile', 'email']
+          // },
+          // google: { client_id: 'your gcloud oauth app client id' }
+        },
+        redirect: {
+          login: '/',
+          logout: '/',
+          user: '/profile',
+          callback: '/'
+        }
+      }
+    }
+  },
   i18n: i18n,
   router: {
     // mode: 'hash',

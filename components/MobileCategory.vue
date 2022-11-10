@@ -166,11 +166,12 @@
 </template>
 
 <script>
-// import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import signIn from "@/components/modals/sign-in";
+import langswitcher from "@/components/langSwitcher/langswitcher";
 export default {
   name: 'MobileMenu',
-  components: {},
+  components: {'lang-switcher': langswitcher},
   data () {
     return {
       locale: this.$i18n.locale,
@@ -203,10 +204,10 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //   isLoggedIn: state => state.auth.loggedIn,
-    //   currentUser: state => state.auth.user
-    // }),
+    ...mapState({
+      isLoggedIn: state => state.auth.loggedIn,
+      currentUser: state => state.auth.user
+    }),
     // ...mapGetters({})
   },
   methods: {
