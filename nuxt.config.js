@@ -23,29 +23,30 @@ export default {
     ],
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["@/assets/css/main.css"],
+  css: [
+    "@/assets/css/main.css",
+    "@assets/css/tailwind.css"
+  ],
 // target: 'static',
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~/plugins/axios.js" },
     { src: "~/plugins/tools.js", defer: true },
-    { src: "~/plugins/swaper.js", defer: true },
-    { src: "~/plugins/vue-modal", mode: "client", defer: true },
-    { src: "~/plugins/client-libraries", mode: "client", defer: true },
-    { src: "~/plugins/vue-validate", mode: "client", defer: true },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
   loading: false,
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ["@nuxtjs/dotenv"],
+  buildModules: [
+    "@nuxtjs/dotenv",
+    '@nuxt/postcss8'
+  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     "@nuxtjs/i18n",
     "@nuxtjs/axios",
-    "@nuxtjs/tailwindcss",
     "@nuxtjs/dayjs",
     "@nuxtjs/auth"
   ],
@@ -106,6 +107,12 @@ export default {
       if (ctx.isDev) {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
-    }
+    },
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+      },
+    },
   },
 };
