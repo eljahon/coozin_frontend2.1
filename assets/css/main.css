@@ -1,6 +1,10 @@
-.leaflet-top {
-    z-index: 800 !important;
+
+/* Global styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
-.leaflet-bottom {
-    z-index: 800 !important;
+.container {
+  max-width: 1240px !important;
 }
