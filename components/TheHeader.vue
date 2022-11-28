@@ -8,10 +8,16 @@
         </header-card>
         <the-input type="text" placeholder="Можно узнать где ты?" icon="address" />
       </div>
-      <ul class="flex items-center gap-12">
-        <li><a href="">Наша история</a></li>
-        <li><a href="">Присоединиться</a></li>
-        <li><a href="">Блог</a></li>
+      <ul class="header-nav flex items-center gap-12">
+        <li>
+          <a href="">Наша история</a>
+        </li>
+        <li>
+          <a href="">Присоединиться</a>
+        </li>
+        <li>
+          <a href="">Блог</a>
+        </li>
       </ul>
       <div class="flex items-center gap-4">
         <header-card add-style="bg-orange-50">
@@ -37,4 +43,27 @@ export default {
 }
 </script>
 
-<style></style>
+
+
+
+<style scoped>
+.header-nav li a {
+  position: relative;
+}
+
+.header-nav li a:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  border-radius: 24px;
+  background: #ea580c;
+  transition: ease-in-out .3s;
+}
+.header-nav li a:hover:after {
+  width: 90%;
+}
+</style>
