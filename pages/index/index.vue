@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-styles pb-8">
     <!--  Banner  -->
     <div class="container mx-auto py-8">
       <div class="flex justify-center gap-4">
@@ -64,6 +64,77 @@
           </div>
         </div>
     </div>
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+      <div class="flex items-center gap-4 w-full">
+          <category-card v-for="item in categoryCard" :src="item.icon" :title="item.title" />
+      </div>
+    </div>
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+      <div class="flex items-center gap-4 w-full">
+        <product-card
+          v-for="item in productData"
+          :src="item.src"
+          :title="item.title"
+          :product-img="item.productImg"
+          :avatar="item.avatar"
+          :rate="item.rate"
+          :delivery-price="item.deliveryPrice"
+        />
+      </div>
+    </div>
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+      <div class="flex items-center gap-4 w-full">
+        <product-card
+          v-for="item in productData"
+          :src="item.src"
+          :title="item.title"
+          :product-img="item.productImg"
+          :avatar="item.avatar"
+          :rate="item.rate"
+          :delivery-price="item.deliveryPrice"
+        />
+      </div>
+    </div>
+    <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">
+      <div class="flex items-center gap-4 w-full">
+        <product-card
+          v-for="item in productData"
+          :src="item.src"
+          :title="item.title"
+          :product-img="item.productImg"
+          :avatar="item.avatar"
+          :rate="item.rate"
+          :delivery-price="item.deliveryPrice"
+        />
+      </div>
+    </div>
+    <div @click="more = true" v-if="!more" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
+      <span class="text-sm text-gray-700">Показать больше</span>
+    </div>
+
+    <!--  Blog section  -->
+    <div class="container mx-auto">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="blog" class="text-3xl font-semibold text-gray-800">
+          <a href="#menu">Блог</a>
+        </h2>
+        <div class="flex items-center gap-1">
+          <span class="font-normal text-orange-600 cursor-pointer">Посмотреть больше</span>
+          <the-icon src="right-arrow" />
+        </div>
+      </div>
+    </div>
+    <div class="container mx-auto overflow-x-scroll scroll-style">
+      <div class="flex items-center gap-3.5">
+        <div v-for="item in blogCard">
+          <blog-card
+            :src="item.src"
+            :title="item.title"
+            :avatar="item.avatar"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -71,6 +142,7 @@
   export default {
     data() {
       return {
+        more: false,
         menuCard: [
           {
             date: 26,
@@ -113,6 +185,126 @@
             month: "Окт"
           },
 
+        ],
+        categoryCard: [
+          {
+            icon: 'category-1',
+            title: 'Все категории'
+          },
+          {
+            icon: 'category-2',
+            title: 'Первое'
+          },
+          {
+            icon: 'category-3',
+            title: 'Второе'
+          },
+          {
+            icon: 'category-4',
+            title: 'Завтраки'
+          },
+          {
+            icon: 'category-5',
+            title: 'Гарниры'
+          },
+          {
+            icon: 'category-6',
+            title: 'Бизнес ланч'
+          },
+          {
+            icon: 'category-7',
+            title: 'Скидки'
+          },
+          {
+            icon: 'category-8',
+            title: 'Десерты'
+          },
+          {
+            icon: 'category-9',
+            title: 'Выпечка'
+          },
+        ],
+        productData: [
+          {
+            src: 'img-1',
+            title: 'Имя Фамилия',
+            productImg: '',
+            avatar: 'https://i.pravatar.cc/101',
+            rate: '3.9',
+            deliveryPrice: '12000'
+          },
+          {
+            src: 'img-2',
+            title: 'Имя Фамилия',
+            productImg: '',
+            avatar: 'https://i.pravatar.cc/102',
+            rate: '4.6',
+            deliveryPrice: '9000'
+          },
+          {
+            src: 'img-3',
+            title: 'Имя Фамилия',
+            productImg: '',
+            avatar: 'https://i.pravatar.cc/103',
+            rate: '5.0',
+            deliveryPrice: '27000'
+          },
+          {
+            src: 'img-4',
+            title: 'Имя Фамилия',
+            productImg: '',
+            avatar: 'https://i.pravatar.cc/104',
+            rate: '4.9',
+            deliveryPrice: '31000'
+          },
+          {
+            src: 'img-5',
+            title: 'Имя Фамилия',
+            productImg: '',
+            avatar: 'https://i.pravatar.cc/105',
+            rate: '4.7',
+            deliveryPrice: '17500'
+          },
+          {
+            src: 'img-1',
+            title: 'Имя Фамилия',
+            productImg: '',
+            avatar: 'https://i.pravatar.cc/106',
+            rate: '4.2',
+            deliveryPrice: '13300'
+          },
+        ],
+        blogCard: [
+          {
+            src: 'img-1',
+            title: 'Имя Фамилия',
+            avatar: 'https://i.pravatar.cc/101',
+          },
+          {
+            src: 'img-2',
+            title: 'Имя Фамилия',
+            avatar: 'https://i.pravatar.cc/102',
+          },
+          {
+            src: 'img-3',
+            title: 'Имя Фамилия',
+            avatar: 'https://i.pravatar.cc/103',
+          },
+          {
+            src: 'img-4',
+            title: 'Имя Фамилия',
+            avatar: 'https://i.pravatar.cc/104',
+          },
+          {
+            src: 'img-5',
+            title: 'Имя Фамилия',
+            avatar: 'https://i.pravatar.cc/105',
+          },
+          {
+            src: 'img-1',
+            title: 'Имя Фамилия',
+            avatar: 'https://i.pravatar.cc/106',
+          },
         ]
       }
     }
@@ -120,9 +312,13 @@
 </script>
 
 
+
+
+
+
 <style scoped>
   .scroll-style::-webkit-scrollbar {
-    height: 6px;
+    height: 0px;
     border-radius: 24px;
   }
   .scroll-style::-webkit-scrollbar-track {
@@ -153,5 +349,8 @@
   .card-5 {
     width: 400px;
     height: 160px;
+  }
+  .main-styles {
+    background: #F3F4F6;
   }
 </style>

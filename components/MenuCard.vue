@@ -10,9 +10,9 @@
     >
       {{ date }}
     </span>
-    <span
-      class="font-semibold leading-5 text-sm text-gray-600 group-active:text-orange-600 group-hover:text-orange-600"
-    >
+      <span
+        class="font-semibold leading-5 text-sm text-gray-600 group-active:text-orange-600 group-hover:text-orange-600"
+      >
       {{ month }}
     </span>
   </div>

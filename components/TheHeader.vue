@@ -16,7 +16,7 @@
           <a href="">Присоединиться</a>
         </li>
         <li>
-          <a href="">Блог</a>
+          <nuxt-link to="/blog">Блог</nuxt-link>
         </li>
       </ul>
       <div class="flex items-center gap-4">
