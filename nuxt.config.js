@@ -32,6 +32,7 @@ export default {
   plugins: [
     { src: "~/plugins/axios.js" },
     { src: "~/plugins/tools.js", defer: true },
+    { src: '@/plugins/vue-awesome-swiper.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -40,7 +41,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     "@nuxtjs/dotenv",
-    '@nuxt/postcss8'
+      '@nuxt/postcss8'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

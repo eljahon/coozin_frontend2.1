@@ -6,7 +6,6 @@
 
 <script>
 export default {
-  name: "",
   props: ['src', 'width', 'height'],
 }
 </script>
