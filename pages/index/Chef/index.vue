@@ -1,12 +1,12 @@
 <template>
-  <div class="main-styles">
+  <div class="main-styles pb-8">
     <div class="container mx-auto">
       <div class="banner">
-        <div class="flex items-center gap-4 pl-7">
+        <div class="banner__item flex items-center gap-4 pl-7">
           <div class="avatar-styles">
             <img class="w-full fit-cover" src="https://i.pravatar.cc/190" alt="Avatar Chef">
           </div>
-          <div class="flex flex-col gap-8">
+          <div class="flex flex-col gap-8 w-full">
             <div class="flex gap-4">
               <div class="flex items-center gap-2 py-1 px-2.5 bg-white rounded-full">
                 <the-icon src="rate" width="20" height="20" />
@@ -24,18 +24,38 @@
                 <the-icon src="share" />
               </div>
               <div class="switch" @click="switchOn = !switchOn">
-                <div class="switch-item" :class="{ 'switch-right': switchOn, 'switch-left': !switchOn }"></div>
+                <div class="switch-item delay-300" :class="{ 'switch-right': switchOn, 'switch-left': !switchOn }"></div>
                 <div>
-                  <span>Меню</span>
+                  <span :class="{'text-orange-600': !switchOn, 'text-gray-500': switchOn}">Меню</span>
                 </div>
                 <div>
-                  <span>Лента</span>
+                  <span :class="{'text-orange-600': switchOn, 'text-gray-500': !switchOn}">Лента</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="!switchOn">
+      <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+        <div class="flex items-center gap-4 w-full">
+          <chef-product-card v-for="item in productData" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+        </div>
+      </div>
+      <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+        <div class="flex items-center gap-4 w-full">
+          <chef-product-card v-for="item in productData" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+        </div>
+      </div>
+      <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">
+        <div class="flex items-center gap-4 w-full">
+          <chef-product-card v-for="item in productData" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+        </div>
+      </div>
+    </div>
+    <div @click="more = true" v-if="!more" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
+      <span class="text-sm text-gray-700">Показать больше</span>
     </div>
   </div>
 </template>
@@ -44,17 +64,136 @@
 export default {
  data() {
    return {
-     switchOn: false
+     switchOn: false,
+     more: false,
+     categoryCard: [
+       {
+         icon: 'category-1',
+         title: 'Все категории'
+       },
+       {
+         icon: 'category-2',
+         title: 'Первое'
+       },
+       {
+         icon: 'category-3',
+         title: 'Второе'
+       },
+       {
+         icon: 'category-4',
+         title: 'Завтраки'
+       },
+       {
+         icon: 'category-5',
+         title: 'Гарниры'
+       },
+       {
+         icon: 'category-6',
+         title: 'Бизнес ланч'
+       },
+       {
+         icon: 'category-7',
+         title: 'Скидки'
+       },
+       {
+         icon: 'category-8',
+         title: 'Десерты'
+       },
+       {
+         icon: 'category-9',
+         title: 'Выпечка'
+       },
+     ],
+     productData: [
+       {
+         src: 'img-1',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-2',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-3',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-4',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-5',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-1',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-1',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-1',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-1',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+       {
+         src: 'img-1',
+         title: 'Имя Фамилия',
+         price: '12000',
+         delay: 40
+       },
+     ],
    }
  }
 }
 </script>
 
 <style scoped>
+  .scroll-style::-webkit-scrollbar {
+    height: 0;
+    border-radius: 24px;
+  }
+  .scroll-style::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  .scroll-style::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  .scroll-style::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
   .banner {
     background: url("../../../assets/img/img-4.jpg") no-repeat;
     background-size: cover;
     height: 214px;
+    margin-bottom: 116px;
+  }
+  .banner .banner__item {
+    transform: translate(0, 125px);
   }
   .main-styles {
     background: #F3F4F6;
@@ -65,8 +204,9 @@ export default {
     border: 4px solid #EFEFEF;
     border-radius: 100%;
     overflow: hidden;
+    display: flex;
+    flex-shrink: 0;
   }
-
   .switch {
     position: relative;
     background: #FFFFFF;
@@ -83,7 +223,6 @@ export default {
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0.15px;
-    color: #6B7280;
     z-index: 4;
   }
   .switch > div {
