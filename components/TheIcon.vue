@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img v-if="src" :src="require(`../assets/svg/${src}.svg`)" :alt="src + 'svg'">
+    <img v-if="src" :width="width" :height="height" :src="require(`../assets/svg/${src}.svg`)" :alt="src + 'svg'">
   </div>
 </template>
 
