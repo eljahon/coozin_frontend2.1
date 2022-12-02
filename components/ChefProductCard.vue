@@ -1,7 +1,7 @@
 <template>
   <div class="product-card">
     <div class="h-52 w-full overflow-hidden">
-      <img class="w-full fit-cover" :src="require(`../assets/img/${src}.jpg`)" :alt="src + 'image'">
+      <img class="w-full object-cover" :src="require(`../assets/img/${src}.jpg`)" :alt="src + 'image'">
     </div>
     <div class="p-3 relative flex flex-col gap-2">
       <h4 class="font-semibold text-xl text-gray-800">{{ title }}</h4>

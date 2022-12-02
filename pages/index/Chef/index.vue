@@ -40,17 +40,26 @@
     <div v-if="!switchOn">
       <div class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="item in productData" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
         </div>
       </div>
       <div class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="item in productData" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
         </div>
       </div>
       <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="item in productData" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+        </div>
+      </div>
+    </div>
+    <div v-if="switchOn">
+      <div class="container mx-auto flex flex-wrap items-center justify-center gap-3 mb-7">
+        <div v-for="(item, idx) in blogData" :key="idx">
+          <div class="blog-img">
+            <img class="w-full object-cover" :src="require(`../../../assets/img/${ item }.jpg`)" alt="Blog Food Image">
+          </div>
         </div>
       </div>
     </div>
@@ -166,8 +175,28 @@ export default {
          delay: 40
        },
      ],
+     blogCard: [
+       'img-1',
+       'img-2',
+       'img-3',
+       'img-4',
+       'img-5',
+       'img-1',
+       'img-2',
+       'img-3',
+       'img-4',
+       'img-5',
+       'img-1',
+       'img-2',
+       'img-3',
+     ]
    }
- }
+ },
+  computed: {
+   blogData() {
+     return !this.more ? this.blogCard.slice(0, 8) : this.blogCard.slice(0, this.blogCard.length - 1)
+   }
+  }
 }
 </script>
 
@@ -250,5 +279,12 @@ export default {
     right: 4px !important;
     top: 4px;
     transition: ease-in-out .3s;
+  }
+  .blog-img {
+    width: 296px;
+    height: 296px;
+    border: 2px solid #F3F4F6;
+    border-radius: 8px;
+    overflow: hidden;
   }
 </style>
