@@ -72,7 +72,8 @@
     <div class="container mx-auto overflow-x-scroll scroll-style my-7">
       <div class="flex items-center gap-4 w-full">
         <product-card
-          v-for="item in productData"
+          v-for="(item, idx) in productData"
+          :key="idx"
           :src="item.src"
           :title="item.title"
           :product-img="item.productImg"
@@ -85,7 +86,8 @@
     <div class="container mx-auto overflow-x-scroll scroll-style my-7">
       <div class="flex items-center gap-4 w-full">
         <product-card
-          v-for="item in productData"
+          v-for="(item, idx) in productData"
+          :key="idx"
           :src="item.src"
           :title="item.title"
           :product-img="item.productImg"
@@ -98,7 +100,8 @@
     <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">
       <div class="flex items-center gap-4 w-full">
         <product-card
-          v-for="item in productData"
+          v-for="(item, idx) in productData"
+          :key="idx"
           :src="item.src"
           :title="item.title"
           :product-img="item.productImg"
@@ -126,7 +129,7 @@
     </div>
     <div class="container mx-auto overflow-x-scroll scroll-style">
       <div class="flex items-center gap-3.5">
-        <div v-for="item in blogCard">
+        <div v-for="(item, idx) in blogCard" :key="idx">
           <blog-card
             :src="item.src"
             :title="item.title"
