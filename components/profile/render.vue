@@ -10,6 +10,7 @@ import subscriptions from './subscriptions.vue'
 import creditcards from './creditCards.vue'
 import share from './share.vue'
 import chat from './chat.vue'
+import logout from './logout.vue'
 
 export default {
   name: "",
@@ -22,7 +23,8 @@ export default {
         subscriptions,
         'credit-cards': creditcards,
         share,
-        chat
+        chat,
+        logout
       }
     }
   },
