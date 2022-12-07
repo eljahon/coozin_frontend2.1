@@ -9,6 +9,7 @@ import update from './update.vue'
 import subscriptions from './subscriptions.vue'
 import creditcards from './creditCards.vue'
 import share from './share.vue'
+import chat from './chat.vue'
 
 export default {
   name: "",
@@ -20,7 +21,8 @@ export default {
         update,
         subscriptions,
         'credit-cards': creditcards,
-        share
+        share,
+        chat
       }
     }
   },
