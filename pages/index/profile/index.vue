@@ -20,58 +20,69 @@
         </div>
         <div class="p-6 bg-white rounded-2xl flex flex-col gap-6 w-full">
           <div v-for="(item, idx) in profile" :key="idx">
-            <div class="flex gap-4 cursor-pointer">
-              <the-icon :src="item.icon" />
-              <h4 class="text-color-700 font-normal">{{ item.title }}</h4>
-            </div>
+            <nuxt-link :to="{
+              path: localePath($route.path), query: {
+                name: item.name
+              }
+             }">
+              <div class="flex gap-4 cursor-pointer">
+                <the-icon :src="item.icon" />
+                <h4 class="text-color-700 font-normal">{{ item.title }}</h4>
+              </div>
+            </nuxt-link>
           </div>
         </div>
       </div>
-      <div class="p-6 bg-white rounded-2xl flex items-center justify-center p-16 w-full">
-        <div class="rounded-full bg-gray-50 w-96 h-96 flex items-center justify-center flex-col">
-          <div class="w-36 rounded-full overflow-hidden border-4 border-gray-300 mb-5">
-            <img class="w-full fit-cover" src="https://i.pravatar.cc/140" alt="Avatar image">
-          </div>
-          <h2 class="text-gray-800 text-2xl font-semibold mb-3">Азиза Азимова</h2>
-          <h3 class="text-gray-700 font-medium text-xl">+998 90 123 45 67</h3>
-        </div>
-      </div>
+
+      <render />
     </div>
   </div>
 </template>
 
 <script>
+import render from '../../../components/profile/render.vue'
+
 export default {
+  components: {
+    'render': render
+  },
   data() {
     return {
       profile: [
         {
           icon: 'pencil',
-          title: 'Редактировать'
+          title: 'Редактировать',
+          name: 'update'
         },
         {
           icon: 'clipboard',
-          title: 'Мои заказы'
+          title: 'Мои заказы',
+          name: 'my-orders'
         },
         {
           icon: 'heart',
-          title: 'Мои подписки'
+          title: 'Мои подписки',
+          name: 'heart'
         },
         {
           icon: 'credit-card',
-          title: 'Мои карты'
+          title: 'Мои карты',
+          name: 'credit-cards'
         },
         {
           icon: 'share',
-          title: 'Поделиться'
+          title: 'Поделиться',
+          name: 'share'
         },
         {
           icon: 'chat',
-          title: 'Чат'
+          title: 'Чат',
+          name: 'chat'
         },
         {
           icon: 'logout',
-          title: 'Выйти'
+          title: 'Выйти',
+          name: 'logout'
         },
       ]
     }
