@@ -62,7 +62,7 @@ export default {
         {
           icon: 'heart',
           title: 'Мои подписки',
-          name: 'heart'
+          name: 'subscriptions'
         },
         {
           icon: 'credit-card',

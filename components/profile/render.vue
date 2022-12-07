@@ -6,15 +6,17 @@
 import profile from './index.vue'
 import myOrder from './MyOrder.vue'
 import update from './update.vue'
+import subscriptions from './subscriptions.vue'
 
 export default {
   name: "",
   data() {
     return {
       componentList: {
-        profile: profile,
+        profile,
         'my-orders': myOrder,
-        update: update
+        update,
+        subscriptions,
       }
     }
   },
