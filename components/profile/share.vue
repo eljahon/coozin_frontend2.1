@@ -9,6 +9,11 @@
         <the-icon src="copy" />
       </div>
     </div>
+    <div class="flex items-center justify-center gap-6 mt-12">
+      <the-icon src="instagram" />
+      <the-icon src="facebook" />
+      <the-icon src="youtube" />
+    </div>
   </div>
 </template>
 
