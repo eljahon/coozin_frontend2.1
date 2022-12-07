@@ -7,6 +7,8 @@ import profile from './index.vue'
 import myOrder from './MyOrder.vue'
 import update from './update.vue'
 import subscriptions from './subscriptions.vue'
+import creditcards from './creditCards.vue'
+import share from './share.vue'
 
 export default {
   name: "",
@@ -17,6 +19,8 @@ export default {
         'my-orders': myOrder,
         update,
         subscriptions,
+        'credit-cards': creditcards,
+        share
       }
     }
   },
