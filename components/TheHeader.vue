@@ -27,7 +27,9 @@
         </nuxt-link>
         <header-card add-style="text-gray-800	font-medium">UZ</header-card>
         <header-card>
-          <the-icon src="user" />
+          <nuxt-link to="profile">
+            <the-icon src="user" />
+          </nuxt-link>
         </header-card>
       </div>
     </nav>

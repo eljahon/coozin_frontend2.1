@@ -134,9 +134,9 @@
         </div>
         <button class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
       </div>
-      <div class="bg-white w-80 rounded-2xl px-1 py-4 flex flex-col gap-3">
-        <h2 class="font-semibold text-gray-800 text-2xl mx-1">Ваш заказ</h2>
-        <div class="flex flex-col gap-3 overflow-y-scroll scroll-style pl-2 pr-3" style="max-height: 516px;">
+      <div class="bg-white w-80 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
+        <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
+        <div class="flex flex-col gap-3 overflow-y-scroll scroll-style pl-2 pr-4" style="max-height: 516px;">
           <div v-for="item in 14">
             <div class="flex gap-4">
               <div class="w-24 h-24 overflow-hidden border border-gray-100 rounded-lg">
