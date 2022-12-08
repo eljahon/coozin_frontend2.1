@@ -20,12 +20,16 @@
         </li>
       </ul>
       <div class="flex items-center gap-4">
-        <header-card add-style="bg-orange-50">
-          <the-icon src="shopping-cart" />
-        </header-card>
+        <nuxt-link to="order">
+          <header-card add-style="bg-orange-50">
+            <the-icon src="shopping-cart" />
+          </header-card>
+        </nuxt-link>
         <header-card add-style="text-gray-800	font-medium">UZ</header-card>
         <header-card>
-          <the-icon src="user" />
+          <nuxt-link to="profile">
+            <the-icon src="user" />
+          </nuxt-link>
         </header-card>
       </div>
     </nav>
@@ -42,9 +46,6 @@ export default {
   }
 }
 </script>
-
-
-
 
 <style scoped>
 .header-nav li a {

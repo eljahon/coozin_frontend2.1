@@ -111,9 +111,9 @@
         />
       </div>
     </div>
-    <div @click="more = true" v-if="!more" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
-      <span class="text-sm text-gray-700">Показать больше</span>
-    </div>
+      <div @click="more = true" v-if="!more" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
+        <span class="text-sm text-gray-700">Показать больше</span>
+      </div>
 
     <!--  Blog section  -->
     <div class="container mx-auto">

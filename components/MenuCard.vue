@@ -1,17 +1,20 @@
 <template>
   <div
-    class="group flex flex-col items-center
+    class="group flex flex-col items-center justify-center
     w-40 p-2 rounded-lg bg-gray-200 border
     active:border-orange-600 hover:border-orange-600
     hover:bg-white cursor-pointer"
+    :class="{ 'w-10 h-14': variant }"
   >
     <span
       class="font-semibold leading-5 text-xl text-gray-600 group-active:text-orange-600 group-hover:text-orange-600"
+      :class="{ 'text-xs leading-4': variant }"
     >
       {{ date }}
     </span>
       <span
         class="font-semibold leading-5 text-sm text-gray-600 group-active:text-orange-600 group-hover:text-orange-600"
+        :class="{ 'text-xs leading-4': variant }"
       >
       {{ month }}
     </span>
@@ -20,7 +23,7 @@
 
 <script>
 export default {
-  props: ['date', 'month']
+  props: ['date', 'month', 'variant']
 }
 </script>
 
