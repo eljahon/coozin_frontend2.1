@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  layout: 'login',
   data() {
     return {
       login: {
@@ -18,7 +19,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this)
+    console.log(this.$auth)
   },
   methods: {
     async funcLogin() {
@@ -27,6 +28,8 @@ export default {
         this.$auth.setUserToken(token)
         const info = await this.$axios.get('/front/auth/user')
         await this.$auth.setUser(info)
+        this.$cookies.set('userInfo', info)
+
         console.log(this.$auth)
       })
     }
