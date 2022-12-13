@@ -1,8 +1,6 @@
 <template>
   <div class="p-6 bg-white rounded-2xl flex flex-col w-full gap-6">
-    <nuxt-link to="/profile">
-      <div class="absolute top-0 left-0 -bottom-96 right-0 bg-gray-900 opacity-30"></div>
-    </nuxt-link>
+    <div @click="$router.back()" class="absolute top-0 left-0 -bottom-96 right-0 bg-gray-900 opacity-30"></div>
     <div style="width: 548px; height: 392px" class="absolute gap-9 z-10	p-12 flex flex-col items-center justify-center bg-white position rounded-2xl">
       <the-icon src="logout-photo" />
       <p class="text-xl text-gray-600">Вы действительно хотите выйти?</p>
@@ -16,7 +14,7 @@
 
 <script>
 export default {
-name: ""
+  name: ""
 }
 </script>
 

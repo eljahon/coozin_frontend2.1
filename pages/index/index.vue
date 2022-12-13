@@ -310,6 +310,40 @@
           },
         ]
       }
+    },
+    async fetch() {
+      await this.getCategories()
+      await this.getCollection()
+      await this.getFoods()
+    },
+    methods: {
+      async getCategories() {
+        try {
+          await this.$axios.get('front/categories').then(res => {
+            console.log('Data: ', res)
+          })
+        } catch (err) {
+          console.log(err)
+        }
+      },
+      async getCollection() {
+        try {
+          await this.$axios.get('front/collections').then(res => {
+            console.log('Data: ', res)
+          })
+        } catch (err) {
+          console.log(err)
+        }
+      },
+      async getFoods() {
+        try {
+          await this.$axios.get('front/vendors/food').then(res => {
+            console.log('Data: ', res)
+          })
+        } catch (err) {
+          console.log(err)
+        }
+      }
     }
   }
 </script>
@@ -321,7 +355,7 @@
 
 <style scoped>
   .scroll-style::-webkit-scrollbar {
-    height: 0px;
+    height: 0;
     border-radius: 24px;
   }
   .scroll-style::-webkit-scrollbar-track {

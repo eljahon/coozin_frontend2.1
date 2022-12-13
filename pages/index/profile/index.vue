@@ -20,11 +20,7 @@
         </div>
         <div class="p-6 bg-white rounded-2xl flex flex-col gap-6 w-full">
           <div v-for="(item, idx) in profile" :key="idx">
-            <nuxt-link :to="{
-              path: localePath($route.path), query: {
-                name: item.name
-              }
-             }">
+            <nuxt-link :to="handleRoute(item)">
               <div class="flex gap-4 cursor-pointer">
                 <the-icon :src="item.icon" />
                 <h4 class="text-color-700 font-normal">{{ item.title }}</h4>
@@ -57,7 +53,8 @@ export default {
         {
           icon: 'clipboard',
           title: 'Мои заказы',
-          name: 'my-orders'
+          name: 'my-orders',
+          link: '/my-orders'
         },
         {
           icon: 'heart',
@@ -85,6 +82,21 @@ export default {
           name: 'logout'
         },
       ]
+    }
+  },
+  methods: {
+    handleRoute(item) {
+      if (item.link) {
+        return {
+          path: this.localePath(item.link)
+        }
+      } else {
+        return {
+          path: this.localePath(this.$route.path), query: {
+            name: item.name
+          }
+        }
+      }
     }
   }
 }
