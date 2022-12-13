@@ -49,7 +49,7 @@ export default {
     "@nuxtjs/i18n",
     "@nuxtjs/axios",
     "@nuxtjs/dayjs",
-    "@nuxtjs/auth"
+    "@nuxtjs/auth-next"
   ],
   dayjs: {
     locales: ["en", "ja"],
@@ -74,10 +74,10 @@ export default {
         //   autoFetch: true
         // },
         endpoints: {
-          login: { url: '/auth/local', method: 'post' },
-          // refresh: { url: '/auth/token/refresh', method: 'post' },
-          user: false,
-          logout: false
+          login: { url: '/front/auth/login', method: 'post' },
+          refresh: { url: '/auth/token/refresh', method: 'post' },
+          user: { url: '/front/auth/user', method: 'get' },
+          logout: false,
           // tokenRequired: true,
           // tokenType: 'Bearer',
           // facebook: {
@@ -85,7 +85,7 @@ export default {
           //   userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email',
           //   scope: ['public_profile', 'email']
           // },
-          // google: { client_id: 'your gcloud oauth app client id' }
+          google: { client_id: 'your gcloud oauth app client id' }
         },
         redirect: {
           login: '/',
