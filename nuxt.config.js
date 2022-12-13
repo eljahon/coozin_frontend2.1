@@ -49,7 +49,9 @@ export default {
     "@nuxtjs/i18n",
     "@nuxtjs/axios",
     "@nuxtjs/dayjs",
-    "@nuxtjs/auth-next"
+    "@nuxtjs/auth-next",
+    'cookie-universal-nuxt',
+    ['cookie-universal-nuxt', { alias: 'cookiz' }],
   ],
   dayjs: {
     locales: ["en", "ja"],
