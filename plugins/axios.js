@@ -4,12 +4,13 @@ function filterNonNull(obj) {
 }
 export default function ({ $axios, redirect, $auth }) {
   $axios.setHeader('Access-Control-Allow-Origin', '*')
+  $axios.setHeader('Accept', 'application/json')
   $axios.setHeader('Content-Type', 'application/json')
   // $axios.setToken('Authorization', 'Bearer')
 
   // $axios.setHeader('Authorization', 'Bearer 5800|E9eDAEvkPUh8G1yko5m9bn9wyhIgfwx32544OOhJ')
   if ($auth) {
-            const token = app.$auth.strategy.token.get().split(' ')[1] || '5800|E9eDAEvkPUh8G1yko5m9bn9wyhIgfwx32544OOhJ'
+            const token = app.$auth.strategy.token.get().split(' ')[1]
             $axios.setToken(token, 'Bearer')
           }
 
