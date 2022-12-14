@@ -41,6 +41,16 @@ const tools = {
     const minutes = this.getNol(date.getMinutes().toString())
     return `${day}.${month}.${year} ${hours}:${minutes}`
   },
+  token () {
+    const header = {
+      headers: {
+        "Authorization": 'Bearer 5800|E9eDAEvkPUh8G1yko5m9bn9wyhIgfwx32544OOhJ'
+
+      }
+    }
+
+    return header;
+  },
   getDate (stringdate) {
     const date = new Date(stringdate)
     const year = date.getFullYear()

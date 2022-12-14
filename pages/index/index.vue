@@ -66,7 +66,11 @@
     </div>
     <div class="container mx-auto overflow-x-scroll scroll-style my-7">
       <div class="flex items-center gap-4 w-full">
-          <category-card v-for="item in categoryCard" :src="item.icon" :title="item.title" />
+          <category-card
+            v-for="item in categories"
+            :key="item.id"
+            :title="item.name"
+          />
       </div>
     </div>
     <div class="container mx-auto overflow-x-scroll scroll-style my-7">
@@ -308,19 +312,22 @@
             title: 'Имя Фамилия',
             avatar: 'https://i.pravatar.cc/106',
           },
-        ]
+        ],
+        categories: [],
+        vendors: []
       }
     },
     async fetch() {
       await this.getCategories()
       await this.getCollection()
-      await this.getFoods()
+      await this.getVendors()
     },
     methods: {
       async getCategories() {
         try {
           await this.$axios.get('front/categories').then(res => {
-            console.log('Data: ', res)
+            this.categories = res.objects
+            console.log(this.categories, 'Categories')
           })
         } catch (err) {
           console.log(err)
@@ -335,10 +342,26 @@
           console.log(err)
         }
       },
-      async getFoods() {
+      // async getFoods() {
+      //   try {
+      //     await this.$axios.get('front/vendors/food').then(res => {
+      //       console.log('Data: ', res)
+      //     })
+      //   } catch (err) {
+      //     console.log(err)
+      //   }
+      // },
+      async getVendors() {
+        console.log()
         try {
-          await this.$axios.get('front/vendors/food').then(res => {
-            console.log('Data: ', res)
+          await this.$axios.get('front/vendors/', {
+           ...this.$tools.token(),
+            params: {
+              limit: 5
+            }
+          }).then(res => {
+            this.vendors = res
+            console.log(this.vendors, 'Vendors')
           })
         } catch (err) {
           console.log(err)
