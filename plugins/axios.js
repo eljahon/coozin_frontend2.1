@@ -3,8 +3,13 @@ function filterNonNull(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([k, v]) => v));
 }
 export default function ({ $axios, redirect, $auth }) {
+  $axios.setHeader('Access-Control-Allow-Origin', '*')
+  $axios.setHeader('Content-Type', 'application/json')
+  // $axios.setToken('Authorization', 'Bearer')
+
+  // $axios.setHeader('Authorization', 'Bearer 5800|E9eDAEvkPUh8G1yko5m9bn9wyhIgfwx32544OOhJ')
   if ($auth) {
-            const token = app.$auth.strategy.token.get().split(' ')[1]
+            const token = app.$auth.strategy.token.get().split(' ')[1] || '5800|E9eDAEvkPUh8G1yko5m9bn9wyhIgfwx32544OOhJ'
             $axios.setToken(token, 'Bearer')
           }
 
