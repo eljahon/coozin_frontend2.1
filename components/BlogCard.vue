@@ -1,12 +1,13 @@
 <template>
   <div class="blog-card group cursor-pointer" :style="{ width: width, height: height }">
-    <img class="group-hover:scale-125 duration-200" :src="require(`../assets/img/${src}.jpg`)" :alt="src + 'jpg'">
+    <img v-if="src" class="group-hover:scale-125 duration-200" :src="src" :alt="src + 'jpg'">
+    <img v-else class="group-hover:scale-125 duration-200" src="../assets/img/img-3.jpg" :alt="src + 'jpg'">
     <div>
       <div v-if="avatar">
         <img :src="avatar" :alt="avatar + ' image'">
       </div>
       <div v-else>
-        <img src="'https://i.pravatar.cc/101'">
+        <img src="https://i.pravatar.cc/101">
       </div>
       <span v-if="title">{{ title }}</span>
       <span v-else>{{'title none '}}</span>
