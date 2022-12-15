@@ -73,48 +73,53 @@
           />
       </div>
     </div>
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7" v-for="(parenIndex, index) in renderCount" :key="index">
+      <span>{{checked(parenIndex)}}</span>
       <div class="flex items-center gap-4 w-full">
         <product-card
-          v-for="(item, idx) in productData"
+          v-for="(item, idx) in 10"
           :key="idx"
           :src="item.src"
-          :title="item.title"
+          :title="productData[renderIndex(parenIndex, idx)]?.user.full_name"
           :product-img="item.productImg"
-          :avatar="item.avatar"
-          :rate="item.rate"
+          :avatar="productData[renderIndex(parenIndex, idx)]?.avatar"
+          :rate="productData[renderIndex(parenIndex, idx)]?.ratings_avg"
           :delivery-price="item.deliveryPrice"
+          :count="idx+1"
         />
       </div>
     </div>
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
-      <div class="flex items-center gap-4 w-full">
-        <product-card
-          v-for="(item, idx) in productData"
-          :key="idx"
-          :src="item.src"
-          :title="item.title"
-          :product-img="item.productImg"
-          :avatar="item.avatar"
-          :rate="item.rate"
-          :delivery-price="item.deliveryPrice"
-        />
-      </div>
-    </div>
-    <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">
-      <div class="flex items-center gap-4 w-full">
-        <product-card
-          v-for="(item, idx) in productData"
-          :key="idx"
-          :src="item.src"
-          :title="item.title"
-          :product-img="item.productImg"
-          :avatar="item.avatar"
-          :rate="item.rate"
-          :delivery-price="item.deliveryPrice"
-        />
-      </div>
-    </div>
+<!--    <div v-for="(item, index) in renderCount">-->
+<!--      <span>{{item}} {{index}}</span>-->
+<!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
+<!--        &lt;!&ndash;      <div class="flex items-center gap-4 w-full">&ndash;&gt;-->
+<!--        &lt;!&ndash;        <product-card&ndash;&gt;-->
+<!--        &lt;!&ndash;          v-for="(item, idx) in productData"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :key="idx"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :src="item.src"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :title="item.title"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :product-img="item.productImg"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :avatar="item.avatar"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :rate="item.rate"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :delivery-price="item.deliveryPrice"&ndash;&gt;-->
+<!--        &lt;!&ndash;        />&ndash;&gt;-->
+<!--        &lt;!&ndash;      </div>&ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">-->
+<!--      <div class="flex items-center gap-4 w-full">-->
+<!--        <product-card-->
+<!--          v-for="(item, idx) in productData"-->
+<!--          :key="idx"-->
+<!--          :src="item.src"-->
+<!--          :title="item.title"-->
+<!--          :product-img="item.productImg"-->
+<!--          :avatar="item.avatar"-->
+<!--          :rate="item.rate"-->
+<!--          :delivery-price="item.deliveryPrice"-->
+<!--        />-->
+<!--      </div>-->
+<!--    </div>-->
       <div @click="more = true" v-if="!more" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
         <span class="text-sm text-gray-700">Показать больше</span>
       </div>
@@ -314,20 +319,39 @@
         ],
         blogCard:null,
         categories: [],
-        vendors: []
+        vendors: [],
+        renderCount: 0,
+        limit: 20
       }
     },
     async fetch() {
       await this.getCategories()
       await this.getCollection()
       await this.getVendors()
-      await this.getFoods();
+      // await this.getFoods();
       await this.getBlogs()
     },
     methods: {
-      async getCategories() {
+      checked(item) {
+        // console.log(item*10)
+      const count= ((item*10)-10)+1;
+        // console.log(count)
+      return count;
+      },
+      renderIndex(parantIndex, childIndex) {
+        const index  = (((parantIndex*10)-10)+1)+childIndex;
+        return index;
+      },
+      isRenderCount (total) {
+        total = parseInt(total)
+        let qol = total % 10;
+        let allCoun = Math.floor(total /10 );
+        allCoun = qol > 0 ? allCoun++ : allCoun
+        return  allCoun;
+      },
+      async getCategories(){
         try {
-          await this.$axios.get('front/categories').then(res => {
+          await this.$axios.get('categories').then(res => {
             this.categories = res.objects
             console.log(this.categories, 'Categories')
           })
@@ -337,20 +361,7 @@
       },
       async getCollection() {
         try {
-          await this.$axios.get('front/collections').then(res => {
-            console.log('Data: ', res)
-          })
-        } catch (err) {
-          console.log(err)
-        }
-      },
-      async getFoods() {
-        try {
-          await this.$axios.get('front/vendors/food', {
-            params: {
-              limit: 1
-            }
-          }).then(res => {
+          await this.$axios.get('collections').then(res => {
             console.log('Data: ', res)
           })
         } catch (err) {
@@ -358,21 +369,33 @@
         }
       },
       async getVendors() {
-        console.log()
         try {
-          await this.$axios.get('front/vendors/', {
-           ...this.$tools.token(),
-            params: {
-              limit: 5
-            }
-          }).then(res => {
-            this.vendors = res
-            console.log(this.vendors, 'Vendors')
-          })
-        } catch (err) {
-          console.log(err)
+        const {objects,meta} = await this.$axios.get('vendors', {
+            params: {limit: this.limit}
+          });
+        this.productData = objects;
+        this.renderCount = this.isRenderCount(this.limit)
+          console.log('venders list ', objects, meta)
+        } catch (e) {
+
         }
       },
+      // async getVendors() {
+      //   console.log()
+      //   try {
+      //     await this.$axios.get('front/vendors/', {
+      //      ...this.$tools.token(),
+      //       params: {
+      //         limit: 5
+      //       }
+      //     }).then(res => {
+      //       this.productData = res
+      //       console.log(this.vendors, 'Vendors')
+      //     })
+      //   } catch (err) {
+      //     console.log(err)
+      //   }
+      // },
       async getBlogs () {
         const {objects} =  await this.$axios.get('/front/reels');
         this.blogCard = objects
