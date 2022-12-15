@@ -2,10 +2,14 @@
   <div class="blog-card group cursor-pointer" :style="{ width: width, height: height }">
     <img class="group-hover:scale-125 duration-200" :src="require(`../assets/img/${src}.jpg`)" :alt="src + 'jpg'">
     <div>
-      <div>
+      <div v-if="avatar">
         <img :src="avatar" :alt="avatar + ' image'">
       </div>
-      <span>{{ title }}</span>
+      <div v-else>
+        <img src="'https://i.pravatar.cc/101'">
+      </div>
+      <span v-if="title">{{ title }}</span>
+      <span v-else>{{'title none '}}</span>
     </div>
   </div>
 </template>

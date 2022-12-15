@@ -134,11 +134,42 @@
     <div class="container mx-auto overflow-x-scroll scroll-style">
       <div class="flex items-center gap-3.5">
         <div v-for="(item, idx) in blogCard" :key="idx">
-          <blog-card
-            :src="item.src"
-            :title="item.title"
-            :avatar="item.avatar"
-          />
+<!--          <blog-card-->
+<!--            :src="item.media[0].url"-->
+<!--            :title="item.user"-->
+<!--            :avatar="item.vendor.avatar ? item.vender.avatar : 'https://i.pravatar.cc/101' "-->
+<!--          />-->
+<!--          [-->
+<!--          {-->
+<!--          src: 'img-1',-->
+<!--          title: 'Имя Фамилия',-->
+<!--          avatar: 'https://i.pravatar.cc/101',-->
+<!--          },-->
+<!--          {-->
+<!--          src: 'img-2',-->
+<!--          title: 'Имя Фамилия',-->
+<!--          avatar: 'https://i.pravatar.cc/102',-->
+<!--          },-->
+<!--          {-->
+<!--          src: 'img-3',-->
+<!--          title: 'Имя Фамилия',-->
+<!--          avatar: 'https://i.pravatar.cc/103',-->
+<!--          },-->
+<!--          {-->
+<!--          src: 'img-4',-->
+<!--          title: 'Имя Фамилия',-->
+<!--          avatar: 'https://i.pravatar.cc/104',-->
+<!--          },-->
+<!--          {-->
+<!--          src: 'img-5',-->
+<!--          title: 'Имя Фамилия',-->
+<!--          avatar: 'https://i.pravatar.cc/105',-->
+<!--          },-->
+<!--          {-->
+<!--          src: 'img-1',-->
+<!--          title: 'Имя Фамилия',-->
+<!--          avatar: 'https://i.pravatar.cc/106',-->
+<!--          },-->
         </div>
       </div>
     </div>
@@ -281,38 +312,7 @@
             deliveryPrice: '13300'
           },
         ],
-        blogCard: [
-          {
-            src: 'img-1',
-            title: 'Имя Фамилия',
-            avatar: 'https://i.pravatar.cc/101',
-          },
-          {
-            src: 'img-2',
-            title: 'Имя Фамилия',
-            avatar: 'https://i.pravatar.cc/102',
-          },
-          {
-            src: 'img-3',
-            title: 'Имя Фамилия',
-            avatar: 'https://i.pravatar.cc/103',
-          },
-          {
-            src: 'img-4',
-            title: 'Имя Фамилия',
-            avatar: 'https://i.pravatar.cc/104',
-          },
-          {
-            src: 'img-5',
-            title: 'Имя Фамилия',
-            avatar: 'https://i.pravatar.cc/105',
-          },
-          {
-            src: 'img-1',
-            title: 'Имя Фамилия',
-            avatar: 'https://i.pravatar.cc/106',
-          },
-        ],
+        blogCard:null,
         categories: [],
         vendors: []
       }
@@ -375,7 +375,8 @@
       },
       async getBlogs () {
         const {objects} =  await this.$axios.get('/front/reels');
-        console.log('/front/reels', objects)
+        this.blogCard = objects
+        console.log('/front/reels blog ===>>>', objects)
       }
     }
   }
