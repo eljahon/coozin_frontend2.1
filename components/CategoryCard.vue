@@ -1,7 +1,7 @@
 <template>
   <div class="rounded-2xl cursor-pointer group flex items-center gap-1 p-2 pr-4 bg-white">
     <img v-if="src" class="flex shrink-0" :src="require(`../assets/svg/${src}.svg`)" :alt="src + 'svg'">
-    <span class="text-gray-700 shrink-0 group-hover:text-white">{{ title }}</span>
+    <span class="text-gray-700 whitespace-nowrap group-hover:text-white">{{ title }}</span>
   </div>
 </template>
 
