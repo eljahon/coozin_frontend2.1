@@ -138,43 +138,12 @@
     </div>
     <div class="container mx-auto overflow-x-scroll scroll-style">
       <div class="flex items-center gap-3.5">
-        <div v-for="(item, idx) in blogCard" :key="idx">
-<!--          <blog-card-->
-<!--            :src="item.media[0].url"-->
-<!--            :title="item.user"-->
-<!--            :avatar="item.vendor.avatar ? item.vender.avatar : 'https://i.pravatar.cc/101' "-->
-<!--          />-->
-<!--          [-->
-<!--          {-->
-<!--          src: 'img-1',-->
-<!--          title: 'Имя Фамилия',-->
-<!--          avatar: 'https://i.pravatar.cc/101',-->
-<!--          },-->
-<!--          {-->
-<!--          src: 'img-2',-->
-<!--          title: 'Имя Фамилия',-->
-<!--          avatar: 'https://i.pravatar.cc/102',-->
-<!--          },-->
-<!--          {-->
-<!--          src: 'img-3',-->
-<!--          title: 'Имя Фамилия',-->
-<!--          avatar: 'https://i.pravatar.cc/103',-->
-<!--          },-->
-<!--          {-->
-<!--          src: 'img-4',-->
-<!--          title: 'Имя Фамилия',-->
-<!--          avatar: 'https://i.pravatar.cc/104',-->
-<!--          },-->
-<!--          {-->
-<!--          src: 'img-5',-->
-<!--          title: 'Имя Фамилия',-->
-<!--          avatar: 'https://i.pravatar.cc/105',-->
-<!--          },-->
-<!--          {-->
-<!--          src: 'img-1',-->
-<!--          title: 'Имя Фамилия',-->
-<!--          avatar: 'https://i.pravatar.cc/106',-->
-<!--          },-->
+        <div v-for="(item, idx) in blogCard" :key="item.id">
+          <blog-card
+            :src="item?.media[0]?.url"
+            :title="item.title"
+            :avatar="item.vendor.avatar"
+          />
         </div>
       </div>
     </div>
@@ -317,7 +286,7 @@
             deliveryPrice: '13300'
           },
         ],
-        blogCard:null,
+        blogCard: [],
         categories: [],
         vendors: [],
         renderCount: 0,
@@ -380,26 +349,14 @@
 
         }
       },
-      // async getVendors() {
-      //   console.log()
-      //   try {
-      //     await this.$axios.get('front/vendors/', {
-      //      ...this.$tools.token(),
-      //       params: {
-      //         limit: 5
-      //       }
-      //     }).then(res => {
-      //       this.productData = res
-      //       console.log(this.vendors, 'Vendors')
-      //     })
-      //   } catch (err) {
-      //     console.log(err)
-      //   }
-      // },
-      async getBlogs () {
-        const {objects} =  await this.$axios.get('/front/reels');
-        this.blogCard = objects
-        console.log('/front/reels blog ===>>>', objects)
+
+      async getBlogs() {
+        try {
+          const { objects } =  await this.$axios.get('reels');
+          this.blogCard = objects
+        } catch (e) {
+          console.log(e)
+        }
       }
     }
   }

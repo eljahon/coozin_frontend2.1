@@ -13,16 +13,16 @@
       <div class="container mx-auto flex gap-5">
         <div style="width: 33.333%" class="flex flex-col gap-5">
           <blog-card
-            src="img-1"
-            title="Имя Фамилия"
-            avatar="https://i.pravatar.cc/101"
+            :src="blogData[0]?.media[0]?.url"
+            :title="blogData[0]?.title"
+            :avatar="blogData[0]?.vendor?.avatar"
             width="100%"
             height="600px"
           />
           <blog-card
-            src="img-2"
-            title="Имя Фамилия"
-            avatar="https://i.pravatar.cc/101"
+            :src="blogData[1]?.media[0]?.url"
+            :title="blogData[1]?.title"
+            :avatar="blogData[1]?.vendor?.avatar"
             width="100%"
             height="600px"
           />
@@ -32,16 +32,16 @@
             <div style="width: 50%">
               <div class="flex flex-col gap-5 w-full">
                 <blog-card
-                  src="img-3"
-                  title="Имя Фамилия"
-                  avatar="https://i.pravatar.cc/101"
+                  :src="blogData[2]?.media[0]?.url"
+                  :title="blogData[2]?.title"
+                  :avatar="blogData[2]?.vendor?.avatar"
                   width="100%"
                   height="410px"
                 />
                 <blog-card
-                  src="img-4"
-                  title="Имя Фамилия"
-                  avatar="https://i.pravatar.cc/101"
+                  :src="blogData[3]?.media[0]?.url"
+                  :title="blogData[3]?.title"
+                  :avatar="blogData[3]?.vendor?.avatar"
                   width="100%"
                   height="410px"
                 />
@@ -49,9 +49,9 @@
             </div>
             <div style="width: 50%">
               <blog-card
-                src="img-3"
+                :src="false"
                 title="Имя Фамилия"
-                avatar="https://i.pravatar.cc/105"
+                :avatar="false"
                 width="100%"
                 height="840px"
               />
@@ -59,9 +59,9 @@
           </div>
           <div style="width: 100%">
             <blog-card
-              src="img-3"
+              :src="false"
               title="Имя Фамилия"
-              avatar="https://i.pravatar.cc/105"
+              :avatar="false"
               width="100%"
               height="360px"
             />
@@ -73,7 +73,26 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      blogData: []
+    }
+  },
+  methods: {
+    async getBlogs() {
+      try {
+        const { objects } =  await this.$axios.get('front/reels');
+        this.blogData = objects
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  },
+  async fetch() {
+    await this.getBlogs()
+  }
+}
 </script>
 
 <style scoped>
