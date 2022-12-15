@@ -321,6 +321,8 @@
       await this.getCategories()
       await this.getCollection()
       await this.getVendors()
+      await this.getFoods();
+      await this.getBlogs()
     },
     methods: {
       async getCategories() {
@@ -342,15 +344,19 @@
           console.log(err)
         }
       },
-      // async getFoods() {
-      //   try {
-      //     await this.$axios.get('front/vendors/food').then(res => {
-      //       console.log('Data: ', res)
-      //     })
-      //   } catch (err) {
-      //     console.log(err)
-      //   }
-      // },
+      async getFoods() {
+        try {
+          await this.$axios.get('front/vendors/food', {
+            params: {
+              limit: 1
+            }
+          }).then(res => {
+            console.log('Data: ', res)
+          })
+        } catch (err) {
+          console.log(err)
+        }
+      },
       async getVendors() {
         console.log()
         try {
@@ -366,6 +372,10 @@
         } catch (err) {
           console.log(err)
         }
+      },
+      async getBlogs () {
+        const {objects} =  await this.$axios.get('/front/reels');
+        console.log('/front/reels', objects)
       }
     }
   }
