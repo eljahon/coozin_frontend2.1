@@ -6,7 +6,7 @@
         <banner-card
           src="img-1"
           add-style="card-1"
-          status="Посуда"
+          :status="collections[0]?.name"
           status-style="text-cyan-600 bg-teal-50"
         />
         <div class="flex flex-col gap-4">
@@ -14,13 +14,13 @@
             <banner-card
               src="img-2"
               add-style="card-2"
-              status="Кондитерская"
+              :status="collections[1]?.name"
               status-style="text-red-600 bg-red-50"
             />
             <banner-card
               src="img-3"
               add-style="card-3"
-              status="Домашняя еда"
+              :status="collections[2]?.name"
               status-style="text-orange-600 bg-orange-50"
             />
           </div>
@@ -28,13 +28,13 @@
             <banner-card
               src="img-4"
               add-style="card-4"
-              status="Ручные изделия"
+              :status="collections[3]?.name"
               status-style="text-purple-600 bg-purple-50"
             />
             <banner-card
               src="img-5"
               add-style="card-5"
-              status="Цветы"
+              :status="collections[4]?.name"
               status-style="text-green-600 bg-green-50"
             />
           </div>
@@ -283,7 +283,8 @@
         ],
         blogCard: [],
         categories: [],
-        vendors: []
+        vendors: [],
+        collections: []
       }
     },
     async fetch() {
@@ -306,9 +307,8 @@
       },
       async getCollection() {
         try {
-          await this.$axios.get('front/collections').then(res => {
-            console.log('Data: ', res)
-          })
+          const { objects } = await this.$axios.get('front/collections')
+          this.collections = objects
         } catch (err) {
           console.log(err)
         }
