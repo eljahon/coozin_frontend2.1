@@ -4,7 +4,7 @@
     <div class="container mx-auto py-8">
       <div class="flex justify-center gap-4">
         <banner-card
-          :src="collections[0].banner?.url"
+          :src="collections[0]?.banner?.url"
           add-style="card-1"
           :status="collections[0]?.name"
           status-style="text-cyan-600 bg-teal-50"
@@ -12,13 +12,13 @@
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-4">
             <banner-card
-              :src="collections[1].banner?.url"
+              :src="collections[1]?.banner?.url"
               add-style="card-2"
               :status="collections[1]?.name"
               status-style="text-red-600 bg-red-50"
             />
             <banner-card
-              :src="collections[2].banner?.url"
+              :src="collections[2]?.banner?.url"
               add-style="card-3"
               :status="collections[2]?.name"
               status-style="text-orange-600 bg-orange-50"
@@ -26,13 +26,13 @@
           </div>
           <div class="flex items-center gap-4">
             <banner-card
-              :src="collections[3].banner?.url"
+              :src="collections[3]?.banner?.url"
               add-style="card-4"
               :status="collections[3]?.name"
               status-style="text-purple-600 bg-purple-50"
             />
             <banner-card
-              :src="collections[4].banner?.url"
+              :src="collections[4]?.banner?.url"
               add-style="card-5"
               :status="collections[4]?.name"
               status-style="text-green-600 bg-green-50"
