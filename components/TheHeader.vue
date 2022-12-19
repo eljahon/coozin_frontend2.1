@@ -1,39 +1,48 @@
 <template>
-  <header class="header">
-    <nav class="container mx-auto py-4 flex items-center justify-between">
-      <the-logo />
-      <div class="flex items-center gap-3">
-        <header-card>
-          <the-icon src="search" />
-        </header-card>
-        <the-input type="text" placeholder="Можно узнать где ты?" icon="address" />
-      </div>
-      <ul class="header-nav flex items-center gap-12">
-        <li>
-          <a href="">Наша история</a>
-        </li>
-        <li>
-          <a href="">Присоединиться</a>
-        </li>
-        <li>
-          <nuxt-link to="/blog">Блог</nuxt-link>
-        </li>
-      </ul>
-      <div class="flex items-center gap-4">
-        <nuxt-link to="order">
-          <header-card add-style="bg-orange-50">
-            <the-icon src="shopping-cart" />
+  <div>
+    <header @click="$store.dispatch('loginModal', false)" class="header">
+      <nav class="container mx-auto py-4 flex items-center justify-between">
+        <the-logo />
+        <div class="flex items-center gap-3">
+          <header-card>
+            <the-icon src="search" />
           </header-card>
-        </nuxt-link>
-        <header-card add-style="text-gray-800	font-medium">UZ</header-card>
-        <header-card>
-          <nuxt-link to="profile">
-            <the-icon src="user" />
+          <the-input type="text" placeholder="Можно узнать где ты?" icon="address" />
+        </div>
+        <ul class="header-nav flex items-center gap-12">
+          <li>
+            <a href="">Наша история</a>
+          </li>
+          <li>
+            <a href="">Присоединиться</a>
+          </li>
+          <li>
+            <nuxt-link to="/blog">Блог</nuxt-link>
+          </li>
+        </ul>
+        <div class="flex items-center gap-4">
+          <nuxt-link to="order">
+            <header-card add-style="bg-orange-50">
+              <the-icon src="shopping-cart" />
+            </header-card>
           </nuxt-link>
-        </header-card>
-      </div>
-    </nav>
-  </header>
+          <header-card add-style="text-gray-800	font-medium">UZ</header-card>
+          <header-card>
+            <nuxt-link to="profile">
+              <the-icon src="user" />
+            </nuxt-link>
+          </header-card>
+          <span @click.stop="$store.dispatch('loginModal', true)">login</span>
+        </div>
+      </nav>
+    </header>
+
+    <!--  Login  -->
+    <the-login :hide="$store.state.login" />
+
+    <!--  Register  -->
+    <the-register :hide="$store.state.register" />
+  </div>
 </template>
 
 <script>
@@ -43,11 +52,19 @@ export default {
   name: "",
   components: {
     'header-card': HeaderCard
+  },
+  mounted() {
+    console.log(this.$auth)
   }
 }
 </script>
 
 <style scoped>
+.header {
+  position: relative;
+  z-index: 10;
+  background: #ffffff;
+}
 .header-nav li a {
   position: relative;
 }

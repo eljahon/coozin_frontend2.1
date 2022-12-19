@@ -76,9 +76,9 @@ export default {
         //   autoFetch: true
         // },
         endpoints: {
-          login: { url: '/front/auth/login', method: 'post' },
+          login: { url: '/auth/login', method: 'post' },
           refresh: { url: '/auth/token/refresh', method: 'post' },
-          user: { url: '/front/auth/user', method: 'get' },
+          user: { url: '/auth/user', method: 'get' },
           logout: false,
           // tokenRequired: true,
           // tokenType: 'Bearer',
