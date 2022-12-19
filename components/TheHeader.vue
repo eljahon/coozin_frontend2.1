@@ -52,6 +52,9 @@ export default {
   name: "",
   components: {
     'header-card': HeaderCard
+  },
+  mounted() {
+    console.log(this.$auth)
   }
 }
 </script>

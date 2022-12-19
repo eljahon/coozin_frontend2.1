@@ -26,7 +26,7 @@ export const actions = {
     try {
       let token = res.token
       this.$auth.setUserToken(token)
-      const info = await this.$axios.get('/front/auth/user')
+      const info = await this.$axios.get('/auth/user')
       await this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)
     } catch (err) {

@@ -5,7 +5,7 @@
     <p class="text-gray-700 text-base mb-8">Поделись со ссылкой с другом и получи 10%  от его первого заказа в свой Coozin кошелёк</p>
     <div class="input-styles">
       <input class="input-styles" disabled type="text" value="https://coozin.uz/main/combo...">
-      <div>
+      <div @click="copy">
         <the-icon src="copy" />
       </div>
     </div>
@@ -19,6 +19,15 @@
 
 <script>
 export default {
+  methods: {
+    copy() {
+      navigator.clipboard.writeText('https://coozin.uz/').then(() => {
+        console.log('Copied!');
+      }, function() {
+        console.log('Copy error')
+      });
+    }
+  }
 }
 </script>
 

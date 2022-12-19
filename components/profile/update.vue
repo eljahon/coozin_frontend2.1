@@ -12,24 +12,61 @@
     <form class="mt-8 flex h-full gap-5 w-full">
       <div class="relative">
         <label class="absolute text-xs	font-normal	text-gray-500 left-3 top-2" for="firstname">Имя</label>
-        <input class="input-width w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg	" type="text" id="firstname">
+        <input
+          class="input-width w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg	"
+          type="text"
+          id="firstname"
+          v-model="first_name"
+        >
       </div>
       <div class="relative">
         <label class="absolute text-xs	font-normal	text-gray-500 left-3 top-2" for="lastname">Фамилия</label>
-        <input class="input-width  w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg" type="text" id="lastname">
+        <input
+          class="input-width  w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg"
+          type="text"
+          id="lastname"
+          v-model="last_name"
+        >
       </div>
     </form>
 
     <div class="flex items-center justify-end gap-5">
       <button class="text-orange-600 font-semibold p-3 rounded-3xl w-40 bg-white border border-orange-600 active:opacity-80 hover:opacity-80">Отменить</button>
-      <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80">Сохранить</button>
+      <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80" @click="updateUser">Сохранить</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-name: ""
+  data() {
+    return {
+      first_name: '',
+      last_name: ''
+    }
+  },
+  mounted() {
+    this.first_name = this.$auth.user.first_name
+    this.last_name = this.$auth.user.last_name
+    this.getUser()
+  },
+  methods: {
+    updateUser() {
+      const _data = {
+        first_name: this.first_name,
+        last_name: this.last_name
+      }
+      this.$axios.post('user', {
+        ..._data
+      })
+    },
+    getUser() {
+      this.$axios.get('user').then(res => {
+        this.first_name = res.first_name
+        this.last_name = res.last_name
+      })
+    }
+  }
 }
 </script>
 

@@ -11,11 +11,11 @@
     <div class="container mx-auto flex gap-5">
       <div class="w-80 flex flex-col gap-5 shrink-0">
         <div class="p-6 bg-white rounded-2xl flex flex-col gap-2 w-full">
-          <h3 class="text-xl font-semibold text-gray-800">Азиза Азимова</h3>
+          <h3 class="text-xl font-semibold text-gray-800">{{ $auth?.user?.full_name }}</h3>
           <h6 class="text-xs text-color-700 font-medium">Coozin кошелёк:</h6>
           <div class="flex gap-2">
             <the-icon src="coin" />
-            <h4 class="text-xl text-color-700 font-semibold">1 000 000 сум</h4>
+            <h4 class="text-xl text-color-700 font-semibold">{{ $auth?.user?.balance }} сум</h4>
           </div>
         </div>
         <div class="p-6 bg-white rounded-2xl flex flex-col gap-6 w-full">

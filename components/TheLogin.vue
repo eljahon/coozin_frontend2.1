@@ -15,12 +15,12 @@
         placeholder="Введите номер телефона"
         type="text"
       >
-<!--      <input-->
-<!--        class="bg-white text-gray-500 border rounded-2xl border-gray-200-->
-<!--         py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600 w-96"-->
-<!--        v-model="login.password"-->
-<!--        type="text"-->
-<!--      >-->
+      <input
+        class="bg-white text-gray-500 border rounded-2xl border-gray-200
+         py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600 w-96"
+        v-model="login.password"
+        type="text"
+      >
       <button
         @click="funcLogin"
         class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"

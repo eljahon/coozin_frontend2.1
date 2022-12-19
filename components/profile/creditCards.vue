@@ -20,7 +20,22 @@
 
 <script>
 export default {
-  name: ""
+  name: "",
+  data() {
+    return {
+      cards: []
+    }
+  },  
+  mounted() {
+    this.getCards()
+  },
+  methods: {
+    getCards() {
+      this.$axios.get('cards').then(res => {
+        this.cards = res
+      })
+    }
+  }
 }
 </script>
 

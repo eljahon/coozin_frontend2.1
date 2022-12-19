@@ -63,7 +63,7 @@ export default {
   methods: {
     async funcRegister() {
         this.register.full_name = `${ this.first_name } ${ this.last_name }`;
-       const token = await this.$axios.post('front/auth/register', {...this.register});
+       const token = await this.$axios.post('/auth/register', {...this.register});
           await this.$store.dispatch('setUser', token)
       },
     toLogin() {
