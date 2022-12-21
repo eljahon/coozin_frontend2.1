@@ -40,17 +40,17 @@
     <div v-if="!switchOn">
       <div class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+          <chef-product-card @click="foodModal = true" v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
         </div>
       </div>
       <div class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+          <chef-product-card @click="foodModal = true" v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
         </div>
       </div>
       <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
+          <chef-product-card @click="foodModal = true" v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title" :price="item.price" :delay="item.delay" />
         </div>
       </div>
     </div>
@@ -75,6 +75,7 @@ export default {
    return {
      switchOn: false,
      more: false,
+     foodModal: false,
      categoryCard: [
        {
          icon: 'category-1',
