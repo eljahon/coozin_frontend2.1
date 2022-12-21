@@ -26,7 +26,16 @@
               <the-icon src="shopping-cart" />
             </header-card>
           </nuxt-link>
-          <header-card add-style="text-gray-800	font-medium">UZ</header-card>
+          <div @click="lang = true">
+            <header-card add-style="text-gray-800	font-medium relative">
+              <span class="flex shrink-0">uz</span>
+              <div v-if="lang" @mouseleave="lang = false" class="absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
+                <span class="w-full hover:bg-gray-100 rounded">UZ</span>
+                <span class="w-full hover:bg-gray-100 rounded">RU</span>
+                <span class="w-full hover:bg-gray-100 rounded">EN</span>
+              </div>
+            </header-card>
+          </div>
           <header-card>
             <nuxt-link to="profile">
               <the-icon src="user" />
@@ -49,7 +58,11 @@
 import HeaderCard from "~/components/header/header-card";
 
 export default {
-  name: "",
+  data() {
+    return {
+      lang: false
+    }
+  },
   components: {
     'header-card': HeaderCard
   },
