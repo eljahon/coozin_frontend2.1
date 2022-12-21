@@ -56,10 +56,11 @@
     </div>
     <div class="container mx-auto overflow-x-scroll scroll-style">
       <div class="flex items-center gap-3.5">
-        <div v-for="item in menuCard">
+        <div v-for="item in $store.state.days_list">
           <menu-card
-            :date="item.date"
+            :date="item"
             :month="item.month"
+            @onDates="onDatesFilter"
           />
           </div>
         </div>
@@ -70,57 +71,29 @@
             v-for="item in categories"
             :key="item.id"
             :title="item.name"
+            :id="item.id"
+            @clickCategories="categoriesFilter"
           />
       </div>
     </div>
 
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7" v-for="(parenIndex, index) in renderCount" :key="index">
-      <span>{{checked(parenIndex)}}</span>
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+<!--      <span>{{checked(parenIndex)}}</span>-->
       <div class="flex items-center gap-4 w-full">
         <product-card
-          v-for="(item, idx) in 10"
+          v-for="(item, idx) in productData"
           :key="idx"
+          :id="item.id"
           :src="item.src"
-          :title="productData[renderIndex(parenIndex, idx)]?.user.full_name"
+          :title="item?.user?.full_name"
           :product-img="item.productImg"
-          :avatar="productData[renderIndex(parenIndex, idx)]?.avatar"
-          :rate="productData[renderIndex(parenIndex, idx)]?.ratings_avg"
+          :avatar="item?.avatar"
+          :rate="item?.ratings_avg"
           :delivery-price="item.deliveryPrice"
           :count="idx+1"
         />
       </div>
     </div>
-<!--    <div v-for="(item, index) in renderCount">-->
-<!--      <span>{{item}} {{index}}</span>-->
-<!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
-<!--        &lt;!&ndash;      <div class="flex items-center gap-4 w-full">&ndash;&gt;-->
-<!--        &lt;!&ndash;        <product-card&ndash;&gt;-->
-<!--        &lt;!&ndash;          v-for="(item, idx) in productData"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :key="idx"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :src="item.src"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :title="item.title"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :product-img="item.productImg"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :avatar="item.avatar"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :rate="item.rate"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :delivery-price="item.deliveryPrice"&ndash;&gt;-->
-<!--        &lt;!&ndash;        />&ndash;&gt;-->
-<!--        &lt;!&ndash;      </div>&ndash;&gt;-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">-->
-<!--      <div class="flex items-center gap-4 w-full">-->
-<!--        <product-card-->
-<!--          v-for="(item, idx) in productData"-->
-<!--          :key="idx"-->
-<!--          :src="item.src"-->
-<!--          :title="item.title"-->
-<!--          :product-img="item.productImg"-->
-<!--          :avatar="item.avatar"-->
-<!--          :rate="item.rate"-->
-<!--          :delivery-price="item.deliveryPrice"-->
-<!--        />-->
-<!--      </div>-->
-<!--    </div>-->
       <div @click="more = true" v-if="!more" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
         <span class="text-sm text-gray-700">Показать больше</span>
       </div>
@@ -152,6 +125,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
   export default {
     data() {
       return {
@@ -290,9 +264,22 @@
         blogCard: [],
         categories: [],
         vendors: [],
+        // verndorParams: {
+        //   category_id: this.$route.query.category_id ?? null,
+        //   limit: 10,
+        //   has_cola_combo: null,
+        //   search_query: this.$route.query.search_query ?? null,
+        //   has_sale_food: null,
+        //   date: this.$route.query.date ?? this.$dayjs(new Date()).format('DD:MM:YYYY')
+        // },
         collections: [],
         renderCount: 0,
         limit: 20
+      }
+    },
+    watch: {
+      '$route.query': function () {
+        this.getVendors()
       }
     },
     async fetch() {
@@ -300,6 +287,7 @@
       await this.getCollection()
       await this.getVendors()
       await this.getBlogs()
+      await this.getDate()
     },
     methods: {
       checked(item) {
@@ -338,8 +326,12 @@
       async getVendors() {
         try {
         const {objects,meta} = await this.$axios.get('vendors', {
-            params: {limit: this.limit}
-          });
+            params: {
+              limit: 10,
+              date: this.$dayjs(new Date()).format('DD:MM:YYYY'),
+              ...this.$route.query
+            }
+          })
         this.productData = objects;
         this.renderCount = this.isRenderCount(this.limit)
           console.log('venders list ', objects, meta)
@@ -347,7 +339,6 @@
 
         }
       },
-
       async getBlogs() {
         try {
           const { objects } =  await this.$axios.get('reels');
@@ -355,7 +346,30 @@
         } catch (e) {
           console.log(e)
         }
+      },
+      async onDatesFilter (item) {
+        this.setQuery(item)
+      },
+      setQuery (item) {
+        this.$router.push({
+          path: this.localePath('/'),
+          query: {
+            ...this.$route.query,
+            ...item
+          }
+        })
+
+      },
+      async getDate () {
+        return this.$store.dispatch('set_day')
+      },
+      categoriesFilter (item) {
+        this.setQuery(item)
+        console.log(item)
       }
+    },
+    computed: {
+      ...mapGetters(['get_days_list'])
     }
   }
 </script>

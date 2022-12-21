@@ -7,10 +7,10 @@
 
 <script>
 export default {
-  props: ['src', 'title', "item"],
+  props: ['src', 'title', "id"],
   methods: {
     handelClick () {
-      this.$emit('onClick', this.item)
+      this.$emit('clickCategories', {category_id: this.id})
     }
   }
 }

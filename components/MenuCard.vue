@@ -11,18 +11,19 @@
       class="font-semibold leading-5 text-xl text-gray-600 group-active:text-orange-600 group-hover:text-orange-600"
       :class="{ 'text-xs leading-4': variant }"
     >
-      {{checked(date).date}}
+      {{date.seeDate}}
     </span>
       <span
         class="font-semibold leading-5 text-sm text-gray-600 group-active:text-orange-600 group-hover:text-orange-600"
         :class="{ 'text-xs leading-4': variant }"
       >
-      {{ checked(date).name }}
+      {{ date.name }}
     </span>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   props: ['date', 'month', 'variant'],
   data ()  {
@@ -44,19 +45,9 @@ export default {
   },
   methods: {
     onClick () {
-      this.$emit('onClickDate', {date: this.date})
+      console.log(this.date.date)
+      this.$emit('onDates', {date: this.date.date})
     },
-    checked(item) {
-      console.log(item)
-if(item === this.$t('all')) {
-  return  {date:this.$t('all'), name: this.monthNames[this.$dayjs().format('MM')] }
-}
-     const day = item.split(':')
-     return {
-        name: this.monthNames[day[1]],
-       date: day[0]
-     }
-    }
   }
 
 }

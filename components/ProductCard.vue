@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="{path: localePath('/chef'), query: {verder_id:id }}">
+  <nuxt-link :to="{path: localePath('/chef'), query: {verder_id:id}}">
     <div class="card-width rounded-xl cursor-pointer">
       <div style="height: 148px" class="w-full rounded-xl overflow-hidden fit-cover">
         <img v-if="src" class="w-full" :src="require(`../assets/img/${src}.jpg`)" :alt="src + 'jpg'">

@@ -2,11 +2,28 @@ export const state = () => ({
   userList: [],
   currentUser: {},
   login: false,
-  register: false
+  register: false,
+  monthNames: {
+    "01": 'Yan',
+    "02": 'Fer',
+    "03": 'Mar',
+    "04": 'Apr',
+    "06": 'May',
+    "07": 'Inl',
+    "08": 'Inn',
+    "09": 'Avg',
+    "10": 'Sen',
+    "11": 'Okt',
+    "12": 'Dec',
+  },
+  days_list: []
 });
 export const mutations = {
   SET_USER: (state, payload) => {
     state.userList = payload;
+  },
+  SET_DAY: (state, payload) => {
+    state.days_list = payload
   },
   SET_CURRENT_USER: (state, payload) => {
     state.currentUser = payload
@@ -21,6 +38,19 @@ export const mutations = {
 export const actions = {
   set_user_list({ commit }, payload) {
     commit("SET_USER", payload);
+  },
+  set_day({commit,state}, payload) {
+    const day  = this.$dayjs(new Date()).format('DD:MM:YYYY').split(':')
+    // const month = payload
+    let days = [];
+    for (let i=1; i<=7; i++) {
+    days.push({
+      date: this.$dayjs(new Date ()).add(i, 'day').format('DD:MM:YYYY'),
+      seeDate: this.$dayjs(new Date ()).add(i, 'day').format('DD'),
+      name: state.monthNames[day[1]]
+    })
+    };
+    commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {
     try {
@@ -47,7 +77,12 @@ export const actions = {
   registerModal ({ commit }, payload) {
     commit('REGISTER_MODAL', payload)
   },
+  nowdate({commit}, payload) {
+
+
+  }
 };
 export const getters = {
   get_user_lit: (state) => state.userList,
+  get_days_list: (state) => state.days_list
 };
