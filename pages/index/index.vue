@@ -4,7 +4,7 @@
     <div class="container mx-auto py-8">
       <div class="flex justify-center gap-4">
         <banner-card
-          src="img-1"
+          :src="collections[0]?.banner?.url"
           add-style="card-1"
           :status="collections[0]?.name"
           status-style="text-cyan-600 bg-teal-50"
@@ -12,13 +12,13 @@
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-4">
             <banner-card
-              src="img-2"
+              :src="collections[1]?.banner?.url"
               add-style="card-2"
               :status="collections[1]?.name"
               status-style="text-red-600 bg-red-50"
             />
             <banner-card
-              src="img-3"
+              :src="collections[2]?.banner?.url"
               add-style="card-3"
               :status="collections[2]?.name"
               status-style="text-orange-600 bg-orange-50"
@@ -26,13 +26,13 @@
           </div>
           <div class="flex items-center gap-4">
             <banner-card
-              src="img-4"
+              :src="collections[3]?.banner?.url"
               add-style="card-4"
               :status="collections[3]?.name"
               status-style="text-purple-600 bg-purple-50"
             />
             <banner-card
-              src="img-5"
+              :src="collections[4]?.banner?.url"
               add-style="card-5"
               :status="collections[4]?.name"
               status-style="text-green-600 bg-green-50"
@@ -56,11 +56,10 @@
     </div>
     <div class="container mx-auto overflow-x-scroll scroll-style">
       <div class="flex items-center gap-3.5">
-<!--        <date-now @changeDate="onDate"/>-->
         <div v-for="item in menuCard">
           <menu-card
-            :date="item"
-            @onClickDate="onDate(item)"
+            :date="item.date"
+            :month="item.month"
           />
           </div>
         </div>
@@ -71,25 +70,23 @@
             v-for="item in categories"
             :key="item.id"
             :title="item.name"
-            :item="item"
-            @onClick="handelCategoriy"
           />
       </div>
     </div>
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
-<!--      <span>{{checked(parenIndex)}}</span>-->
+
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7" v-for="(parenIndex, index) in renderCount" :key="index">
+      <span>{{checked(parenIndex)}}</span>
       <div class="flex items-center gap-4 w-full">
         <product-card
-          v-for="(item, idx) in productData"
+          v-for="(item, idx) in 10"
           :key="idx"
-          :src="item?.src"
-          :title="item?.user?.full_name"
-          :product-img="item?.productImg"
-          :avatar="item?.avatar"
-          :rate="item?.ratings_avg"
-          :delivery-price="item?.deliveryPrice"
+          :src="item.src"
+          :title="productData[renderIndex(parenIndex, idx)]?.user.full_name"
+          :product-img="item.productImg"
+          :avatar="productData[renderIndex(parenIndex, idx)]?.avatar"
+          :rate="productData[renderIndex(parenIndex, idx)]?.ratings_avg"
+          :delivery-price="item.deliveryPrice"
           :count="idx+1"
-          :id="item.id"
         />
       </div>
     </div>
@@ -159,7 +156,49 @@
     data() {
       return {
         more: false,
-        menuCard: [],
+        menuCard: [
+          {
+            date: 26,
+            month: "Сен"
+          },
+          {
+            date: 27,
+            month: "Сен"
+          },
+          {
+            date: 28,
+            month: "Сен"
+          },
+          {
+            date: 29,
+            month: "Сен"
+          },
+          {
+            date: 30,
+            month: "Сен"
+          },
+          {
+            date: 31,
+            month: "Сен"
+          },
+          {
+            date: 1,
+            month: "Окт"
+          },
+          {
+            date: 2,
+            month: "Окт"
+          },
+          {
+            date: 3,
+            month: "Окт"
+          },
+          {
+            date: 4,
+            month: "Окт"
+          },
+
+        ],
         categoryCard: [
           {
             icon: 'category-1',
@@ -253,16 +292,7 @@
         vendors: [],
         collections: [],
         renderCount: 0,
-        limit: 10,
-        verndorParams: {
-          category_id: null,
-          limit: 10,
-          search_query: null,
-          has_sale_food: null,
-          restaurant_id: null,
-          date: this.$dayjs().format('DD:MM:YYYY'),
-          locale: this.$i18n.locale
-        }
+        limit: 20
       }
     },
     async fetch() {
@@ -270,25 +300,8 @@
       await this.getCollection()
       await this.getVendors()
       await this.getBlogs()
-      await this.date(new Date())
-    },
-    mounted() {
-      // this.date(new Date())
     },
     methods: {
-      date (beginDate) {
-        const nowDay = this.$dayjs(beginDate).format('DD');
-        let allWeekdata = [this.$dayjs(beginDate).format('DD:MM:YYYY')]
-        for (let i=1; i<7; i++) {
-          allWeekdata.push(this.$dayjs(beginDate).add(i, 'day').format('DD:MM:YYYY'))
-        };
-        allWeekdata.push()
-        this.menuCard = allWeekdata;
-      },
-      handelCategoriy (item) {
-        this.verndorParams.category_id = item.id;
-        this.getVendors()
-      },
       checked(item) {
       const count = (( item * 10) - 10) + 1;
       return count;
@@ -316,7 +329,7 @@
       },
       async getCollection() {
         try {
-          const { objects } = await this.$axios.get('front/collections')
+          const { objects } = await this.$axios.get('collections')
           this.collections = objects
         } catch (err) {
           console.log(err)
@@ -325,7 +338,7 @@
       async getVendors() {
         try {
         const {objects,meta} = await this.$axios.get('vendors', {
-            params: {...this.verndorParams}
+            params: {limit: this.limit}
           });
         this.productData = objects;
         this.renderCount = this.isRenderCount(this.limit)
@@ -342,13 +355,7 @@
         } catch (e) {
           console.log(e)
         }
-      },
-      onDate (item) {
-        this.verndorParams.date = item
-        this.getVendors()
-        // console.log(item, 'item ==>>>')
       }
-
     }
   }
 </script>

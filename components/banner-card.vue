@@ -1,8 +1,7 @@
 <template>
   <div class="overflow-hidden rounded-2xl relative" :class="addStyle">
     <img
-      v-if="src"
-      :src="require(`../assets/img/${src}.jpg`)"
+      :src="src ? src : require('../assets/img/img-1.jpg')"
       :alt="src + 'svg'"
       class="w-full h-full object-cover cursor-pointer duration-200 hover:scale-125"
     >

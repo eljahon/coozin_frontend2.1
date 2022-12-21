@@ -1,6 +1,8 @@
 export const state = () => ({
   userList: [],
-  currentUser: {}
+  currentUser: {},
+  login: false,
+  register: false
 });
 export const mutations = {
   SET_USER: (state, payload) => {
@@ -8,7 +10,13 @@ export const mutations = {
   },
   SET_CURRENT_USER: (state, payload) => {
     state.currentUser = payload
-  }
+  },
+  LOGIN_MODAL: (state, payload) => {
+    state.login = payload
+  },
+  REGISTER_MODAL: (state, payload) => {
+    state.register = payload
+  },
 };
 export const actions = {
   set_user_list({ commit }, payload) {
@@ -18,7 +26,7 @@ export const actions = {
     try {
       let token = res.token
       this.$auth.setUserToken(token)
-      const info = await this.$axios.get('/front/auth/user')
+      const info = await this.$axios.get('/auth/user')
       await this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)
     } catch (err) {
@@ -32,7 +40,13 @@ export const actions = {
     const userInfo = this.$cookies.get('userInfo')
     this.$auth.setUser(userInfo)
     commit('SET_CURRENT_USER', userInfo)
-  }
+  },
+  loginModal ({ commit }, payload) {
+    commit('LOGIN_MODAL', payload)
+  },
+  registerModal ({ commit }, payload) {
+    commit('REGISTER_MODAL', payload)
+  },
 };
 export const getters = {
   get_user_lit: (state) => state.userList,
