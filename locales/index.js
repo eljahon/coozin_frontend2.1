@@ -5,17 +5,17 @@ export const i18n = {
   locales: [
     {
       code: 'en',
-      name: 'English',
+      name: 'Eng',
       iso: 'en'
     },
     {
       code: 'ru',
-      name: 'Русский',
+      name: 'Рус',
       iso: 'ru'
     },
     {
       code: 'uz',
-      name: 'Ўзбекча',
+      name: 'Uz',
       iso: 'uz'
     }
   ],

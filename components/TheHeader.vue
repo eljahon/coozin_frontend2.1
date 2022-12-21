@@ -2,12 +2,12 @@
   <div>
     <header @click="$store.dispatch('loginModal', false)" class="header">
       <nav class="container mx-auto py-4 flex items-center justify-between">
-        <the-logo />
+        <the-logo/>
         <div class="flex items-center gap-3">
           <header-card>
-            <the-icon src="search" />
+            <the-icon src="search"/>
           </header-card>
-          <the-input type="text" placeholder="Можно узнать где ты?" icon="address" />
+          <the-input type="text" placeholder="Можно узнать где ты?" icon="address"/>
         </div>
         <ul class="header-nav flex items-center gap-12">
           <li>
@@ -23,34 +23,45 @@
         <div class="flex items-center gap-4">
           <nuxt-link to="order">
             <header-card add-style="bg-orange-50">
-              <the-icon src="shopping-cart" />
+              <the-icon src="shopping-cart"/>
             </header-card>
           </nuxt-link>
           <div @click="lang = true">
             <header-card add-style="text-gray-800	font-medium relative">
-              <span class="flex shrink-0">uz</span>
-              <div v-if="lang" @mouseleave="lang = false" class="absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
-                <span class="w-full hover:bg-gray-100 rounded">UZ</span>
-                <span class="w-full hover:bg-gray-100 rounded">RU</span>
-                <span class="w-full hover:bg-gray-100 rounded">EN</span>
+              <span class="flex shrink-0">{{ actionLang.name }}</span>
+              <div v-if="lang" @mouseleave="lang = false"
+                   class="absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
+                <span
+                  v-for="
+                  (item, index)
+                  in
+                  $i18n.locales.filter(el=> el.code !== $i18n.locale)"
+                  class="w-full hover:bg-gray-100 rounded"
+                  @click="handleLang(item.code)">
+                  {{ item.name }}
+                </span>
               </div>
             </header-card>
           </div>
           <header-card>
             <nuxt-link to="profile">
-              <the-icon src="user" />
+              <the-icon src="user"/>
             </nuxt-link>
           </header-card>
-          <span @click.stop="$store.dispatch('loginModal', true)">login</span>
+          <span @click.stop="
+          () => $router.push({
+          path: localePath($route.path),
+          query: {...$route.query,
+          login: 'login'}})">login</span>
         </div>
       </nav>
     </header>
 
     <!--  Login  -->
-    <the-login :hide="$store.state.login" />
+    <the-login :hide="$store.state.login"/>
 
     <!--  Register  -->
-    <the-register :hide="$store.state.register" />
+    <the-register :hide="$store.state.register"/>
   </div>
 </template>
 
@@ -60,14 +71,25 @@ import HeaderCard from "~/components/header/header-card";
 export default {
   data() {
     return {
-      lang: false
+      lang: false,
     }
   },
   components: {
     'header-card': HeaderCard
   },
+  computed: {
+    actionLang() {
+      return this.$i18n.locales.find((el) => el.code === this.$i18n.locale)
+    }
+  },
   mounted() {
     console.log(this.$auth)
+  },
+  methods: {
+    handleLang(item) {
+      console.log(item)
+      this.$router.push(this.switchLocalePath(item))
+    }
   }
 }
 </script>
@@ -78,6 +100,7 @@ export default {
   z-index: 10;
   background: #ffffff;
 }
+
 .header-nav li a {
   position: relative;
 }
@@ -94,6 +117,7 @@ export default {
   background: #ea580c;
   transition: ease-in-out .3s;
 }
+
 .header-nav li a:hover:after {
   width: 90%;
 }

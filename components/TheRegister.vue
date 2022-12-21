@@ -1,14 +1,14 @@
 <template>
-  <div v-if="hide">
+  <div v-if="$route.query.register">
     <div class="register-modal">
-      <div @click="$store.dispatch('registerModal', false)" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
+      <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
         <the-icon src="x" />
       </div>
       <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
       <p class="text-lg text-center text-gray-700 mt-1">У вас есть аккаунт?
-        <span @click="toLogin" class="text-orange-600 cursor-pointer font-semibold">Войти</span>
+        <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: 'login', register: undefined}})" class="text-orange-600 cursor-pointer font-semibold">Войти</span>
       </p>
-        <div v-if="$store.state.register" class="flex flex-col">
+        <div v-if="$route.query.register" class="flex flex-col">
           <form class="w-96" @submit.prevent="funcRegister">
             <input
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
