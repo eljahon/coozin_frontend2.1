@@ -1,10 +1,10 @@
 <template>
   <div class="product-card">
     <div class="h-52 w-full overflow-hidden">
-      <img class="w-full object-cover" :src="require(`../assets/img/${src}.jpg`)" :alt="src + 'image'">
+      <img class="w-full object-cover" :src="src ? src : require(`../assets/img/img-1.jpg`)" :alt="src + ' image'">
     </div>
     <div class="p-3 relative flex flex-col gap-2">
-      <h4 class="font-semibold text-xl text-gray-800">{{ title }}</h4>
+      <h4 class="font-semibold text-xl text-gray-800">{{ title | shortTitle }}</h4>
       <h5 class="font-normal text-gray-700">{{ price }} sum</h5>
       <div class="bg-orange-50 cursor-pointer rounded-lg	flex items-center absolute -top-10 right-3 p-1">
         <the-icon src="clock" />
@@ -19,7 +19,12 @@
 
 <script>
 export default {
-  props: ['src', 'delay', 'title', 'price']
+  props: ['src', 'delay', 'title', 'price'],
+  filters: {
+    shortTitle(value) {
+      return value.length > 15 ? value.slice(0, 15) + '...' : value
+    }
+  }
 }
 </script>
 

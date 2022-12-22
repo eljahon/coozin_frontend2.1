@@ -6,7 +6,7 @@
       <p class="text-xl text-gray-600">Вы действительно хотите выйти?</p>
       <div class="flex items-center justify-end gap-5">
         <button @click="$router.back()" class="text-orange-600 font-semibold p-3 rounded-3xl w-40 bg-white border border-orange-600 active:opacity-80 hover:opacity-80">Нет</button>
-        <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80">Да</button>
+        <button @click="logout" class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80">Да</button>
       </div>
     </div>
   </div>
@@ -14,7 +14,12 @@
 
 <script>
 export default {
-  name: ""
+  methods: {
+    logout() {
+      this.$axios.post('logout')
+      console.log(this.$auth)
+    }
+  }
 }
 </script>
 

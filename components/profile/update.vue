@@ -42,15 +42,21 @@ export default {
   data() {
     return {
       first_name: '',
-      last_name: ''
+      last_name: '',
+      user: []
     }
   },
   mounted() {
-    this.first_name = this.$auth.user.first_name
-    this.last_name = this.$auth.user.last_name
     this.getUser()
   },
   methods: {
+    async getUser() {
+      await this.$axios.get('user').then(res => {
+        this.user = res
+      })
+      this.first_name = this.user.first_name
+      this.last_name = this.user.last_name
+    },
     updateUser() {
       const _data = {
         first_name: this.first_name,
@@ -59,13 +65,8 @@ export default {
       this.$axios.post('user', {
         ..._data
       })
+      // this.$store.dispatch('user/getUser')
     },
-    getUser() {
-      this.$axios.get('user').then(res => {
-        this.first_name = res.first_name
-        this.last_name = res.last_name
-      })
-    }
   }
 }
 </script>
