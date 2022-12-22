@@ -1,20 +1,24 @@
 <template>
   <div class="main-styles pb-8">
     <div class="container mx-auto">
-      <div class="banner" :style="{ backgroundImage:  }">
+      <div class="banner">
         <div class="banner__item flex items-center gap-4 pl-7">
           <div class="avatar-styles">
             <img class="w-full fit-cover" :src="vendor.avatar ? vendor.avatar : 'https://i.pravatar.cc/190'" alt="Avatar Chef">
           </div>
           <div class="flex flex-col gap-8 w-full">
             <div class="flex gap-4">
-              <div class="flex items-center gap-2 py-1 px-2.5 bg-white rounded-full">
+              <div class="flex items-center gap-2 px-4 bg-white rounded-full">
                 <the-icon src="rate" width="20" height="20"/>
                 <span class="text-gray-800 text-xl">{{ vendor.ratings_avg ? vendor.ratings_avg : '0' }}</span>
               </div>
-              <div class="flex items-center justify-center gap-2 py-1 px-2.5 bg-white rounded-full w-48">
+              <div v-if="false" class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef" width="16" height="16"/>
-                <span class="text-gray-800 text-xl text-sm text-gray-800 font-medium">Вы подписаны</span>
+                <span class="text-gray-800 text-xl text-xl text-gray-800 font-medium">Вы подписаны</span>
+              </div>
+              <div v-else class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
+                <the-icon src="chef-hat" width="16" height="16"/>
+                <span class="text-gray-800 text-xl text-xl text-gray-800 font-medium">Подписаться</span>
               </div>
             </div>
             <div class="flex items-center justify-between">
@@ -41,8 +45,8 @@
     <div v-if="!switchOn">
       <div class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title"
-                             :price="item.price" :delay="item.delay"/>
+          <chef-product-card v-for="(item, idx) in foods" :key="idx" :src="item.src" :title="item.name"
+                             :price="item.price" :delay="item.preparation_time"/>
         </div>
       </div>
 <!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
@@ -60,9 +64,11 @@
     </div>
     <div v-if="switchOn">
       <div class="container mx-auto flex flex-wrap items-center justify-center gap-3 mb-7">
-        <div v-for="(item, idx) in blogData" :key="idx">
-          <div class="blog-img">
-            <img class="w-full object-cover" :src="require(`../../../assets/img/${ item }.jpg`)" alt="Blog Food Image">
+        <div v-if="vendor.reels[0].length > 0 && vendor.reels.media[0].length > 0">
+          <div v-for="(item, idx) in vendor.reels[0].media" :key="item.id ? item.id : idx">
+            <div class="blog-img">
+              <img class="w-full object-cover" :src="item.url" :alt="item.title">
+            </div>
           </div>
         </div>
       </div>
@@ -196,7 +202,8 @@ export default {
        'img-2',
        'img-3',
      ],
-     vendor: []
+     vendor: [],
+     foods: []
    }
  },
   async fetch () {
@@ -209,12 +216,15 @@ export default {
           this.vendor = res
           console.log(this.vendor)
         })
-        const food = await this.$axios.get('foods', {
+        await this.$axios.get('foods', {
           params: {
             limit: 10,
-            ...this.$route.query
+            vendor_id: this.$route.query
           }
-        });
+        }).then(res => {
+          const { objects } = res
+          this.foods = objects
+        })
       } catch (err) {
         console.log(err)
       }
