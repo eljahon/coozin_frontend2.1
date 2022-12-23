@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card">
+  <div @click="func" class="product-card">
     <div class="h-52 w-full overflow-hidden">
       <img class="w-full object-cover" :src="src ? src : require(`../assets/img/img-1.jpg`)" :alt="src + ' image'">
     </div>
@@ -19,10 +19,15 @@
 
 <script>
 export default {
-  props: ['src', 'delay', 'title', 'price'],
+  props: ['src', 'delay', 'title', 'price', 'item'],
   filters: {
     shortTitle(value) {
       return value.length > 15 ? value.slice(0, 15) + '...' : value
+    }
+  },
+  methods: {
+    func() {
+      this.$emit('openFood', this.item)
     }
   }
 }

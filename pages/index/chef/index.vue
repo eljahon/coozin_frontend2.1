@@ -25,7 +25,7 @@
               <div class="flex gap-5">
                 <h2 class="text-2xl	text-gray-800	font-semibold	items-center">{{ vendor?.user?.full_name ? vendor.user.full_name : 'No name'}}</h2>
                 <the-icon src="information-circle"/>
-                <the-icon src="share"/>
+                <the-icon class="cursor-pointer" src="share"/>
               </div>
               <div class="switch" @click="switchOn = !switchOn">
                 <div class="switch-item delay-300"
@@ -45,8 +45,14 @@
     <div v-if="!switchOn">
       <div class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card v-for="(item, idx) in foods" :key="idx" :src="item.src" :title="item.name"
-                             :price="item.price" :delay="item.preparation_time"/>
+          <chef-product-card
+            @open-food="showFood(item)" v-for="(item, idx) in foods"
+            :key="idx" :src="item.src"
+            :title="item.name"
+            :price="item.price"
+            :delay="item.preparation_time"
+            :item="item"
+          />
         </div>
       </div>
 <!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
@@ -64,7 +70,7 @@
     </div>
     <div v-if="switchOn">
       <div class="container mx-auto flex flex-wrap items-center justify-center gap-3 mb-7">
-        <div v-if="vendor.reels[0].length > 0 && vendor.reels.media[0].length > 0">
+        <div v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0">
           <div v-for="(item, idx) in vendor.reels[0].media" :key="item.id ? item.id : idx">
             <div class="blog-img">
               <img class="w-full object-cover" :src="item.url" :alt="item.title">
@@ -73,10 +79,15 @@
         </div>
       </div>
     </div>
-    <div @click="more = true" v-if="!more" style="width: 384px;"
-         class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
+    <div
+      v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0 && !more"
+      @click="more = true"
+      style="width: 384px;"
+      class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer"
+    >
       <span class="text-sm text-gray-700">Показать больше</span>
     </div>
+    <the-food :hide="$store.state.food" ></the-food>
   </div>
 </template>;
 
@@ -210,6 +221,9 @@ export default {
     await this.getItem()
   },
   methods: {
+    showFood(item) {
+      this.$router.push({path: this.localePath(this.$route.path), query: {...$route.query, foodSaw: 'foodSaw'}})
+    },
     async getItem() {
       try {
         await this.$axios.get(`vendors/${this.$route.query.verder_id}`).then(res => {
