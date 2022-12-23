@@ -70,25 +70,25 @@
 <!--        </div>-->
 <!--      </div>-->
     </div>
-    <div v-if="switchOn">
-      <div class="container mx-auto flex flex-wrap items-center justify-center gap-3 mb-7">
-        <div v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0">
-          <div v-for="(item, idx) in vendor.reels[0].media" :key="item.id ? item.id : idx">
-            <div class="blog-img">
-              <img class="w-full object-cover" :src="item.url" :alt="item.title">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0 && !more"
-      @click="more = true"
-      style="width: 384px;"
-      class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer"
-    >
-      <span class="text-sm text-gray-700">Показать больше</span>
-    </div>
+<!--    <div v-if="switchOn">-->
+<!--      <div class="container mx-auto flex flex-wrap items-center justify-center gap-3 mb-7">-->
+<!--        <div v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0">-->
+<!--          <div v-for="(item, idx) in vendor.reels[0].media" :key="item.id ? item.id : idx">-->
+<!--            <div class="blog-img">-->
+<!--              <img class="w-full object-cover" :src="item.url" :alt="item.title">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div-->
+<!--      v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0 && !more"-->
+<!--      @click="more = true"-->
+<!--      style="width: 384px;"-->
+<!--      class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer"-->
+<!--    >-->
+<!--      <span class="text-sm text-gray-700">Показать больше</span>-->
+<!--    </div>-->
     <the-food :item="item" ></the-food>
   </div>
 </template>;
@@ -226,7 +226,7 @@ export default {
   methods: {
     showFood(item) {
       this.item = item;
-      this.$router.push({path: this.localePath(this.$route.path), query: {...$route.query, foodSaw: 'foodSaw'}})
+      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'foodSaw'}})
     },
    orderSeletect (item) {
      console.log(item, 'item====>>order')

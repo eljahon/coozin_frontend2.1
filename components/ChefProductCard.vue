@@ -1,5 +1,5 @@
 <template>
-  <div @click="func" class="product-card">
+  <div class="product-card">
     <div class="h-52 w-full overflow-hidden">
       <img class="w-full object-cover" :src="src ? src : require(`../assets/img/img-1.jpg`)" :alt="src + ' image'">
     </div>
@@ -11,7 +11,9 @@
         <span class="text-sm text-gray-700 font-normal">> {{ delay }} min</span>
       </div>
       <div class="absolute cursor-pointer right-3 bottom-3 bg-orange-100	h-12 w-12 rounded-full overflow-hidden flex items-center justify-center">
-        <the-icon src="shopping-cart" />
+        <button @click.stop="">
+          <the-icon src="shopping-cart" />
+        </button>
       </div>
     </div>
   </div>
@@ -26,9 +28,9 @@ export default {
     }
   },
   methods: {
-    func() {
-      this.$emit('openFood', this.item)
-    }
+   selectOnOrder () {
+
+   }
   }
 }
 </script>
