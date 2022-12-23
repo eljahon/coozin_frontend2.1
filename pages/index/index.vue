@@ -290,26 +290,10 @@ import {mapGetters} from "vuex"
       await this.getDate()
     },
     methods: {
-      checked(item) {
-      const count = (( item * 10) - 10) + 1;
-      return count;
-      },
-      renderIndex(parantIndex, childIndex) {
-        const index  = (((parantIndex * 10) - 10) + 1) + childIndex;
-        return index;
-      },
-      isRenderCount (total) {
-        total = parseInt(total)
-        let qol = total % 10;
-        let allCoun = Math.floor(total / 10 );
-        allCoun = qol > 0 ? allCoun++ : allCoun
-        return  allCoun;
-      },
       async getCategories(){
         try {
           await this.$axios.get('categories').then(res => {
             this.categories = res.objects
-            console.log(this.categories, 'Categories')
           })
         } catch (err) {
           console.log(err)
@@ -333,8 +317,6 @@ import {mapGetters} from "vuex"
             }
           })
         this.productData = objects;
-        this.renderCount = this.isRenderCount(this.limit)
-          console.log('venders list ', objects, meta)
         } catch (e) {
 
         }

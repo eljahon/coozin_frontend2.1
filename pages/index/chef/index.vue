@@ -45,14 +45,15 @@
     <div v-if="!switchOn">
       <div class="container mx-auto overflow-x-scroll scroll-style my-7">
         <div class="flex items-center gap-4 w-full">
-          <chef-product-card
-            @open-food="showFood(item)" v-for="(item, idx) in foods"
-            :key="idx" :src="item.src"
-            :title="item.name"
-            :price="item.price"
-            :delay="item.preparation_time"
-            :item="item"
-          />
+          <div v-for="(item, idx) in foods" :key="idx" @click="showFood(item)">
+            <chef-product-card
+               :src="item.src"
+              :title="item.name"
+              :price="item.price"
+              :delay="item.preparation_time"
+              :item="item"
+            />
+          </div>
         </div>
       </div>
 <!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
@@ -222,8 +223,11 @@ export default {
   },
   methods: {
     showFood(item) {
-      this.$router.push({path: this.localePath(this.$route.path), query: {...$route.query, foodSaw: 'foodSaw'}})
+      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'foodSaw'}})
     },
+   orderSeletect (item) {
+     console.log(item, 'item====>>order')
+   },
     async getItem() {
       try {
         await this.$axios.get(`vendors/${this.$route.query.verder_id}`).then(res => {

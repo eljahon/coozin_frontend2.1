@@ -21,11 +21,11 @@
           </li>
         </ul>
         <div class="flex items-center gap-4">
-          <nuxt-link to="order">
+          <button @click="checkLogin">
             <header-card add-style="bg-orange-50">
               <the-icon src="shopping-cart"/>
             </header-card>
-          </nuxt-link>
+          </button>
           <div @click="lang = true">
             <header-card add-style="text-gray-800	font-medium relative">
               <span class="flex shrink-0">{{ actionLang.name }}</span>
@@ -86,6 +86,15 @@ export default {
     console.log(this.$auth)
   },
   methods: {
+    checkLogin () {
+      // to="order"?
+      if (!this.$auth.state.loggedIn) {
+        this.$router.push({path: this.localePath(this.$route.paht), query: {login: 'login'}})
+      } else {
+        this.$router.push({path: this.localePath('/order')})
+      }
+      // console.log()
+    },
     handleLang(item) {
       console.log(item)
       this.$router.push(this.switchLocalePath(item))

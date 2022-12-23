@@ -7,7 +7,6 @@
       <the-icon src="right-arrow-black" />
       <span class="text-sm font-medium text-gray-500 cursor-pointer">Оформление заказа</span>
     </div>
-
     <div class="container mx-auto flex gap-9">
       <div class="bg-white w-full p-6 rounded-2xl">
         <h1 class="font-semibold text-gray-800 text-2xl">Оформление заказа</h1>
@@ -107,12 +106,11 @@
           </div>
           <div class="max-w-sm overflow-x-scroll scroll-style">
             <div class="flex items-center gap-3.5">
-              <div v-for="item in menuCard">
+              <div v-for="item in $store.state.days_list">
                 <menu-card
-                  :date="item.date"
-                  :month="item.month"
-                  :variant="item.variant"
+                  :date="item"
                 />
+<!--                {{$store.state.days_list}}-->
               </div>
             </div>
           </div>
@@ -212,6 +210,14 @@ export default {
 
       ],
     }
+  },
+  async fetch () {
+    await this.getDate()
+  },
+  methods: {
+    async getDate () {
+      return this.$store.dispatch('set_day')
+    },
   }
 }
 </script>
