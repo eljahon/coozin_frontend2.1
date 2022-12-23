@@ -47,6 +47,7 @@
         <div class="flex items-center gap-4 w-full">
           <div v-for="(item, idx) in foods" :key="idx" @click="showFood(item)">
             <chef-product-card
+              @open-food="showFood(item)"
                :src="item.src"
               :title="item.name"
               :price="item.price"
@@ -88,7 +89,7 @@
     >
       <span class="text-sm text-gray-700">Показать больше</span>
     </div>
-    <the-food :hide="$store.state.food" ></the-food>
+    <the-food :item="item" ></the-food>
   </div>
 </template>;
 
@@ -137,6 +138,7 @@ export default {
          title: 'Выпечка'
        },
      ],
+     item: {},
      productData: [
        {
          src: 'img-1',
@@ -223,7 +225,8 @@ export default {
   },
   methods: {
     showFood(item) {
-      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'foodSaw'}})
+      this.item = item;
+      this.$router.push({path: this.localePath(this.$route.path), query: {...$route.query, foodSaw: 'foodSaw'}})
     },
    orderSeletect (item) {
      console.log(item, 'item====>>order')
