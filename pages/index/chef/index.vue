@@ -89,7 +89,7 @@
 <!--    >-->
 <!--      <span class="text-sm text-gray-700">Показать больше</span>-->
 <!--    </div>-->
-    <the-food :item="item" ></the-food>
+    <the-food :item="foodDetail" ></the-food>
   </div>
 </template>;
 
@@ -138,7 +138,7 @@ export default {
          title: 'Выпечка'
        },
      ],
-     item: {},
+     foodDetail: {},
      productData: [
        {
          src: 'img-1',
@@ -225,12 +225,9 @@ export default {
   },
   methods: {
     showFood(item) {
-      this.item = item;
+      this.foodDetail = item;
       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'foodSaw'}})
     },
-   orderSeletect (item) {
-     console.log(item, 'item====>>order')
-   },
     async getItem() {
       try {
         await this.$axios.get(`vendors/${this.$route.query.verder_id}`).then(res => {
