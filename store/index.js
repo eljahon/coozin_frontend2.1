@@ -3,6 +3,7 @@ export const state = () => ({
   currentUser: {},
   login: false,
   register: false,
+  food: false,
   monthNames: {
     "01": 'Yan',
     "02": 'Fer',
@@ -33,6 +34,9 @@ export const mutations = {
   },
   REGISTER_MODAL: (state, payload) => {
     state.register = payload
+  },
+  FOOD_MODAL: (state, payload) => {
+    state.food = payload
   },
 };
 export const actions = {
@@ -77,10 +81,13 @@ export const actions = {
   registerModal ({ commit }, payload) {
     commit('REGISTER_MODAL', payload)
   },
-  nowdate({commit}, payload) {
-
-
-  }
+  foodModal ({ commit }, payload) {
+    commit('FOOD_MODAL', payload)
+  },
+  // nowdate({commit}, payload) {
+  //
+  //
+  // }
 };
 export const getters = {
   get_user_lit: (state) => state.userList,
