@@ -62,6 +62,9 @@
 
     <!--  Register  -->
     <the-register :hide="$store.state.register"/>
+
+    <!--  Order Modal  -->
+    <the-modal />
   </div>
 </template>
 

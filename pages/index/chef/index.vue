@@ -97,7 +97,7 @@
 export default {
  data() {
    return {
-     switchOn: false,
+       switchOn: false,
      more: false,
      foodModal: false,
      categoryCard: [

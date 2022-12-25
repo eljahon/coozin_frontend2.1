@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$route.query.foodSaw" class="food">
+  <div v-if="$route.query.foodSaw === 'foodSaw'" class="food">
     <div class="food-modal">
       <div class="flex p-4 rounded-t-2xl overflow-hidden gap-5">
         <div class="flex flex-col gap-3">
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="flex flex-col justify-between">
           <div class="flex flex-col gap-2">
             <h2 class="font-normal text-xl text-gray-800">Тефтели с рисом</h2>
             <h4 class="text-xl font-semibold text-gray-700">35 000 сум <span class="font-normal">/порция</span></h4>
@@ -54,10 +54,23 @@
               </div>
             </div>
           </div>
+          <div class="flex gap-16	">
+            <div class="flex gap-6 items-center">
+              <the-icon class="cursor-pointer w-8" src="minus" />
+              <span class="text-gray-700 font-semibold">1</span>
+              <the-icon class="cursor-pointer w-8" src="plus" />
+            </div>
+            <button
+              @click="order"
+              class="bg-orange-600 py-2.5 text-center w-56 text-white rounded-3xl"
+            >
+              В корзинку
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="food-background"></div>
+    <div class="food-background" @click="() => $router.push({path: localePath($route.path), query: {...$route.query, foodSaw: undefined}})"></div>
   </div>
 </template>
 
@@ -75,13 +88,8 @@ export default {
   mounted() {
   },
   methods: {
-    async funcLogin() {
-      await this.$auth.loginWith('local', { data: this.login }).then(async (res) => {
-        await this.$store.dispatch('Login', res)
-      })
-    },
-    showFood(item) {
-      this.$router.push({path: this.localePath(this.$route.path), query: {...$route.query, foodSaw: 'foodSaw'}})
+    async order() {
+      await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'multipleOrder'}})
     }
   }
 }
