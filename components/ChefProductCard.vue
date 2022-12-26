@@ -10,8 +10,8 @@
         <the-icon src="clock" />
         <span class="text-sm text-gray-700 font-normal">> {{ delay }} min</span>
       </div>
-      <div class="absolute cursor-pointer right-3 bottom-3 bg-orange-100	h-12 w-12 rounded-full overflow-hidden flex items-center justify-center">
-        <button @click.stop="">
+      <div @click.stop="toCarzinca(item)"  class="absolute cursor-pointer right-3 bottom-3 bg-orange-100	h-12 w-12 rounded-full overflow-hidden flex items-center justify-center">
+        <button >
           <the-icon src="shopping-cart" />
         </button>
       </div>
@@ -21,16 +21,23 @@
 
 <script>
 export default {
-  props: ['src', 'delay', 'title', 'price', 'item'],
+  props: ['src', 'delay', 'title', 'price', 'item', 'user'],
   filters: {
     shortTitle(value) {
       return value.length > 15 ? value.slice(0, 15) + '...' : value
     }
   },
-  methods: {
-   selectOnOrder () {
+  data () {
+    return {
 
-   }
+    }
+  },
+  methods: {
+    toCarzinca(item) {
+      console.log(item)
+      const vendor_id = Number(this.$route.query.vendor_id)
+      this.$store.dispatch('orderCarzina/set_order', {vendor_id, item})
+    }
   }
 }
 </script>

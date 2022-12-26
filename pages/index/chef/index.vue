@@ -47,7 +47,6 @@
         <div class="flex items-center gap-4 w-full">
           <div v-for="(item, idx) in foods" :key="idx" @click="showFood(item)">
             <chef-product-card
-              @open-food="showFood(item)"
                :src="item.src"
               :title="item.name"
               :price="item.price"
@@ -230,14 +229,14 @@ export default {
     },
     async getItem() {
       try {
-        await this.$axios.get(`vendors/${this.$route.query.verder_id}`).then(res => {
+        await this.$axios.get(`vendors/${this.$route.query.vendor_id}`).then(res => {
           this.vendor = res
           console.log(this.vendor)
         })
         await this.$axios.get('foods', {
           params: {
             limit: 10,
-            vendor_id: this.$route.query
+            vendor_id: this.$route.query.vendor_id
           }
         }).then(res => {
           const { objects } = res

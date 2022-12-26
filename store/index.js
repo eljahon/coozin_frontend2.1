@@ -70,11 +70,11 @@ export const actions = {
   async Login ({commit, dispatch}, payload) {
     dispatch('setUser', payload)
   },
-  async nuxtServerInit({ commit }) {
-    const userInfo = this.$cookies.get('userInfo')
-    this.$auth.setUser(userInfo)
-    commit('SET_CURRENT_USER', userInfo)
-  },
+  // async nuxtServerInit({ commit }) {
+  //   const userInfo = this.$cookies.get('userInfo')
+  //   this.$auth.setUser(userInfo)
+  //   commit('SET_CURRENT_USER', userInfo)
+  // },
   loginModal ({ commit }, payload) {
     commit('LOGIN_MODAL', payload)
   },
