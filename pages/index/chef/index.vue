@@ -12,7 +12,7 @@
                 <the-icon src="rate" width="20" height="20"/>
                 <span class="text-gray-800 text-xl">{{ vendor.ratings_avg ? vendor.ratings_avg : '0' }}</span>
               </div>
-              <div v-if="false" class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
+              <div v-if="vendor.subscribe" class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef" width="16" height="16"/>
                 <span class="text-gray-800 text-xl text-xl text-gray-800 font-medium">Вы подписаны</span>
               </div>
@@ -96,7 +96,7 @@
 export default {
  data() {
    return {
-       switchOn: false,
+     switchOn: false,
      more: false,
      foodModal: false,
      categoryCard: [
