@@ -12,7 +12,7 @@
                 <the-icon src="rate" width="20" height="20"/>
                 <span class="text-gray-800 text-xl">{{ vendor.ratings_avg ? vendor.ratings_avg : '0' }}</span>
               </div>
-              <div v-if="false" class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
+              <div v-if="<vendor className="subscribe"></vendor>" class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef" width="16" height="16"/>
                 <span class="text-gray-800 text-xl text-xl text-gray-800 font-medium">Вы подписаны</span>
               </div>
@@ -96,7 +96,7 @@
 export default {
  data() {
    return {
-       switchOn: false,
+     switchOn: false,
      more: false,
      foodModal: false,
      categoryCard: [
@@ -232,7 +232,6 @@ export default {
         await this.$axios.get(`vendors/${this.$route.query.vendor_id}`).then(res => {
           this.vendor = res;
           this.$store.dispatch('orderCarzina/set_vendor_name', res.user.full_name)
-          console.log(this.vendor)
         })
         await this.$axios.get('foods', {
           params: {
