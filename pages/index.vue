@@ -3,9 +3,9 @@
     <the-header />
     <nuxt-child />
     <the-footer />
-    <div v-if="true" class="login">
+    <div v-if="isModal" class="login">
       <div class="login-modal">
-        <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
+        <div @click="LocationModal" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
           <the-icon src="x" />
         </div>
         <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
@@ -38,8 +38,23 @@
 export default  {
   data () {
     return {
+      isModal: true
 
     }
+  },
+  methods: {
+    showLocations (value) {
+      console.log(value)
+    },
+    locations () {
+     window.navigator.geolocation.getCurrentPosition(this.showLocations)
+    },
+    LocationModal () {
+
+    }
+  },
+  mounted() {
+    this.locations()
   }
 }
 </script>
@@ -58,5 +73,18 @@ export default  {
   position: absolute;
   top: 14px;
   right: 14px;
+}
+
+.login-modal {
+  position: fixed;
+  z-index: 3;
+  padding: 48px 24px 32px 24px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 16px;
 }
 </style>

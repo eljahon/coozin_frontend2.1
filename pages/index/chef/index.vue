@@ -230,7 +230,8 @@ export default {
     async getItem() {
       try {
         await this.$axios.get(`vendors/${this.$route.query.vendor_id}`).then(res => {
-          this.vendor = res
+          this.vendor = res;
+          this.$store.dispatch('orderCarzina/set_vendor_name', res.user.full_name)
           console.log(this.vendor)
         })
         await this.$axios.get('foods', {

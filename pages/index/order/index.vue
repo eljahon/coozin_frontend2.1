@@ -119,15 +119,15 @@
           <h3 class="text-lg font-semibold text-gray-700">К оплате</h3>
           <div class="flex justify-between">
             <h4 class="text-gray-600">Блюда</h4>
-            <h4 class="font-medium text-gray-600">270 000 сум</h4>
+            <h4 class="font-medium text-gray-600">{{$store.state.orderCarzina.oldPrice}} сум</h4>
           </div>
           <div class="flex justify-between my-2">
             <h4 class="text-gray-600">Доставка</h4>
-            <h4 class="font-medium text-gray-600">10 000 сум</h4>
+            <h4 class="font-medium text-gray-600">10 000 + сум</h4>
           </div>
           <div class="flex justify-between">
             <h4 class="font-bold text-gray-600">Итого</h4>
-            <h4 class="font-bold text-gray-600">280 000 сум</h4>
+            <h4 class="font-bold text-gray-600">{{$store.state.orderCarzina.oldPrice+1000}} + сум</h4>
           </div>
         </div>
         <button class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
@@ -135,14 +135,14 @@
       <div class="bg-white w-80 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
         <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
         <div class="flex flex-col gap-3 overflow-y-scroll scroll-style pl-2 pr-4" style="max-height: 516px;">
-          <div v-for="item in 14">
+          <div v-for="item in $store.state.orderCarzina.orderList[0].foods">
             <div class="flex gap-4">
               <div class="w-24 h-24 overflow-hidden border border-gray-100 rounded-lg">
                 <img class="w-full" src="../../../assets/img/img-1.jpg" alt="Food Image">
               </div>
               <div class="flex flex-col gap-1">
-                <h4 class="font-normal text-gray-700">Теплый салат</h4>
-                <h4 class="font-bold text-gray-700">2х15,000 сум</h4>
+                <h4 class="font-normal text-gray-700">{{item.add.name}}</h4>
+                <h4 class="font-bold text-gray-700">{{item.count}}х{{item.add.price}} сум</h4>
               </div>
             </div>
           </div>
@@ -156,59 +156,23 @@
 export default {
   data() {
     return {
-      menuCard: [
-        {
-          date: 26,
-          month: "Сен",
-          variant: true
-        },
-        {
-          date: 27,
-          month: "Сен",
-          variant: true
-        },
-        {
-          date: 28,
-          month: "Сен",
-          variant: true
-        },
-        {
-          date: 29,
-          month: "Сен",
-          variant: true
-        },
-        {
-          date: 30,
-          month: "Сен",
-          variant: true
-        },
-        {
-          date: 31,
-          month: "Сен",
-          variant: true
-        },
-        {
-          date: 1,
-          month: "Окт",
-          variant: true
-        },
-        {
-          date: 2,
-          month: "Окт",
-          variant: true
-        },
-        {
-          date: 3,
-          month: "Окт",
-          variant: true
-        },
-        {
-          date: 4,
-          month: "Окт",
-          variant: true
-        },
+      order:{
+        additional_name: '',
+        additional_phone: "+998977088965",
+        address: "",
+        address_comment: "",
+        comment: "",
+        delivery_time: "2021-11-19 03:18:04",
+        food: [{"id": 3, "count": 2}],
+        latitude: 41.31509853350592,
+        longitude: 69.27407217456053,
+        payment_type: "cash",
+        card_id: null,
+        user_address_id: null,
+        promocode: null,
+        voucher: null
 
-      ],
+      }
     }
   },
   async fetch () {
