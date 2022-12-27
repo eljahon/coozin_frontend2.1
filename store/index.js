@@ -44,16 +44,17 @@ export const actions = {
     commit("SET_USER", payload);
   },
   set_day({commit,state}, payload) {
-    const day  = this.$dayjs(new Date()).format('DD:MM:YYYY').split(':')
+    const day  = this.$dayjs(new Date()).format('YYYY-MM-DD').split('-')
     // const month = payload
     let days = [];
     for (let i=0; i<7; i++) {
     days.push({
-      date: this.$dayjs(new Date ()).add(i, 'day').format('DD:MM:YYYY'),
+      date: this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD'),
       seeDate: this.$dayjs(new Date ()).add(i, 'day').format('DD'),
-      name: state.monthNames[day[1]]
+      name: state.monthNames[this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD').split('-')[1]],
     })
     };
+    console.log('days', days)
     commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {
@@ -63,18 +64,19 @@ export const actions = {
       const info = await this.$axios.get('/auth/user')
       await this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)
+      return info;
     } catch (err) {
       console.log(err)
     }
   },
   async Login ({commit, dispatch}, payload) {
-    dispatch('setUser', payload)
+   return await dispatch('setUser', payload)
   },
-  // async nuxtServerInit({ commit }) {
-  //   const userInfo = this.$cookies.get('userInfo')
-  //   this.$auth.setUser(userInfo)
-  //   commit('SET_CURRENT_USER', userInfo)
-  // },
+  async nuxtServerInit({ commit }) {
+    const userInfo = this.$cookies.get('userInfo')
+    this.$auth.setUser(userInfo)
+    commit('SET_CURRENT_USER', userInfo)
+  },
   loginModal ({ commit }, payload) {
     commit('LOGIN_MODAL', payload)
   },

@@ -50,6 +50,7 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/dayjs",
     "@nuxtjs/auth-next",
+    '@nuxtjs/toast',
     'cookie-universal-nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
   ],

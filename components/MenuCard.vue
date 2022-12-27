@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     onClick () {
-      console.log(this.date.date)
       this.$emit('onDates', {date: this.date.date})
     },
   }

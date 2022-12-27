@@ -37,6 +37,10 @@ export default {
       console.log(item)
       const vendor_id = Number(this.$route.query.vendor_id)
       this.$store.dispatch('orderCarzina/set_order', {vendor_id, item})
+      this.$toast.success('new order item corzina add', {
+        duration: 1000,
+        position: 'bottom-right',
+      })
     }
   }
 }

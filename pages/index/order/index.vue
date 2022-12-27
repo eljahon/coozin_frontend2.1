@@ -22,6 +22,7 @@
                 name="address"
                 label="Адрес доставки"
                 placeholder="улица Матонат, 35"
+                v-model="order.address"
               />
               <div class="map-card">
                 <the-icon src="map" />
@@ -63,6 +64,7 @@
               name="address"
               label="Ориентир"
               placeholder="улица Матонат, 35"
+              v-model="order.address_comment"
             />
             <div class="flex flex-col gap-3 input-styles w-96 mt-6">
               <label for="dilevery-time" class="font-medium text-gray-700">Способ оплаты</label>
@@ -71,6 +73,7 @@
                   class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
                   id="dilevery-time"
                   name="dilevery-time"
+                  v-model="order.time"
                   style="-webkit-appearance: none;"
                 >
                   <option value="">13:00 - 14:00</option>
@@ -109,6 +112,7 @@
               <div v-for="item in $store.state.days_list">
                 <menu-card
                   :date="item"
+                  @onDates="setDateSelect"
                 />
 <!--                {{$store.state.days_list}}-->
               </div>
@@ -154,16 +158,18 @@
 
 <script>
 export default {
+  // auth: true,
   data() {
     return {
       order:{
         additional_name: '',
         additional_phone: "+998977088965",
         address: "",
+        time: '',
         address_comment: "",
         comment: "",
-        delivery_time: "2021-11-19 03:18:04",
-        food: [{"id": 3, "count": 2}],
+        delivery_time: this.$dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+        food: this.$store.state.orderCarzina.orderList[0].foods.map(el => ({id: el.add.id, count: el.count})),
         latitude: 41.31509853350592,
         longitude: 69.27407217456053,
         payment_type: "cash",
@@ -177,11 +183,28 @@ export default {
   },
   async fetch () {
     await this.getDate()
+    if (this.$auth.state.loggedIn) {
+      await this.getMyCard()
+    }
+  },
+  mounted() {
+    console.log(this.$store.state.orderCarzina.orderList[0].foods.map(el => ({id: el.add.id, count: el.count})))
   },
   methods: {
     async getDate () {
       return this.$store.dispatch('set_day')
     },
+    setDateSelect (item) {
+      this.order.delivery_time = item.date
+    },
+   async getMyCard () {
+      try {
+        const cardList = await this.$axios.get('cards');
+        console.log(cardList,'cardList')
+      }catch (err) {
+        console.log(err)
+      }
+    }
   }
 }
 </script>

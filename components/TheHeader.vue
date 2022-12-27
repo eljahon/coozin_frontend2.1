@@ -110,12 +110,18 @@ export default {
   methods: {
     checkLogin () {
       // to="order"?
+      console.log(this.$auth.state.loggedIn)
       if (this.$auth.state.loggedIn) {
-        this.$router.push({path: this.localePath(this.$route.paht), query: {login: 'login'}})
-      } else {
         if (this.$store.state.orderCarzina.orderList.length) {
-          this.$router.push({path: this.localePath('/order')})
+          this.$router.push({path: this.localePath(this.$route.path), query: {foodSaw:"multipleOrder"}})
+        } else {
+          this.$toast.error('order not select', {
+            duration: 2000,
+            position: 'bottom-right',
+          })
         }
+      } else {
+        this.$router.push({path: this.localePath(this.$route.paht), query: {login: 'login'}})
       }
       // console.log()
     },

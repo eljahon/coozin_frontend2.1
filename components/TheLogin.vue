@@ -26,7 +26,7 @@
         class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"
       >Получить пароль</button>
     </div>
-    <div @click="$store.dispatch('loginModal', false)" class="login-background"></div>
+    <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query, login: undefined}})" class="login-background"></div>
   </div>
 </template>
 
@@ -46,9 +46,27 @@ export default {
   },
   methods: {
     async funcLogin() {
-      await this.$auth.loginWith('local', { data: this.login }).then(async (res) => {
-        await this.$store.dispatch('Login', res)
-      })
+      try {
+        await this.$auth.loginWith('local', { data: this.login }).then(async (res) => {
+          await this.$toast.info('Login in ....', {
+            duration: 2000,
+            position: 'bottom-right',
+          })
+          await this.$store.dispatch('Login', res)
+            .then(res => {
+              this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,login: undefined}})
+              this.$toast.success('success Login', {
+                duration: 2000,
+                position: 'bottom-right',
+              })
+            })
+        })
+      } catch (e) {
+        this.$toast.error(e, {
+          duration: 2000,
+          position: 'bottom-right',
+        })
+      }
     },
     toRegister() {
       this.$store.dispatch('loginModal', false)

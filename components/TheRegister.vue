@@ -35,7 +35,7 @@
           </form>
         </div>
     </div>
-    <div @click="$store.dispatch('registerModal', false)" class="register-background"></div>
+    <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query, register: undefined}})" class="register-background"></div>
   </div>
 <!--  <div v-if="$store.state.register">-->
 <!--    <form @submit.prevent="funcRegister">-->
@@ -62,9 +62,13 @@ export default {
   },
   methods: {
     async funcRegister() {
-        this.register.full_name = `${ this.first_name } ${ this.last_name }`;
-       const token = await this.$axios.post('/auth/register', {...this.register});
-          await this.$store.dispatch('setUser', token)
+       try {
+         this.register.full_name = `${ this.first_name } ${ this.last_name }`;
+         const token = await this.$axios.post('/auth/register', {...this.register});
+         await this.$store.dispatch('setUser', token)
+       } catch (err) {
+         console.log()
+       }
       },
     toLogin() {
       this.$store.dispatch('registerModal', false)

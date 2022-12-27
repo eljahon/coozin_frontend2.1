@@ -2,7 +2,7 @@ const qs = require("qs");
 function filterNonNull(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([k, v]) => v));
 }
-export default function ({ $axios, redirect, $auth }) {
+export default function ({ $axios, redirect, $auth,app }) {
   $axios.setHeader('Access-Control-Allow-Origin', '*')
   $axios.setHeader('Accept', 'application/json')
   $axios.setHeader('Content-Type', 'application/json')
@@ -16,10 +16,16 @@ export default function ({ $axios, redirect, $auth }) {
 
   $axios.onError(error => {
     const code = error.response.status;
-    console.log('error', error)
+    const message = error.response;
+    app.$toast.error(`${code } ${message.data.message}`, {
+      duration: 2000,
+      position: 'bottom-right',
+    })
+    console.log('error', error, message, app)
     if (code === 400) {
 
-    }
+    };
+    return message.data.message
   })
   $axios.setBaseURL(process.env.NUXT_APP_BASE_URL);
   $axios.onRequest((config) => {

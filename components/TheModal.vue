@@ -166,7 +166,7 @@
 
         <button @click.stop="orderListSee" class="w-full text-white bg-orange-600 py-3 rounded-3xl font-semibold mt-8">{{$store.state.orderCarzina.oldPrice}} сум перейти к оплате</button>
       </div>
-      <div class="modal-background" @click="() => $router.push({path: localePath($route.path), query: {...$route.query, order: undefined}})"></div>
+      <div class="modal-background" @click="closeModal"></div>
     </div>
   </div>
 </template>
@@ -191,6 +191,10 @@ export default {
   methods: {
     orderListSee () {
       this.$router.push({path: this.localePath('/order')})
+    },
+    closeModal () {
+      debugger
+       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: undefined}})
     },
     itemOrderRemove (item) {
       this.$store.dispatch('orderCarzina/item_order_remove', item.add.id)
