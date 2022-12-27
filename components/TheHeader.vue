@@ -7,7 +7,25 @@
           <header-card>
             <the-icon src="search"/>
           </header-card>
-          <the-input type="text" placeholder="Можно узнать где ты?" icon="address"/>
+          <div @click="modal = true">
+            <the-input
+              type="text"
+              placeholder="Можно узнать где ты?"
+              icon="address"
+              :readonly="true"
+              inputStyles="cursor-pointer"
+            />
+          </div>
+          <div class="relative">
+            <div v-if="modal" class="absolute z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
+              <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
+              <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
+              <div class="flex items-center gap-3 mx-auto">
+                <button @click="modal = false" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
+                <button @click="modal = false" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
+              </div>
+            </div>
+          </div>
         </div>
         <ul class="header-nav flex items-center gap-12">
           <li>
@@ -75,6 +93,7 @@ export default {
   data() {
     return {
       lang: false,
+      modal: false
     }
   },
   components: {

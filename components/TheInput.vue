@@ -9,6 +9,7 @@
         :name="name"
         :id="name"
         :class="inputStyles"
+        :readonly="readonly"
       />
       <img class="absolute position" v-if="icon" :src="require(`../assets/svg/${icon}.svg`)" :alt="icon + 'svg'" >
     </div>
@@ -17,7 +18,7 @@
 
 <script>
 export default {
-  props: ['type', 'placeholder', 'icon', 'name', 'label', 'styles', 'labelStyles', 'inputStyles']
+  props: ['type', 'placeholder', 'icon', 'name', 'label', 'styles', 'labelStyles', 'inputStyles', 'readonly']
 }
 </script>
 
