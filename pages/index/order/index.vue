@@ -73,18 +73,10 @@
                   class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
                   id="dilevery-time"
                   name="dilevery-time"
-                  v-model="order.time"
+                  v-model="order.card_id"
                   style="-webkit-appearance: none;"
                 >
-                  <option value="">13:00 - 14:00</option>
-                  <option value="">14:00 - 15:00</option>
-                  <option value="">15:00 - 16:00</option>
-                  <option value="">16:00 - 17:00</option>
-                  <option value="">17:00 - 18:00</option>
-                  <option value="">18:00 - 19:00</option>
-                  <option value="">19:00 - 20:00</option>
-                  <option value="">20:00 - 21:00</option>
-                  <option value="">21:00 - 22:00</option>
+                  <option v-for="(item, ind) in cardList" :key="ind" :value="item.value">{{item.label}}</option>
                 </select>
                 <img class="absolute position" src="../../../assets/svg/cash.svg" alt="Input icon" >
                 <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
@@ -134,7 +126,7 @@
             <h4 class="font-bold text-gray-600">{{$store.state.orderCarzina.oldPrice+1000}} + сум</h4>
           </div>
         </div>
-        <button class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
+        <button @click="orderCreate" class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
       </div>
       <div class="bg-white w-80 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
         <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
@@ -161,11 +153,11 @@ export default {
   // auth: true,
   data() {
     return {
+      cardList: [],
       order:{
-        additional_name: '',
-        additional_phone: "+998977088965",
-        address: "",
-        time: '',
+        additional_name: this.$auth.state.user.full_name,
+        additional_phone: this.$auth.state.user.phone,
+        address: "T",
         address_comment: "",
         comment: "",
         delivery_time: this.$dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
@@ -174,7 +166,7 @@ export default {
         longitude: 69.27407217456053,
         payment_type: "cash",
         card_id: null,
-        user_address_id: null,
+        user_address_id: '',
         promocode: null,
         voucher: null
 
@@ -188,9 +180,21 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.orderCarzina.orderList[0].foods.map(el => ({id: el.add.id, count: el.count})))
+    console.log(this.$auth.state)
   },
   methods: {
+    orderCreate () {
+      const order = {
+        ...this.order,
+        ...this.$store.state.location
+      }
+
+      // console.log(order)
+      this.$axios.post('orders', {...order})
+        .then(res => {
+          console.log(res)
+        })
+    },
     async getDate () {
       return this.$store.dispatch('set_day')
     },
@@ -199,8 +203,14 @@ export default {
     },
    async getMyCard () {
       try {
-        const cardList = await this.$axios.get('cards');
-        console.log(cardList,'cardList')
+        const {objects} = await this.$axios.get('cards');
+        console.log(objects,'objectsCardlis')
+        this.cardList = objects.map((el) => {
+          return {
+            label: el.card_number,
+            value: el.id
+          }
+        })
       }catch (err) {
         console.log(err)
       }

@@ -17,7 +17,8 @@ export const state = () => ({
     "11": 'Okt',
     "12": 'Dec',
   },
-  days_list: []
+  days_list: [],
+  location: null
 });
 export const mutations = {
   SET_USER: (state, payload) => {
@@ -38,6 +39,9 @@ export const mutations = {
   FOOD_MODAL: (state, payload) => {
     state.food = payload
   },
+  SET_LOCATION: (state, payload) => {
+    state.location = payload
+  }
 };
 export const actions = {
   set_user_list({ commit }, payload) {
@@ -71,6 +75,9 @@ export const actions = {
   },
   async Login ({commit, dispatch}, payload) {
    return await dispatch('setUser', payload)
+  },
+  set_location ({commit}, payload) {
+    commit('SET_LOCATION', payload)
   },
   async nuxtServerInit({ commit }) {
     const userInfo = this.$cookies.get('userInfo')

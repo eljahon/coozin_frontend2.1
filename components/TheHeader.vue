@@ -113,7 +113,7 @@ export default {
       console.log(this.$auth.state.loggedIn)
       if (this.$auth.state.loggedIn) {
         if (this.$store.state.orderCarzina.orderList.length) {
-          this.$router.push({path: this.localePath(this.$route.path), query: {foodSaw:"multipleOrder"}})
+          this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,foodSaw:"multipleOrder"}})
         } else {
           this.$toast.error('order not select', {
             duration: 2000,
@@ -121,7 +121,7 @@ export default {
           })
         }
       } else {
-        this.$router.push({path: this.localePath(this.$route.paht), query: {login: 'login'}})
+        this.$router.push({path: this.localePath(this.$route.paht), query: { ...this.$route.query,login: 'login'}})
       }
       // console.log()
     },

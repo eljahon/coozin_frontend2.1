@@ -1,5 +1,4 @@
 import { i18n } from "./locales";
-
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -50,10 +49,15 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/dayjs",
     "@nuxtjs/auth-next",
+    'nuxt-leaflet',
     '@nuxtjs/toast',
     'cookie-universal-nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
   ],
+  toast: {
+    duration: 2000,
+    position: 'bottom-right'
+  },
   dayjs: {
     locales: ["en", "ja"],
     defaultLocale: "en",
