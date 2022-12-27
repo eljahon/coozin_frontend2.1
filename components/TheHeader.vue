@@ -91,10 +91,12 @@ export default {
   methods: {
     checkLogin () {
       // to="order"?
-      if (!this.$auth.state.loggedIn) {
+      if (this.$auth.state.loggedIn) {
         this.$router.push({path: this.localePath(this.$route.paht), query: {login: 'login'}})
       } else {
-        this.$router.push({path: this.localePath('/order')})
+        if (this.$store.state.orderCarzina.orderList.length) {
+          this.$router.push({path: this.localePath('/order')})
+        }
       }
       // console.log()
     },

@@ -47,7 +47,7 @@ export const actions = {
     const day  = this.$dayjs(new Date()).format('DD:MM:YYYY').split(':')
     // const month = payload
     let days = [];
-    for (let i=1; i<=7; i++) {
+    for (let i=0; i<7; i++) {
     days.push({
       date: this.$dayjs(new Date ()).add(i, 'day').format('DD:MM:YYYY'),
       seeDate: this.$dayjs(new Date ()).add(i, 'day').format('DD'),
