@@ -3,13 +3,16 @@
     <h3 class="font-semibold text-xl text-color text-left ">Мои карты</h3>
 
     <div style="height: 420px;" class="flex flex-wrap scroll-style gap-5 overflow-y-scroll">
-      <div v-for="item in 16">
+      <div v-for="item in cards">
         <div class="card-width border border-gray-200 px-3 py-4 rounded-lg flex items-center justify-between">
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 credit-card">
+            <div v-if="item.type === 'Uzcard'" class="w-12 h-12 credit-card">
               <the-icon src="uzcard" />
             </div>
-            <h3 class="text-gray-700 text-base">9980 **** **** 4166</h3>
+            <div v-else>
+              <the-icon src="humo" />
+            </div>
+            <h3 class="text-gray-700 text-base">{{ item.card_number }}</h3>
           </div>
           <the-icon class="cursor-pointer" src="trash-gray" />
         </div>
@@ -25,14 +28,15 @@ export default {
     return {
       cards: []
     }
-  },  
+  },
   mounted() {
     this.getCards()
   },
   methods: {
     getCards() {
       this.$axios.get('cards').then(res => {
-        this.cards = res
+        const { objects } = res
+        this.cards = objects
       })
     }
   }

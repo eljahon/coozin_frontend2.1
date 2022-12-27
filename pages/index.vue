@@ -8,7 +8,7 @@
         <div @click="LocationModal" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
           <the-icon src="x" />
         </div>
-        <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
+<!--        <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>-->
         <!--            <p class="text-lg text-center text-gray-700 mt-1">У вас ещё нет аккаунта?-->
         <!--              <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: 'register'}})" class="text-orange-600 cursor-pointer font-semibold	">Регистрация</span>-->
         <!--            </p>-->
@@ -38,7 +38,7 @@
 export default  {
   data () {
     return {
-      isModal: true
+      isModal: false
 
     }
   },
