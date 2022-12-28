@@ -15,7 +15,7 @@
           <header-card>
             <the-icon src="search"/>
           </header-card>
-          <div @click="modal = true">
+          <div class="md:flex hidden" @click="modal = true">
             <the-input
               type="text"
               placeholder="Можно узнать где ты?"
@@ -24,6 +24,9 @@
               inputStyles="cursor-pointer"
             />
           </div>
+          <header-card>
+            <the-icon src="search"/>
+          </header-card>
           <div class="relative">
             <div v-if="modal" class="absolute z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
@@ -47,12 +50,27 @@
           </li>
         </ul>
         <div class="flex items-center xl:gap-4 gap-3">
+          <div class="relative lg:hidden">
+            <div v-if="modal" class="absolute z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
+              <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
+              <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
+              <div class="flex items-center gap-3 mx-auto">
+                <button @click="modal = false" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
+                <button @click="modal = false" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
+              </div>
+            </div>
+          </div>
           <div class="lg:hidden">
             <header-card>
               <the-icon src="search"/>
             </header-card>
           </div>
-          <div class="lg:hidden" @click="modal = true">
+          <div @click="modal = true" class="md:hidden sm:flex hidden">
+            <header-card>
+              <the-icon src="address"/>
+            </header-card>
+          </div>
+          <div class="lg:hidden md:flex hidden" @click="modal = true">
             <the-input
               type="text"
               placeholder="Можно узнать где ты?"
@@ -61,22 +79,12 @@
               inputStyles="cursor-pointer"
             />
           </div>
-          <div class="relative lg:hidden">
-              <div v-if="modal" class="absolute z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
-                <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
-                <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
-                <div class="flex items-center gap-3 mx-auto">
-                  <button @click="modal = false" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
-                  <button @click="modal = false" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
-                </div>
-              </div>
-            </div>
-          <button @click="checkLogin">
+          <button class="sm:flex hidden" @click="checkLogin">
             <header-card add-style="bg-orange-50">
               <the-icon src="shopping-cart"/>
             </header-card>
           </button>
-          <div @click="lang = true">
+          <div class="sm:flex hidden" @click="lang = true">
             <header-card add-style="text-gray-800	font-medium relative">
               <span class="flex shrink-0">{{ actionLang.name }}</span>
               <div v-if="lang" @mouseleave="lang = false"
@@ -93,16 +101,14 @@
               </div>
             </header-card>
           </div>
-          <header-card>
+          <header-card class="sm:flex hidden">
             <nuxt-link  v-if="$auth.loggedIn" to="profile">
               <the-icon src="user"/>
             </nuxt-link>
             <div v-else @click.stop="() => $router.push({ path: localePath($route.path), query: {...$route.query, login: 'login'}})">
               <the-icon src="user"/>
             </div>
-
           </header-card>
-<!--          <span >login</span>-->
         </div>
       </nav>
     </header>
