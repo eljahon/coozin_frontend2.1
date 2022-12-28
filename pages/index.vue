@@ -15,7 +15,12 @@ export default  {
   },
   methods: {
     showLocations (value) {
-      console.log(value)
+      const locations  = {
+        latitude: value.coords.latitude,
+        longitude: value.coords.longitude
+      };
+      this.$store.dispatch('set_location', locations)
+      // console.log(value.coords, locations)
     },
     locations () {
      window.navigator.geolocation.getCurrentPosition(this.showLocations)

@@ -15,6 +15,7 @@
     "@nuxtjs/i18n": "^7.3.0",
     "cookie-universal-nuxt": "^2.2.2",
     "@nuxtjs/toast": "^3.3.0",
+    "nuxt-leaflet": "0.0.19",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
     "swiper": "^6.5.0",

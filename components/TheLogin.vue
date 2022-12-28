@@ -41,9 +41,6 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this.$auth)
-  },
   methods: {
     async funcLogin() {
       try {
@@ -55,10 +52,7 @@ export default {
           await this.$store.dispatch('Login', res)
             .then(res => {
               this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,login: undefined}})
-              this.$toast.success('success Login', {
-                duration: 2000,
-                position: 'bottom-right',
-              })
+              this.$toast.success('success Login',)
             })
         })
       } catch (e) {
