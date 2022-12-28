@@ -7,17 +7,24 @@
           v-if="showMap"
           style="height: 100% !important; width: 100% !important;"
           :settings="setting"
-          :coords="markerIcon"
-          :zoom="11"
+          :coords="lot ? [lot, lang] : markerIcon"
+          :zoom="15"
           class="yandexMap"
           map-type="map"
           @click="Location"
           :controls="['zoomControl', 'fullscreenControl', 'trafficControl']">
           <ymap-marker
-            :coords="markerIcon"
+            v-if="lang && lot"
+            :coords="[lot, lang]"
             :marker-id="1"
           >
 
+          </ymap-marker>
+          <ymap-marker
+            v-else
+            :coords="markerIcon"
+            :marker-id="2"
+          >
           </ymap-marker>
         </yandex-map>
       </no-ssr>
@@ -43,6 +50,8 @@ export default {
     return {
       markerIcon: [41.30189519574488,69.28935242760551],
       showMap: false,
+      lang: this.$cookies.get('langlot').longitude ?? false,
+      lot: this.$cookies.get('langlot').latitude ?? false,
       setting: {
         apiKey: '1abe9aa1-66ec-4c7f-8b93-a4e0bc25319e',
         // apiKey: '8fb635ed-f033-4166-8286-a5388bb7d9a9',
@@ -53,17 +62,21 @@ export default {
     }
   },
   mounted() {
-    this.showMap = true
+    this.showMap = true;
+    console.log(this.$cookies.get('langlot'))
   },
   methods: {
-    Location(name) {
-      this.markerIcon = name._sourceEvent._cache.coords;
-      const sendata =  {
-        coords: name._sourceEvent._cache.coords.join(','),
-        key: this.setting.apiKey
-      }
-      this.$store.dispatch('yandex/pointSearchLotLang', sendata)
-      // console.log(name._sourceEvent._cache.coords.join(','))
+   async Location(name) {
+     try {
+       this.markerIcon = name._sourceEvent._cache.coords;
+       const sendata = name._sourceEvent._cache.coords.join(',')
+      const data=  await  this.$store.dispatch('yandex/pointSearchLotLang', sendata);
+       // this.$store.dispatch('yandex/pointSearch', 'Toshkent')
+       this.$emit('clickPlace', data)
+
+     } catch (err){
+       console.log(err)
+     }
     }
   }
 }

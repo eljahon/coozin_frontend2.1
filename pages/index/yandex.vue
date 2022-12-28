@@ -1,6 +1,6 @@
 <template>
   <div>
-    <yandex-maps>
+    <yandex-maps @clickPlace="getSelectName">
     </yandex-maps>
   </div>
 </template>
@@ -28,12 +28,11 @@ export default {
   // mounted() {
   //   this.showMap = true
   // },
-  // methods: {
-  //   Location(name) {
-  //     this.markerIcon = name._sourceEvent._cache.coords;
-  //     // console.log(name._sourceEvent._cache.coords)
-  //   }
-  // }
+  methods: {
+    getSelectName(name) {
+      console.log(name)
+    }
+  }
 }
 </script>
 
