@@ -1,28 +1,36 @@
 <template>
   <div>
-    <div id="map-wrap" style="height: 100vh">
-      <client-only>
-        <l-map :zoom=14 :center="[41.30189519574488,69.28935242760551]" @click="localeLocation">
-          <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-          <l-marker :lat-lng="markerIcon"></l-marker>
-        </l-map>
-      </client-only>
-    </div>
+    <yandex-maps @clickPlace="getSelectName">
+    </yandex-maps>
   </div>
 </template>
 
 <script>
+import yandexmaps  from '@/components/yandex-maps/yandex-maps'
 export default {
   name: "yandex.map",
-  data () {
-    return {
-      markerIcon: [41.30189519574488,69.28935242760551]
-    }
+  components: {
+    yandexmaps
   },
+  // data () {
+  //   return {
+  //     markerIcon: [41.30189519574488,69.28935242760551],
+  //     showMap: false,
+  //     setting: {
+  //       apiKey: '1abe9aa1-66ec-4c7f-8b93-a4e0bc25319e',
+  //       // apiKey: '8fb635ed-f033-4166-8286-a5388bb7d9a9',
+  //       lang: 'ru_RU',
+  //       coordorder: 'latlong',
+  //       version: '2.1'
+  //     }
+  //   }
+  // },
+  // mounted() {
+  //   this.showMap = true
+  // },
   methods: {
-    localeLocation(name) {
-      this.markerIcon = [name.latlng.lat, name.latlng.lng]
-      console.log(name.latlng)
+    getSelectName(name) {
+      console.log(name)
     }
   }
 }

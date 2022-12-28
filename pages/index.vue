@@ -20,6 +20,7 @@ export default  {
         longitude: value.coords.longitude
       };
       this.$store.dispatch('set_location', locations)
+      this.$cookies.set('langlot', locations)
       // console.log(value.coords, locations)
     },
     locations () {
