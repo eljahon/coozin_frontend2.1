@@ -1,8 +1,8 @@
 <template>
   <div class="main-styles pb-8">
     <!--  Banner  -->
-    <div class="container mx-auto py-8">
-      <div class="flex justify-center gap-4">
+    <div class="container mx-auto py-8 xl:px-0 px-4 lg:block hidden">
+      <div class="lg:flex lg:justify-center lg:gap-4">
         <banner-card
           :src="collections[0]?.banner?.url"
           add-style="card-1"
@@ -39,6 +39,19 @@
             />
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="lg:hidden container mx-auto overflow-x-scroll sm:py-8 py-5 xl:px-0 px-4 scroll-style">
+      <div class="flex items-center sm:gap-4 gap-2 w-full">
+        <banner-card
+          v-for="item in collections"
+          :key="item.id"
+          :src="item?.banner?.url"
+          :status="item.name"
+          status-style="text-green-600 bg-green-50"
+          add-style="rwd-card flex shrink-0"
+        />
       </div>
     </div>
 
@@ -428,7 +441,112 @@ import {mapGetters} from "vuex"
     width: 400px;
     height: 160px;
   }
+  .rwd-card {
+    width: 320px;
+    height: 180px;
+  }
   .main-styles {
     background: #F3F4F6;
+  }
+
+  @media screen and (max-width: 1280px) {
+    .card-1 {
+      width: 280px;
+      height: 330px;
+    }
+    .card-2 {
+      width: 360px;
+      height: 154px;
+    }
+    .card-3 {
+      width: 460px;
+      height: 154px;
+    }
+    .card-4 {
+      width: 450px;
+      height: 160px;
+    }
+    .card-5 {
+      width: 370px;
+      height: 160px;
+    }
+  }
+  @media screen and (max-width: 1150px) {
+    .card-2 {
+      width: 340px;
+      height: 154px;
+    }
+    .card-3 {
+      width: 440px;
+      height: 154px;
+    }
+    .card-4 {
+      width: 430px;
+      height: 160px;
+    }
+    .card-5 {
+      width: 350px;
+      height: 160px;
+    }
+  }
+  @media screen and (max-width: 1100px) {
+    .card-2 {
+      width: 330px;
+      height: 154px;
+    }
+    .card-3 {
+      width: 430px;
+      height: 154px;
+    }
+    .card-4 {
+      width: 420px;
+      height: 160px;
+    }
+    .card-5 {
+      width: 340px;
+      height: 160px;
+    }
+  }
+  @media screen and (max-width: 1080px) {
+    .card-2 {
+      width: 325px;
+      height: 154px;
+    }
+    .card-3 {
+      width: 415px;
+      height: 154px;
+    }
+    .card-4 {
+      width: 405px;
+      height: 160px;
+    }
+    .card-5 {
+      width: 325px;
+      height: 160px;
+    }
+  }
+  @media screen and (max-width: 1050px) {
+    .card-2 {
+      width: 315px;
+      height: 154px;
+    }
+    .card-3 {
+      width: 400px;
+      height: 154px;
+    }
+    .card-4 {
+      width: 390px;
+      height: 160px;
+    }
+    .card-5 {
+      width: 315px;
+      height: 160px;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .rwd-card {
+      width: 280px;
+      height: 160px;
+    }
   }
 </style>

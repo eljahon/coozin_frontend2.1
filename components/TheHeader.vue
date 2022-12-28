@@ -9,7 +9,7 @@
             <span></span>
             <span></span>
           </div>
-          <the-logo/>
+          <the-logo />
         </div>
         <div class="lg:flex hidden items-center gap-3">
           <header-card>
