@@ -1,11 +1,11 @@
 <template>
-  <div class="container mx-auto pb-10 pt-12">
+  <div class="container mx-auto pb-10 pt-12 lg:px-0 sm:px-4 px-2">
     <div class="flex justify-between">
       <the-logo logo="true" />
       <ul class="f-list flex flex-col gap-5">
-        <li>Наша история</li>
-        <li>Присоединиться</li>
-        <li>Блог</li>
+        <li class="cursor-pointer">Наша история</li>
+        <li class="cursor-pointer">Присоединиться</li>
+        <li class="cursor-pointer">Блог</li>
       </ul>
       <ul class="flex flex-col gap-5">
         <li>Безопасная оплата</li>

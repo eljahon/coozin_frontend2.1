@@ -64,4 +64,11 @@ export default {
   width: 100%;
   object-fit: cover;
 }
+
+@media screen and (max-width: 640px) {
+  .card-width {
+    width: 290px;
+    height: 190px;
+  }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <header @click="$store.dispatch('loginModal', false)" class="header">
-      <nav class="container mx-auto py-4 xl:px-0 px-4 flex items-center justify-between">
+      <nav class="container mx-auto sm:py-4 py-3 xl:px-0 sm:px-4 px-2 flex items-center justify-between">
         <div class="flex items-center gap-5">
           <div @click="burger = !burger" id="nav-icon3" class="lg:hidden block" :class="burger ? 'open' : ''">
             <span></span>
@@ -15,7 +15,7 @@
           <header-card>
             <the-icon src="search"/>
           </header-card>
-          <div class="md:flex hidden" @click="modal = true">
+          <div class="lg:hidden md:flex hidden" @click="modal = true">
             <the-input
               type="text"
               placeholder="Можно узнать где ты?"
