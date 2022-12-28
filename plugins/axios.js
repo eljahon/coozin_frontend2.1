@@ -1,6 +1,6 @@
 const qs = require("qs");
 function filterNonNull(obj) {
-  return Object.fromEntries(Object.entries(obj).filter(([k, v]) => v));
+  return Object.fromEntries(Object.entries(obj).find(([k, v]) => v));
 }
 export default function ({ $axios, redirect, $auth,app }) {
   $axios.setHeader('Access-Control-Allow-Origin', '*')
@@ -15,6 +15,7 @@ export default function ({ $axios, redirect, $auth,app }) {
           }
 
   $axios.onError(error => {
+    console.log(error)
     const code = error.response.status;
     const message = error.response;
     app.$toast.error(`${code } ${message.data.message}`, {
@@ -28,11 +29,12 @@ export default function ({ $axios, redirect, $auth,app }) {
     return message.data.message
   })
   $axios.setBaseURL(process.env.NUXT_APP_BASE_URL);
-  $axios.onRequest((config) => {
-    config.paramsSerializer = function (params) {
-      return qs.stringify(filterNonNull(params), { encodeValuesOnly: true });
-    };
-  });
+  // $axios.onRequest((config) => {
+  //   config.paramsSerializer = function (params) {
+  //     return qs.stringify(filterNonNull(params), { encodeValuesOnly: true });
+  //     // return params;
+  //   };
+  // });
   $axios.onResponse(data => {
     // console.log('onResponse====>>>>', data)
     return data.data

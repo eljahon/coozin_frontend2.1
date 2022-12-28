@@ -31,7 +31,8 @@ export default {
   plugins: [
     { src: "~/plugins/axios.js" },
     { src: "~/plugins/tools.js", defer: true },
-    { src: '@/plugins/vue-awesome-swiper.js'}
+    { src: '@/plugins/vue-awesome-swiper.js'},
+    { src: '@/plugins/yandex.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

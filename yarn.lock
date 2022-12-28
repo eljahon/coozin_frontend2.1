@@ -8928,6 +8928,11 @@ vue-toasted@^1.1.28:
   resolved "https://registry.yarnpkg.com/vue-toasted/-/vue-toasted-1.1.28.tgz#dbabb83acc89f7a9e8765815e491d79f0dc65c26"
   integrity sha512-UUzr5LX51UbbiROSGZ49GOgSzFxaMHK6L00JV8fir/CYNJCpIIvNZ5YmS4Qc8Y2+Z/4VVYRpeQL2UO0G800Raw==
 
+vue-yandex-maps@^0.11.13:
+  version "0.11.13"
+  resolved "https://registry.yarnpkg.com/vue-yandex-maps/-/vue-yandex-maps-0.11.13.tgz#09a8a21de86d135e25430e545ac36e91675242ec"
+  integrity sha512-MyIBkKU2rX1vcypy6VEckdhL0NFVlRGTFmYItsqzcb0a43yhHbnAshcLI3FDRbByMsOp6kWFAuDMBJffg6W7jw==
+
 vue2-leaflet@^2.0.2:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/vue2-leaflet/-/vue2-leaflet-2.7.1.tgz#2f95c287621bf778f10804c88223877f5c049257"
