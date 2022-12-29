@@ -90,13 +90,10 @@
       </div>
     </div>
 
-<<<<<<< HEAD
     <div class="container mx-auto overflow-x-scroll scroll-style my-7" v-for="(count, index) in page" :key="index">
       <div class="flex items-center gap-4 w-full">
-=======
     <div class="container mx-auto overflow-x-scroll scroll-style my-7 xl:px-0 sm:px-4 px-2">
       <div class="flex items-center sm:gap-4 gap-2 w-full">
->>>>>>> c319d940babe6bf85fc03c85f2fcac3b2d117ca3
         <product-card
           v-for="(item, idx) in verdor_list[count]"
           :key="idx"
@@ -111,12 +108,12 @@
         />
       </div>
     </div>
-<<<<<<< HEAD
-      <div @click="pageCount" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
-=======
-      <div @click="more = true" v-if="!more" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
->>>>>>> c319d940babe6bf85fc03c85f2fcac3b2d117ca3
+      </div>
+    </div>
+<!--      <div  style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">-->
+      <div @click="pageCount" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
         <span class="text-sm text-gray-700">Показать больше</span>
+<!--      </div>-->
       </div>
 
     <!--  Blog section  -->

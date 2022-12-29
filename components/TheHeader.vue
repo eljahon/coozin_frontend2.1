@@ -144,9 +144,11 @@ export default {
     }
   },
   methods: {
-    checkLogin () {
+   async checkLogin () {
       if (this.$auth.state.loggedIn) {
-        if (this.$store.state.cart.cartList.length) {
+       // await this.$store.dispatch('cart/getCardList', {limit: 10})
+        const item = this.$store?.state?.cart?.cartList?.length ?? false
+        if (item) {
           this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,foodSaw:"multipleOrder"}})
         } else {
           this.$toast.error('order not select', {
