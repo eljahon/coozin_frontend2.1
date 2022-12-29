@@ -6,20 +6,20 @@
           <h3 class="text-gray-800 text-xl font-bold">Ваши корзинки</h3>
           <the-icon class="cursor-pointer" src="trash-gray" />
         </div>
-        <div class="mt-4 flex flex-col gap-3">
-          <div @click="orderDetail" class="product">
+        <div class="mt-4 flex flex-col gap-3" v-for="(item, index) in $store.state.cart.cartList" :key="index">
+          <div @click="orderDetail(item.id)" class="product">
             <div class="cart-bg">
               <the-icon src="big-shopping-cart" class="flex shrink-0 w-14	h-14" />
             </div>
             <div class="flex flex-col gap-1">
-              <h3 class="font-bold text-gray-800">Корзинка №1</h3>
+              <h3 class="font-bold text-gray-800">Корзинка № {{index+1}}</h3>
               <div class="flex items-center gap-2">
                 <the-icon src="chef-ligth" />
                 <span class="font-medium text-gray-700 text-sm">{{$store.state.orderCarzina.vendorName ? $store.state.orderCarzina.vendorName : 'salom'}}</span>
               </div>
               <div class="flex items-center gap-2">
                 <the-icon src="cash" />
-                <span class="font-semibold text-sm">{{$store.state.orderCarzina.oldPrice}} сум</span>
+                <span class="font-semibold text-sm">{{item.total_price}} сум</span>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
             <img class="w-full object-cover" src="https://i.pravatar.cc/140" alt="Avatar Chef">
           </div>
         </div>
-        <div class="mt-4 flex flex-col gap-4" v-for="(item, index) in $store.state.orderCarzina.orderList[0].foods">
+        <div class="mt-4 flex flex-col gap-4" v-for="(item, index) in $store.state.cart.cartItem.items">
           <div class="flex gap-5">
             <div class="w-24 h-24 rounded-lg overflow-hidden flex shrink-0">
               <img class="w-full object-cover" src="https://picsum.photos/100" alt="Food Photo">
@@ -86,21 +86,21 @@
             <div class="flex items-center justify-between w-full" >
               <div class="flex flex-col justify-between gap-4">
                 <div>
-                  <h4 class="text-gray-700">{{item.add.name}}</h4>
-                  <h4 class="font-bold text-gray-700">{{item.add.price}} сум</h4>
+                  <h4 class="text-gray-700">{{item.food.name}}</h4>
+                  <h4 class="font-bold text-gray-700">{{item.food.price}} сум</h4>
 
                 </div>
                 <div class="flex gap-3 items-center">
                   <div @click.stop="itemOrderRemove(item)" class="w-7	h-7 rounded bg-gray-200 flex items-center justify-center cursor-pointer">
                     <span class="line"></span>
                   </div>
-                  <span class="font-semibold text-gray-700">{{item.count}}</span>
+                  <span class="font-semibold text-gray-700">{{item.quantity}}</span>
                   <div @click.stop="itemOrderAdd(item)" class="w-7	h-7 rounded bg-gray-200 flex items-center justify-center cursor-pointer">
                     <span class="text-gray-700 text-3xl leading-none -translate-y-1">+</span>
                   </div>
                 </div>
               </div>
-              <div @click.stop="deleteOrder(item)">
+              <div @click.stop="deleteOrder(item.id)">
                 <the-icon class="flex shrink-0 cursor-pointer" src="dark-x"  />
               </div>
             </div>
@@ -163,8 +163,7 @@
             </div>
           </div>
         </div>
-
-        <button @click.stop="orderListSee" class="w-full text-white bg-orange-600 py-3 rounded-3xl font-semibold mt-8">{{$store.state.orderCarzina.oldPrice}} сум перейти к оплате</button>
+        <button @click.stop="orderListSee" class="w-full text-white bg-orange-600 py-3 rounded-3xl font-semibold mt-8">{{$store.state.cart.totalPrice}} сум перейти к оплате</button>
       </div>
       <div class="modal-background" @click="closeModal"></div>
     </div>
@@ -183,21 +182,37 @@ export default {
   },
   mounted() {
   },
+  async fetch () {
+    if (this.$route.query.foodSaw === 'multipleOrder') {
+      await this.getCartList()
+    } else if (this.$route.query.foodSaw === 'detailOrder') {
+      await this.getCartItem()
+    }
+  },
   computed: {
     fullPrice () {
       return this.$store.state.orderCarzina.orderList[0].foods.reduce((sum, el) => sum+el.add.price, 0)
     }
   },
   methods: {
+    async getCartList () {
+   return   await this.$store.dispatch('cart/getCardList', {
+        limit: 100,
+        longitude: undefined,
+        latitude: undefined
+      })
+    },
+    async getCartItem () {
+     await this.$store.dispatch('cart/getCardItem', parseInt(this.$route.query.order_id))
+    },
     orderListSee () {
       this.$router.push({path: this.localePath('/order')})
     },
     closeModal () {
-      debugger
-       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: undefined}})
+       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: undefined, order_id: undefined}})
     },
     itemOrderRemove (item) {
-      this.$store.dispatch('orderCarzina/item_order_remove', item.add.id)
+      // this.$store.dispatch('orderCarzina/item_order_remove', item.add.id)
       console.log(item)
     },
     itemOrderAdd (item) {
@@ -205,14 +220,22 @@ export default {
       console.log(item)
     },
     deleteOrder (item) {
+      const orderRemove  = {
+        order_id: this.$route.query.order_id,
+        id: item
+      }
       console.log(item)
-      this.$store.dispatch('orderCarzina/remove_order', item.add.id)
+      this.$store.dispatch('cart/removeCartItem', orderRemove)
     },
-    orderDetail() {
-      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'detailOrder'}})
+   async orderDetail(item) {
+     await this.$store.dispatch('cart/getCardItem', item)
+    await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'detailOrder', order_id: item}})
+
+
     },
-    back() {
-      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'multipleOrder'}})
+    async back() {
+     await this.getCartList()
+     await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'multipleOrder', order_id: undefined}})
     }
   }
 }

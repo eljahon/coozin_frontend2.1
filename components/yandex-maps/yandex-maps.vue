@@ -71,9 +71,7 @@ export default {
        this.markerIcon = name._sourceEvent._cache.coords;
        const sendata = name._sourceEvent._cache.coords.join(',')
       const data=  await  this.$store.dispatch('yandex/pointSearchLotLang', sendata);
-       // this.$store.dispatch('yandex/pointSearch', 'Toshkent')
        this.$emit('clickPlace', data)
-
      } catch (err){
        console.log(err)
      }

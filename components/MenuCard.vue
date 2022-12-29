@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     onClick () {
-      this.$emit('onDates', {date: this.date.date})
+      this.$emit('onDates', {day: this.date.date})
     },
   }
 

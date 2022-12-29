@@ -16,6 +16,7 @@
 
     "back": "Орқага",
     "buy": "Сотиб олиш",
+    "balance": "Coozin Hamyon",
 
     "confirmation": "Тасдиқлаш",
     "calendar": "Календарь",
@@ -29,6 +30,8 @@
     "clear": "Тозалаш",
     "company": "Компания",
     "closed": "Йопиқ",
+    "cash": "Naqd pull orqali",
+    "card": "Plastik karta",
 
     "description": "Тавсиф",
     "delete": "Ўчириш",

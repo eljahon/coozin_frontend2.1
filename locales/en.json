@@ -139,6 +139,7 @@
 
     "basicInformation": "Basic information",
     "byAgreement": "By agreement",
+    "balance": "Balance",
 
     "cropName": "Crop name",
     "chatRoomClosed": "This chat room closed",
@@ -151,6 +152,8 @@
     "confirmCode": "Confirm code",
     "confirmCodeText": "After",
     "confirmCodeText1": "minutes, the code can be sent again",
+    "cash": "Cash",
+    "card":"Card",
 
     "deleteThis": "Are you sure you want to delete this?",
     "download": "Download",

@@ -79,9 +79,9 @@
               inputStyles="cursor-pointer"
             />
           </div>
-          <button class="sm:flex hidden" @click="checkLogin">
-            <header-card add-style="bg-orange-50">
-              <the-icon src="shopping-cart"/>
+          <button class="sm:flex hidden effect" @click="checkLogin" >
+            <header-card  add-style="bg-orange-50">
+              <the-icon class="icon-bnt" src="shopping-cart"/>
             </header-card>
           </button>
           <div class="sm:flex hidden" @click="lang = true">
@@ -146,7 +146,7 @@ export default {
   methods: {
     checkLogin () {
       if (this.$auth.state.loggedIn) {
-        if (this.$store.state.orderCarzina.orderList.length) {
+        if (this.$store.state.cart.cartList.length) {
           this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,foodSaw:"multipleOrder"}})
         } else {
           this.$toast.error('order not select', {
@@ -262,5 +262,13 @@ export default {
   top: 18px;
   width: 0%;
   left: 50%;
+}
+.icon-bnt {
+  transition: all 0.8s;
+}
+.effect:hover .icon-bnt {
+  transition: all 0.8s;
+  transform: rotate(360deg);
+
 }
 </style>
