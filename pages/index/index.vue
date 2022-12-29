@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="lg:hidden container mx-auto overflow-x-scroll sm:py-8 py-5 xl:px-0 px-4 scroll-style">
+    <div class="lg:hidden container mx-auto overflow-x-scroll sm:py-6 py-2 xl:px-0 sm:px-4 px-2 scroll-style">
       <div class="flex items-center sm:gap-4 gap-2 w-full">
         <banner-card
           v-for="item in collections"
@@ -56,8 +56,8 @@
     </div>
 
     <!--  Menu section  -->
-    <div class="container mx-auto">
-      <div class="flex items-center justify-between mb-5">
+    <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-8 py-4">
+      <div class="flex items-center justify-between">
         <h2 id="menu" class="text-3xl font-semibold text-gray-800">
           <a href="#menu">Меню</a>
         </h2>
@@ -67,8 +67,8 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto overflow-x-scroll scroll-style">
-      <div class="flex items-center gap-3.5">
+    <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-2">
+      <div class="flex items-center sm:gap-3.5 gap-2">
         <div v-for="item in $store.state.days_list">
           <menu-card
             :date="item"
@@ -78,8 +78,8 @@
           </div>
         </div>
     </div>
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7">
-      <div class="flex items-center gap-4 w-full">
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7 xl:px-0 sm:px-4 px-2">
+      <div class="flex items-center sm:gap-4 gap-2 w-full">
           <category-card
             v-for="item in categories"
             :key="item.id"
@@ -90,8 +90,13 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <div class="container mx-auto overflow-x-scroll scroll-style my-7" v-for="(count, index) in page" :key="index">
       <div class="flex items-center gap-4 w-full">
+=======
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7 xl:px-0 sm:px-4 px-2">
+      <div class="flex items-center sm:gap-4 gap-2 w-full">
+>>>>>>> c319d940babe6bf85fc03c85f2fcac3b2d117ca3
         <product-card
           v-for="(item, idx) in verdor_list[count]"
           :key="idx"
@@ -106,13 +111,17 @@
         />
       </div>
     </div>
+<<<<<<< HEAD
       <div @click="pageCount" style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">
+=======
+      <div @click="more = true" v-if="!more" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
+>>>>>>> c319d940babe6bf85fc03c85f2fcac3b2d117ca3
         <span class="text-sm text-gray-700">Показать больше</span>
       </div>
 
     <!--  Blog section  -->
-    <div class="container mx-auto">
-      <div class="flex items-center justify-between mb-5">
+    <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">
+      <div class="flex items-center justify-between">
         <h2 id="blog" class="text-3xl font-semibold text-gray-800">
           <a href="#menu">Блог</a>
         </h2>

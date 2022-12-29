@@ -10,7 +10,7 @@
         <img src="https://i.pravatar.cc/101">
       </div>
       <span v-if="title">{{ title }}</span>
-      <span v-else>{{'title none '}}</span>
+      <span v-else>{{'title none'}}</span>
     </div>
   </div>
 </template>
@@ -52,5 +52,11 @@ export default {
   }
   span {
     color: #FFFFFF;
+  }
+  @media screen and (max-width: 640px) {
+    .blog-card {
+      width: 290px;
+      height: 250px;
+    }
   }
 </style>
