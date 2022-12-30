@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div id="map-wrap" style="height: 100vh">
+    <div id="map-wrap" style="height: 100vh" class="w-full h-full">
       <!--      <client-only>-->
-      <no-ssr>
+<!--      <no-ssr>-->
         <yandex-map
           v-if="showMap"
           style="height: 100% !important; width: 100% !important;"
@@ -27,7 +27,7 @@
           >
           </ymap-marker>
         </yandex-map>
-      </no-ssr>
+<!--      </no-ssr>-->
 
       <!--        <l-map :zoom=14 :center="[41.30189519574488,69.28935242760551]" @click="localeLocation">-->
       <!--          <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>-->
@@ -50,8 +50,8 @@ export default {
     return {
       markerIcon: [41.30189519574488,69.28935242760551],
       showMap: false,
-      lang: this.$cookies.get('langlot').longitude ?? false,
-      lot: this.$cookies.get('langlot').latitude ?? false,
+      lang: this.$cookies.get('langlot')?.longitude ?? false,
+      lot: this.$cookies.get('langlot')?.latitude ?? false,
       setting: {
         apiKey: '1abe9aa1-66ec-4c7f-8b93-a4e0bc25319e',
         // apiKey: '8fb635ed-f033-4166-8286-a5388bb7d9a9',
@@ -63,7 +63,7 @@ export default {
   },
   mounted() {
     this.showMap = true;
-    console.log(this.$cookies.get('langlot'))
+    // console.log(this.$cookies.get('langlot'))
   },
   methods: {
    async Location(name) {

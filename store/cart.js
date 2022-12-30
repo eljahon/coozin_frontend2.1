@@ -32,10 +32,9 @@ export const actions = {
    async getCardItem({commit}, payload) {
   try {
     const data = await this.$axios.get(`cart/${payload}`)
-    // console.log(data)
     commit('SET_CART_ITEM', data)
     if (data.delivery_price === null) {
-      commit('SET_TOTAL_PRICE', data.total_price+10000+'+')
+      commit('SET_TOTAL_PRICE', data.total_price)
     }
     return data;
   } catch (err) {
@@ -56,7 +55,6 @@ export const actions = {
    async removeCart({commit,state, dispatch}, payload) {
    try {
      const data = await this.$axios.delete(`cart/${payload}`);
-     console.log(data)
      this.$toast.success('order remove corzina ')
      return data;
    } catch (err) {

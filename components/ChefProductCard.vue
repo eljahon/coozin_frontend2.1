@@ -34,10 +34,10 @@ export default {
   methods: {
     toCarzinca(item) {
     try {
-      const newItem = {
-        "food_id":item.id,
-        "quantity":1
-      };
+        const newItem = {
+          "food_id":item.id,
+          "quantity":1
+        };
       if (this.$auth.state.loggedIn) {
         this.$store.dispatch('cart/newOrderCreate', newItem)
       } else {

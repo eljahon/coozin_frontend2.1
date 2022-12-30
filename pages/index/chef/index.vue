@@ -224,7 +224,6 @@ export default {
   },
   methods: {
     showFood(item) {
-      console.log(item)
       this.foodDetail = item;
       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'foodSaw'}})
     },
