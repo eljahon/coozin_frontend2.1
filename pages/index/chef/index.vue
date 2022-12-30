@@ -2,32 +2,35 @@
   <div class="main-styles pb-8">
     <div class="container mx-auto">
       <div class="banner">
-        <div class="banner__item flex items-center gap-4 pl-7">
+        <div class="banner__item flex items-center sm:gap-4 gap-2 pl-7">
           <div class="avatar-styles">
             <img class="w-full fit-cover" :src="vendor.avatar ? vendor.avatar : 'https://i.pravatar.cc/190'" alt="Avatar Chef">
           </div>
-          <div class="flex flex-col gap-8 w-full">
-            <div class="flex gap-4">
-              <div class="flex items-center gap-2 px-4 bg-white rounded-full">
-                <the-icon src="rate" width="20" height="20"/>
-                <span class="text-gray-800 text-xl">{{ vendor.ratings_avg ? vendor.ratings_avg : '0' }}</span>
+          <div class="flex flex-col md:gap-8 sm:gap-4 gap-2 w-full">
+            <div class="flex sm:gap-4 gap-3">
+              <div class="flex items-center gap-2 md:px-4 px-3 bg-white rounded-full">
+                <the-icon class="md:block hidden" src="rate" width="20" height="20"/>
+                <the-icon class="md:hidden block" src="rate" width="16" height="16"/>
+                <span class="text-gray-800 md:text-xl sm:text-lg text-base">{{ vendor.ratings_avg ? vendor.ratings_avg : '0' }}</span>
               </div>
-              <div v-if="vendor.subscribe" class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
+              <div v-if="vendor.subscribe" class="flex items-center justify-center gap-2 md:py-2 md:px-5 px-3 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef" width="16" height="16"/>
-                <span class="text-gray-800 text-xl text-xl text-gray-800 font-medium">Вы подписаны</span>
+                <span class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">Вы подписаны</span>
               </div>
-              <div v-else class="flex items-center justify-center gap-2 py-2 px-5 bg-white rounded-full cursor-pointer">
+              <div v-else class="flex items-center justify-center gap-2 md:py-2 py-1 px-5 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef-hat" width="16" height="16"/>
-                <span class="text-gray-800 text-xl text-xl text-gray-800 font-medium">Подписаться</span>
+                <span class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">Подписаться</span>
               </div>
             </div>
-            <div class="flex items-center justify-between lg:px-0 sm:px-4 px-3">
-              <div class="flex gap-5">
-                <h2 class="text-2xl	text-gray-800	font-semibold	items-center">{{ vendor?.user?.full_name ? vendor.user.full_name : 'No name'}}</h2>
-                <the-icon src="information-circle"/>
-                <the-icon class="cursor-pointer" src="share"/>
+            <div class="flex lg:flex-row flex-col lg:gap-0 lg:items-center lg:justify-between xl:px-0 lg:gap-0 sm:gap-6 gap-4">
+              <div class="flex items-center sm:gap-5 gap-2">
+                <h2 class="md:text-2xl sm:text-xl text-base text-gray-800 font-semibold	items-center">{{ vendor?.user?.full_name ? vendor.user.full_name : 'No name'}}</h2>
+                <the-icon class="md:block hidden" src="information-circle"/>
+                <the-icon class="md:hidden block" width="22" src="information-circle"/>
+                <the-icon class="cursor-pointer md:block hidden" src="share"/>
+                <the-icon class="cursor-pointer md:hidden block" width="22" src="share"/>
               </div>
-              <div class="switch" @click="switchOn = !switchOn">
+              <div class="switch switch-additinal" @click="switchOn = !switchOn">
                 <div class="switch-item delay-300"
                      :class="{ 'switch-right': switchOn, 'switch-left': !switchOn }"></div>
                 <div>
@@ -42,8 +45,20 @@
         </div>
       </div>
     </div>
+    <div class="container mx-auto xl:px-0 sm:px-4 px-3">
+      <div class="switch switch-rwd" @click="switchOn = !switchOn">
+        <div class="switch-item delay-300"
+             :class="{ 'switch-right': switchOn, 'switch-left': !switchOn }"></div>
+        <div>
+          <span :class="{'text-orange-600': !switchOn, 'text-gray-500': switchOn}">Меню</span>
+        </div>
+        <div>
+          <span :class="{'text-orange-600': switchOn, 'text-gray-500': !switchOn}">Лента</span>
+        </div>
+      </div>
+    </div>
     <div v-if="!switchOn">
-      <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-3 my-7">
+      <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-3 sm:my-7 my-4 lg:py-0 pt-4">
         <div class="flex items-center gap-4 w-full">
           <div v-for="(item, idx) in foods" :key="idx" @click="showFood(item)">
             <chef-product-card
@@ -356,9 +371,69 @@ export default {
   overflow: hidden;
 }
 
+@media screen and (max-width: 1024px) {
+  .banner .banner__item {
+    transform: translate(0, 140px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .banner .banner__item {
+    transform: translate(0, 150px);
+  }
+}
+
 @media screen and (max-width: 640px) {
   .product-card {
     height: 260px;
+  }
+  .banner .banner__item {
+    transform: translate(0, 170px);
+  }
+  .avatar-styles {
+    width: 120px;
+    height: 120px;
+  }
+  .switch {
+    width: 350px;
+  }
+}
+@media screen and (max-width: 540px) {
+  .switch-additinal {
+    display: none;
+  }
+  .banner .banner__item {
+    transform: translate(0, 150px);
+  }
+  .switch-rwd {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .banner {
+    margin-bottom: 80px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .avatar-styles {
+    width: 95px;
+    height: 95px;
+  }
+  .banner .banner__item {
+    transform: translate(0, 160px);
+    padding: 0 12px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .avatar-styles {
+    width: 85px;
+    height: 85px;
+  }
+  .banner {
+    margin-bottom: 55px;
+  }
+  .banner .banner__item {
+    transform: translate(0, 167px);
+    padding: 0 12px;
   }
 }
 </style>
