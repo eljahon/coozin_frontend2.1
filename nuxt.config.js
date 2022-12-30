@@ -31,7 +31,6 @@ export default {
   plugins: [
     { src: "~/plugins/axios.js" },
     { src: "~/plugins/tools.js", defer: true },
-    { src: '@/plugins/vue-awesome-swiper.js'},
     { src: '@/plugins/yandex.js'}
   ],
 
@@ -50,7 +49,6 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/dayjs",
     "@nuxtjs/auth-next",
-    'nuxt-leaflet',
     '@nuxtjs/toast',
     'cookie-universal-nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],

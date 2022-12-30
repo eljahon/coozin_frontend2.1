@@ -21,7 +21,7 @@
                 <span class="text-gray-800 text-xl text-xl text-gray-800 font-medium">Подписаться</span>
               </div>
             </div>
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between lg:px-0 sm:px-4 px-3">
               <div class="flex gap-5">
                 <h2 class="text-2xl	text-gray-800	font-semibold	items-center">{{ vendor?.user?.full_name ? vendor.user.full_name : 'No name'}}</h2>
                 <the-icon src="information-circle"/>
@@ -43,11 +43,11 @@
       </div>
     </div>
     <div v-if="!switchOn">
-      <div class="container mx-auto overflow-x-scroll scroll-style my-7">
+      <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-3 my-7">
         <div class="flex items-center gap-4 w-full">
           <div v-for="(item, idx) in foods" :key="idx" @click="showFood(item)">
             <chef-product-card
-               :src="item.src"
+              :src="item.src"
               :title="item.name"
               :price="item.price"
               :delay="item.preparation_time"
@@ -275,7 +275,7 @@ export default {
 }
 
 .banner {
-  background-repeat: no-repeat;
+  background: url("../../../assets/img/img-4.jpg") no-repeat;
   background-size: cover;
   height: 214px;
   margin-bottom: 116px;
@@ -355,5 +355,11 @@ export default {
   border: 2px solid #F3F4F6;
   border-radius: 8px;
   overflow: hidden;
+}
+
+@media screen and (max-width: 640px) {
+  .product-card {
+    height: 260px;
+  }
 }
 </style>

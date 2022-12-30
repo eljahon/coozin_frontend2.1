@@ -15,7 +15,7 @@
           <header-card>
             <the-icon src="search"/>
           </header-card>
-          <div class="lg:hidden md:flex hidden" @click="modal = true">
+          <div class="md:flex hidden" @click="modal = true">
             <the-input
               type="text"
               placeholder="Можно узнать где ты?"
@@ -24,9 +24,6 @@
               inputStyles="cursor-pointer"
             />
           </div>
-          <header-card>
-            <the-icon src="search"/>
-          </header-card>
           <div class="relative">
             <div v-if="modal" class="absolute z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
