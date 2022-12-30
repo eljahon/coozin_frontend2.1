@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ['type', 'placeholder', 'icon', 'name', 'label', 'styles', 'labelStyles', 'inputStyles', 'readonly']
+  props: ['type', 'placeholder', 'icon', 'name', 'label', 'styles', 'labelStyles', 'inputStyles', 'readonly', 'value']
 }
 </script>
 

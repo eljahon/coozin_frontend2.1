@@ -10,8 +10,8 @@
         <the-icon src="clock" />
         <span class="text-sm text-gray-700 font-normal">> {{ delay }} min</span>
       </div>
-      <div @click.stop="toCarzinca(item)"  class="absolute cursor-pointer right-3 bottom-3 bg-orange-100	h-12 w-12 rounded-full overflow-hidden flex items-center justify-center">
-        <button >
+      <div @click.stop="toCarzinca(item)"  class="absolute cursor-pointer right-3 bottom-3 bg-orange-100	h-12 w-12 rounded-full overflow-hidden flex items-center justify-center effect">
+        <button class="icon-bnt">
           <the-icon src="shopping-cart" />
         </button>
       </div>
@@ -29,18 +29,26 @@ export default {
   },
   data () {
     return {
-
     }
   },
   methods: {
     toCarzinca(item) {
-      console.log(item)
-      const vendor_id = Number(this.$route.query.vendor_id)
-      this.$store.dispatch('orderCarzina/set_order', {vendor_id, item})
-      this.$toast.success('new order item corzina add', {
-        duration: 1000,
-        position: 'bottom-right',
-      })
+    try {
+        const newItem = {
+          "food_id":item.id,
+          "quantity":1
+        };
+      if (this.$auth.state.loggedIn) {
+        this.$store.dispatch('cart/newOrderCreate', newItem)
+      } else {
+        this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, login: 'login'}})
+        // const vendor_id = Number(this.$route.query.vendor_id)
+        // this.$store.dispatch('orderCarzina/set_order', {vendor_id, item})
+        // this.$toast.success('new order item corzina add')
+      }
+    }catch (err) {
+      console.log(err)
+    }
     }
   }
 }
@@ -59,5 +67,15 @@ export default {
     flex-shrink: 0;
     cursor: pointer;
   }
+  .icon-bnt {
+    transition: all 0.8s;
+  }
+  .disable {
+    pointer-events: none;
+  }
+.effect:hover .icon-bnt {
+  transition: all 0.8s;
+  transform: rotate(360deg);
 
+}
 </style>

@@ -13,7 +13,7 @@
           </div>
           <div class="flex items-center bg-gray-100 gap-1 py-1 px-2 overflow-hidden rounded-full">
             <img width="16" height="16" src="../assets/svg/car.svg" alt="Car icon">
-            <span class="text-xs text-gray-800 font-medium">{{ deliveryPrice }} сум</span>
+            <span class="text-xs text-gray-800 font-medium">{{ deliveryPrice === null ? '1000 +' :  deliveryPrice}} сум</span>
           </div>
         </div>
         <div v-if="avatar !== null && avatar !== undefined" class="avatar-styles">

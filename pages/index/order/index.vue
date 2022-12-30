@@ -22,9 +22,9 @@
                 name="address"
                 label="Адрес доставки"
                 placeholder="улица Матонат, 35"
-                v-model="order.address"
+                :value="order.address"
               />
-              <div class="map-card">
+              <div class="map-card" @click="openMaps">
                 <the-icon src="map" />
               </div>
             </div>
@@ -64,7 +64,7 @@
               name="address"
               label="Ориентир"
               placeholder="улица Матонат, 35"
-              v-model="order.address_comment"
+              :v-model="order.address_comment"
             />
             <div class="flex flex-col gap-3 input-styles w-96 mt-6">
               <label for="dilevery-time" class="font-medium text-gray-700">Способ оплаты</label>
@@ -76,7 +76,7 @@
                   v-model="order.card_id"
                   style="-webkit-appearance: none;"
                 >
-                  <option v-for="(item, ind) in cardList" :key="ind" :value="item.value">{{item.label}}</option>
+                  <option v-for="(item, ind) in cardList" :key="ind" :value="item.value">{{$t(`word.${item.label}`)}}</option>
                 </select>
                 <img class="absolute position" src="../../../assets/svg/cash.svg" alt="Input icon" >
                 <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
@@ -115,7 +115,7 @@
           <h3 class="text-lg font-semibold text-gray-700">К оплате</h3>
           <div class="flex justify-between">
             <h4 class="text-gray-600">Блюда</h4>
-            <h4 class="font-medium text-gray-600">{{$store.state.orderCarzina.oldPrice}} сум</h4>
+            <h4 class="font-medium text-gray-600">{{$store.state.cart.totalPrice}} сум</h4>
           </div>
           <div class="flex justify-between my-2">
             <h4 class="text-gray-600">Доставка</h4>
@@ -123,7 +123,7 @@
           </div>
           <div class="flex justify-between">
             <h4 class="font-bold text-gray-600">Итого</h4>
-            <h4 class="font-bold text-gray-600">{{$store.state.orderCarzina.oldPrice+1000}} + сум</h4>
+            <h4 class="font-bold text-gray-600">{{Number($store.state.cart.totalPrice)+10000}} сум</h4>
           </div>
         </div>
         <button @click="orderCreate" class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
@@ -131,20 +131,21 @@
       <div class="bg-white w-80 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
         <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
         <div class="flex flex-col gap-3 overflow-y-scroll scroll-style pl-2 pr-4" style="max-height: 516px;">
-          <div v-for="item in $store.state.orderCarzina.orderList[0].foods">
+          <div v-for="item in $store.state.cart.cartItem.items">
             <div class="flex gap-4">
               <div class="w-24 h-24 overflow-hidden border border-gray-100 rounded-lg">
                 <img class="w-full" src="../../../assets/img/img-1.jpg" alt="Food Image">
               </div>
               <div class="flex flex-col gap-1">
-                <h4 class="font-normal text-gray-700">{{item.add.name}}</h4>
-                <h4 class="font-bold text-gray-700">{{item.count}}х{{item.add.price}} сум</h4>
+                <h4 class="font-normal text-gray-700">{{item.food.name}}</h4>
+                <h4 class="font-bold text-gray-700">{{item.quantity}}х{{item.food.price}} сум</h4>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <the-modal-maps @changePlice="changePlice"></the-modal-maps>
   </div>
 </template>
 
@@ -153,17 +154,21 @@ export default {
   // auth: true,
   data() {
     return {
-      cardList: [],
+      cardList: [
+        {value: 'cash', label: 'cash'},
+        {value: 'card', label:'card'},
+        {value: 'balance', label:'balance'},
+      ],
+
       order:{
         additional_name: this.$auth.state.user.full_name,
         additional_phone: this.$auth.state.user.phone,
-        address: "T",
+        address: "",
         address_comment: "",
-        comment: "",
+        comment: this.$route.query.comment_text,
         delivery_time: this.$dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
-        food: this.$store.state.orderCarzina.orderList[0].foods.map(el => ({id: el.add.id, count: el.count})),
-        latitude: 41.31509853350592,
-        longitude: 69.27407217456053,
+        latitude: null,
+        longitude: null,
         payment_type: "cash",
         card_id: null,
         user_address_id: '',
@@ -174,24 +179,36 @@ export default {
     }
   },
   async fetch () {
+    await this.getOrderItem()
     await this.getDate()
-    if (this.$auth.state.loggedIn) {
-      await this.getMyCard()
-    }
+    // if (this.$auth.state.loggedIn) {
+    //   await this.getMyCard()
+    // }
   },
   mounted() {
     console.log(this.$auth.state)
   },
   methods: {
+    changePlice(item) {
+      this.order.latitude = item.getNames[0].latitude
+      this.order.longitude = item.getNames[0].longitude
+      this.order.address = item.fullName
+    },
+    openMaps () {
+      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
+    },
     orderCreate () {
+      this.order['food'] = this.$store.state.cart.cartItem.items.map(el => ({id: el.id, count: el.quantity}))
+      console.log(this.order)
       const order = {
         ...this.order,
         ...this.$store.state.location
       }
 
-      // console.log(order)
+      console.log(order)
       this.$axios.post('orders', {...order})
         .then(res => {
+          this.$toast.success("успех Оформление заказа")
           console.log(res)
         })
     },
@@ -214,6 +231,9 @@ export default {
       }catch (err) {
         console.log(err)
       }
+    },
+    async getOrderItem () {
+      await this.$store.dispatch('cart/getCardItem', this.$route.query.order_id)
     }
   }
 }

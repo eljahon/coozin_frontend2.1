@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$route.query.foodSaw === 'foodSaw'" class="food">
+  <div v-if="$route.query.foodSaw === 'foodSaw'" class="food" @click="closeModal">
     <div class="food-modal">
       <div class="flex p-4 rounded-t-2xl overflow-hidden gap-5">
         <div class="flex flex-col gap-3">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex items-center bg-gray-100 gap-1 py-1 px-2 overflow-hidden rounded-full">
                   <img width="16" height="16" src="../assets/svg/car.svg" alt="Car icon">
-                  <span class="text-xs text-gray-800 font-medium">15 000 сум</span>
+                  <span class="text-xs text-gray-800 font-medium">{{item.delivery_price ? item.delivery_price : '10000 +'}} сум</span>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
               </div>
             </div>
             <button
-              @click="addCazinaOrder"
+              @click.stop="addCazinaOrder"
               class="bg-orange-600 py-2.5 text-center w-56 text-white rounded-3xl"
             >
               В корзинку
@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       count: 1,
+      disbaledClass: false,
       login: {
         phone: '',
         password: ''
@@ -80,33 +81,28 @@ export default {
   mounted() {
   },
   methods: {
-    increment()
+  async  increment()
     {
+
       if (this.count > 1) {
         this.count--;
-        this.$store.dispatch('orderCarzina/item_order_remove', this.item.id)
       }
     },
-    decrement(){
-      const id  = this.$store?.state?.orderCarzina.orderList[0]?.foods?.map(el => el.add.id) ?.includes(this.item.id) ?? false;
-      if (!id) {
-        this.count++;
-        this.$store.dispatch('orderCarzina/set_order', {vendor_id: parseInt(this.$route.query.vendor_id), item: this.item})
-        this.$store.dispatch('orderCarzina/item_order_add', this.item.id)
-      } else {
-        this.count++;
-        this.$store.dispatch('orderCarzina/item_order_add', this.item.id)
-      }
+   async decrement(){
 
-
+this.count++
     },
    async addCazinaOrder () {
-    await this.order()
+    const newItem = {
+       "food_id":this.item.id,
+       "quantity": this.count
+     };
+    await this.closeModal()
        .then(res => {
-         this.$store.dispatch('orderCarzina/set_order', {vendor_id: parseInt(this.$route.query.vendor_id), item: this.item})
+         this.$store.dispatch('cart/newOrderCreate',newItem)
        })
     },
-    async order() {
+    async closeModal() {
      return  await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: undefined}})
     }
   }
@@ -114,6 +110,9 @@ export default {
 </script>
 
 <style scoped>
+.disbaledClass {
+  pointer-events: none;
+}
 .food-background {
   position: fixed;
   top: 0;

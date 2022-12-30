@@ -31,7 +31,7 @@ this.isModal = !this.isModal
     }
   },
   mounted() {
-    this.locations()
+    // this.locations()
   }
 }
 </script>

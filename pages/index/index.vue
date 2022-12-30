@@ -90,24 +90,30 @@
       </div>
     </div>
 
+    <div class="container mx-auto overflow-x-scroll scroll-style my-7" v-for="(count, index) in page" :key="index">
+      <div class="flex items-center gap-4 w-full">
     <div class="container mx-auto overflow-x-scroll scroll-style my-7 xl:px-0 sm:px-4 px-2">
       <div class="flex items-center sm:gap-4 gap-2 w-full">
         <product-card
-          v-for="(item, idx) in productData"
+          v-for="(item, idx) in verdor_list[count]"
           :key="idx"
           :id="item.id"
           :src="item.src"
           :title="item?.user?.full_name"
           :product-img="item.productImg"
-          :avatar="item?.avatar"
+          :avatar="item?.avatar?.small_size_url"
           :rate="item?.ratings_avg"
-          :delivery-price="item.deliveryPrice"
+          :deliveryPrice="item.delivery_price"
           :count="idx+1"
         />
       </div>
     </div>
-      <div @click="more = true" v-if="!more" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
+      </div>
+    </div>
+<!--      <div  style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">-->
+      <div @click="pageCount" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
         <span class="text-sm text-gray-700">Показать больше</span>
+<!--      </div>-->
       </div>
 
     <!--  Blog section  -->
@@ -172,49 +178,7 @@ import {mapGetters} from "vuex"
       return {
         location: false,
         more: false,
-        menuCard: [
-          {
-            date: 26,
-            month: "Сен"
-          },
-          {
-            date: 27,
-            month: "Сен"
-          },
-          {
-            date: 28,
-            month: "Сен"
-          },
-          {
-            date: 29,
-            month: "Сен"
-          },
-          {
-            date: 30,
-            month: "Сен"
-          },
-          {
-            date: 31,
-            month: "Сен"
-          },
-          {
-            date: 1,
-            month: "Окт"
-          },
-          {
-            date: 2,
-            month: "Окт"
-          },
-          {
-            date: 3,
-            month: "Окт"
-          },
-          {
-            date: 4,
-            month: "Окт"
-          },
-
-        ],
+        menuCard: [],
         categoryCard: [
           {
             icon: 'category-1',
@@ -253,67 +217,15 @@ import {mapGetters} from "vuex"
             title: 'Выпечка'
           },
         ],
-        productData: [
-          {
-            src: 'img-1',
-            title: 'Имя Фамилия',
-            productImg: '',
-            avatar: 'https://i.pravatar.cc/101',
-            rate: '3.9',
-            deliveryPrice: '12000'
-          },
-          {
-            src: 'img-2',
-            title: 'Имя Фамилия',
-            productImg: '',
-            avatar: 'https://i.pravatar.cc/102',
-            rate: '4.6',
-            deliveryPrice: '9000'
-          },
-          {
-            src: 'img-3',
-            title: 'Имя Фамилия',
-            productImg: '',
-            avatar: 'https://i.pravatar.cc/103',
-            rate: '5.0',
-            deliveryPrice: '27000'
-          },
-          {
-            src: 'img-4',
-            title: 'Имя Фамилия',
-            productImg: '',
-            avatar: 'https://i.pravatar.cc/104',
-            rate: '4.9',
-            deliveryPrice: '31000'
-          },
-          {
-            src: 'img-5',
-            title: 'Имя Фамилия',
-            productImg: '',
-            avatar: 'https://i.pravatar.cc/105',
-            rate: '4.7',
-            deliveryPrice: '17500'
-          },
-          {
-            src: 'img-1',
-            title: 'Имя Фамилия',
-            productImg: '',
-            avatar: 'https://i.pravatar.cc/106',
-            rate: '4.2',
-            deliveryPrice: '13300'
-          },
-        ],
+        productData: null,
+        page: 2,
+      list: {
+          1: null,
+          2: null
+      },
         blogCard: [],
         categories: [],
         vendors: [],
-        // verndorParams: {
-        //   category_id: this.$route.query.category_id ?? null,
-        //   limit: 10,
-        //   has_cola_combo: null,
-        //   search_query: this.$route.query.search_query ?? null,
-        //   has_sale_food: null,
-        //   date: this.$route.query.date ?? this.$dayjs(new Date()).format('DD:MM:YYYY')
-        // },
         collections: [],
         renderCount: 0,
         limit: 20
@@ -325,11 +237,16 @@ import {mapGetters} from "vuex"
       }
     },
     async fetch() {
-      await this.getCategories()
-      await this.getCollection()
-      await this.getVendors()
-      await this.getBlogs()
-      await this.getDate()
+      try {
+        await this.getCategories()
+        await this.getVendors(1)
+        await this.getCollection()
+        await this.getVendors(2)
+        await this.getBlogs()
+        await this.getDate()
+      } catch (err) {
+        console.log(err)
+      }
     },
     methods: {
       async getCategories(){
@@ -349,16 +266,28 @@ import {mapGetters} from "vuex"
           console.log(err)
         }
       },
-      async getVendors() {
+      async getVendors(page) {
+        console.log(page)
         try {
         const {objects,meta} = await this.$axios.get('vendors', {
             params: {
               limit: 10,
-              date: this.$dayjs(new Date()).format('DD:MM:YYYY'),
+              page: page,
+              latitude: this.$store.state?.location?.latitude ?? undefined,
+              longitude: this.$store.state?.location?.longitude ?? undefined,
+              // day: this.$dayjs(new Date()).format('YYYY-MM-DD'),
               ...this.$route.query
             }
           })
-        this.productData = objects;
+        // if (page ===1) {
+          this.list[`${page}`]= objects
+          this.productData = objects;
+          console.log(this.list, '=>>>>')
+        // } else {
+        //   this.productDataTwoo = objects
+        //   console.log(objects, 'tooo')
+        // }
+        //   console.log("objects",objects)
         } catch (e) {
 
         }
@@ -390,10 +319,18 @@ import {mapGetters} from "vuex"
       categoriesFilter (item) {
         this.setQuery(item)
         console.log(item)
+      },
+     async pageCount () {
+        this.page++;
+       await this.getVendors(this.page)
+       console.log(this.list)
       }
     },
     computed: {
-      ...mapGetters(['get_days_list'])
+      ...mapGetters(['get_days_list']),
+      verdor_list () {
+        return this.list
+      }
     },
     mounted() {
       this.location  = !this.location;
