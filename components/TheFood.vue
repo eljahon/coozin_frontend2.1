@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="flex flex-col justify-between">
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-2 w-full">
             <h2 class="font-normal text-xl text-gray-800">{{item.name}}</h2>
             <h4 class="text-xl font-semibold text-gray-700">{{item.price}} сум <span class="font-normal">/порция</span></h4>
             <div class="bg-orange-50 rounded-lg p-1.5 flex gap-2 items-center">
@@ -144,7 +144,7 @@ this.count++
 }
 .food-modal {
   position: fixed;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   top: 50%;
@@ -152,5 +152,17 @@ this.count++
   transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 16px;
+}
+
+@media screen and (max-width: 992px) {
+  .img {
+    width: 350px;
+    height: 320px;
+  }
+}
+@media screen and (max-width: 840px) {
+  .food-modal {
+    width: 90%;
+  }
 }
 </style>
