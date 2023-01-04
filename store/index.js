@@ -3,6 +3,7 @@ export const state = () => ({
   currentUser: {},
   login: false,
   register: false,
+  burger: false,
   food: false,
   monthNames: {
     "01": 'Yan',
@@ -41,7 +42,10 @@ export const mutations = {
   },
   SET_LOCATION: (state, payload) => {
     state.location = payload
-  }
+  },
+  BURGER_OPEN: (state, payload) => {
+    state.burger = payload
+  },
 };
 export const actions = {
   set_user_list({ commit }, payload) {
@@ -93,10 +97,9 @@ export const actions = {
   foodModal ({ commit }, payload) {
     commit('FOOD_MODAL', payload)
   },
-  // nowdate({commit}, payload) {
-  //
-  //
-  // }
+  burgerOpen({ commit }, payload) {
+    commit('BURGER_OPEN', payload)
+  },
 };
 export const getters = {
   get_user_lit: (state) => state.userList,

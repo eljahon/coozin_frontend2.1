@@ -1,9 +1,9 @@
 <template>
   <div>
-    <header @click="$store.dispatch('loginModal', false)" class="header">
+    <header class="header">
       <nav class="container mx-auto sm:py-4 py-3 xl:px-0 sm:px-4 px-2 flex items-center justify-between">
         <div class="flex items-center gap-5">
-          <div @click="burger = !burger" id="nav-icon3" class="lg:hidden block" :class="burger ? 'open' : ''">
+          <div @click="openBurger" id="nav-icon3" class="lg:hidden block" :class="$store.state.burger ? 'open' : ''">
             <span></span>
             <span></span>
             <span></span>
@@ -118,11 +118,14 @@
 
     <!--  Order Modal  -->
     <the-modal />
+
+    <burger-menu />
   </div>
 </template>
 
 <script>
 import HeaderCard from "~/components/header/header-card";
+import BurgerMenu from "~/components/header/burger-menu";
 
 export default {
   data() {
@@ -133,7 +136,8 @@ export default {
     }
   },
   components: {
-    'header-card': HeaderCard
+    'header-card': HeaderCard,
+    'burger-menu': BurgerMenu
   },
   computed: {
     actionLang() {
@@ -143,10 +147,12 @@ export default {
   methods: {
    async checkLogin () {
       if (this.$auth.state.loggedIn) {
-       // await this.$store.dispatch('cart/getCardList', {limit: 10})
         const item = this.$store?.state?.cart?.cartList?.length ?? false
         if (item) {
-          this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,foodSaw:"multipleOrder"}})
+          await this.$router.push({
+            path: this.localePath(this.$route.path),
+            query: {...this.$route.query, foodSaw: "multipleOrder"}
+          })
         } else {
           this.$toast.error('order not select', {
             duration: 2000,
@@ -154,13 +160,19 @@ export default {
           })
         }
       } else {
-        this.$router.push({path: this.localePath(this.$route.paht), query: { ...this.$route.query,login: 'login'}})
+        await this.$router.push({
+          path: this.localePath(this.$route.path),
+          query: {...this.$route.query, login: 'login'}
+        })
       }
-      // console.log()
     },
     handleLang(item) {
       console.log(item)
       this.$router.push(this.switchLocalePath(item))
+    },
+    openBurger() {
+      this.$store.state.burger ? this.$store.dispatch('burgerOpen', false) : this.$store.dispatch('burgerOpen', true)
+      console.log('hello')
     }
   }
 }
