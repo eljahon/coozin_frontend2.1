@@ -267,7 +267,7 @@ import {mapGetters} from "vuex"
         }
       },
       async getVendors(page) {
-        console.log(page)
+        console.log(page, this.$store.state?.location)
         try {
         const {objects,meta} = await this.$axios.get('vendors', {
             params: {

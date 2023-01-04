@@ -18,7 +18,10 @@ export const state = () => ({
     "12": 'Dec',
   },
   days_list: [],
-  location: null
+  location: {
+    latitude: this?.$cookies?.get('langlot')?.latitude ?? undefined,
+    longitude: this?.$cookies?.get('langlot')?.longitude ?? undefined,
+  }
 });
 export const mutations = {
   SET_USER: (state, payload) => {

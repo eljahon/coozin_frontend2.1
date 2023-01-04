@@ -29,8 +29,8 @@
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
               <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
               <div class="flex items-center gap-3 mx-auto">
-                <button @click="modal = false" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
-                <button @click="modal = false" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
+                <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
+                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
               </div>
             </div>
           </div>
@@ -118,6 +118,7 @@
 
     <!--  Order Modal  -->
     <the-modal />
+    <the-modal-maps @changePlice="changePlice"/>
   </div>
 </template>
 
@@ -141,6 +142,32 @@ export default {
     }
   },
   methods: {
+    showLocations (value) {
+      const locations  = {
+        latitude: value.coords.latitude,
+        longitude: value.coords.longitude
+      };
+      this.$store.dispatch('set_location', locations)
+      // this.$cookies.set('langlot', locations)
+      this.modal = false;
+      window.location.reload()
+      // console.log(value.coords, locations)
+    },
+    locations () {
+      window.navigator.geolocation.getCurrentPosition(this.showLocations)
+    },
+    openModalYandexMpas () {
+      this.modal = false;
+      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
+    },
+    changePlice(listPlice) {
+      console.log("listPlice", listPlice)
+    },
+
+    // LocationModal () {
+    //   this.isModal = !this.isModal
+    // }
+  // },
    async checkLogin () {
       if (this.$auth.state.loggedIn) {
        // await this.$store.dispatch('cart/getCardList', {limit: 10})
