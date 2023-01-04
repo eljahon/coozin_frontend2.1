@@ -19,10 +19,7 @@ export const state = () => ({
     "12": 'Dec',
   },
   days_list: [],
-  location: {
-    latitude: this?.$cookies?.get('langlot')?.latitude ?? undefined,
-    longitude: this?.$cookies?.get('langlot')?.longitude ?? undefined,
-  }
+  location: null
 });
 export const mutations = {
   SET_USER: (state, payload) => {
@@ -85,11 +82,17 @@ export const actions = {
   },
   set_location ({commit}, payload) {
     commit('SET_LOCATION', payload)
+    this.$cookies.set('langlot', payload)
   },
   async nuxtServerInit({ commit }) {
     const userInfo = this.$cookies.get('userInfo')
     this.$auth.setUser(userInfo)
-    commit('SET_CURRENT_USER', userInfo)
+    commit('SET_CURRENT_USER', userInfo);
+    const loc = {
+      latitude: this.$cookies.get('langlot').latitude,
+      longitude: this?.$cookies.get('langlot').longitude ,
+    }
+    commit('SET_LOCATION', loc)
   },
   loginModal ({ commit }, payload) {
     commit('LOGIN_MODAL', payload)

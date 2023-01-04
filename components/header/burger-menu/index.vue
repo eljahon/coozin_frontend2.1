@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="burger p-4" :class="$store.state.burger ? 'open' : ''">
+    <div class="burger p-4" :class="{'open':$store.state.burger}">
       <div class="bg-white rounded-2xl flex flex-col gap-2 w-full mb-4">
         <h3 class="text-xl font-semibold text-gray-800">{{ user.full_name }}</h3>
         <h6 class="text-xs text-color-700 font-medium">Coozin кошелёк:</h6>
@@ -11,12 +11,12 @@
       </div>
       <div class="bg-white rounded-2xl flex flex-col gap-6 w-full">
         <div v-for="(item, idx) in profile" :key="idx">
-          <nuxt-link :to="handleRoute(item)">
+          <div @click="handleRoute(item)">
             <div class="flex gap-4 cursor-pointer">
               <the-icon :src="item.icon" />
               <h4 class="text-color-700 font-normal">{{ item.title }}</h4>
             </div>
-          </nuxt-link>
+          </div>
         </div>
       </div>
     </div>
@@ -33,12 +33,12 @@ export default {
         {
           icon: 'pencil',
           title: 'Редактировать',
-          name: 'update'
+          name: 'update',
+          link: '/profile'
         },
         {
           icon: 'clipboard',
           title: 'Мои заказы',
-          name: 'my-orders',
           link: '/my-orders'
         },
         {
@@ -79,17 +79,17 @@ export default {
       })
     },
     handleRoute(item) {
+      console.log(item);
       this.$store.dispatch('burgerOpen', false)
-      if (item.link) {
-        return {
-          path: this.localePath(item.link)
-        }
+      if (item.name) {
+        this.$router.push({ path: this.localePath('/profile'), query: {name: item.name}})
       } else {
-        return {
-          path: this.localePath(this.$route.path), query: {
-            name: item.name
-          }
-        }
+        this.$router.push({ path: this.localePath(item.link)})
+        // return {
+        //   path: this.localePath(this.$route.path), query: {
+        //     name: item.name
+        //   }
+        // }
       }
     },
   }

@@ -3,7 +3,7 @@
     <header class="header">
       <nav class="container mx-auto sm:py-4 py-3 xl:px-0 sm:px-4 px-2 flex items-center justify-between">
         <div class="flex items-center gap-5">
-          <div @click="openBurger" id="nav-icon3" class="lg:hidden block" :class="$store.state.burger ? 'open' : ''">
+          <div @click="openBurger" id="nav-icon3" class="lg:hidden block" :class="{'open':menu_burger}">
             <span></span>
             <span></span>
             <span></span>
@@ -52,8 +52,8 @@
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
               <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
               <div class="flex items-center gap-3 mx-auto">
-                <button @click="modal = false" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
-                <button @click="modal = false" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
+                <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
+                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
               </div>
             </div>
           </div>
@@ -74,6 +74,7 @@
               icon="address"
               :readonly="true"
               inputStyles="cursor-pointer"
+              :value="address"
             />
           </div>
           <button class="sm:flex hidden effect" @click="checkLogin" >
@@ -118,25 +119,23 @@
 
     <!--  Order Modal  -->
     <the-modal />
-<<<<<<< HEAD
     <the-modal-maps @changePlice="changePlice"/>
-=======
-
     <burger-menu />
->>>>>>> 53fdb8a05903e208f1b27297602576befa670a6f
   </div>
 </template>
 
 <script>
 import HeaderCard from "~/components/header/header-card";
 import BurgerMenu from "~/components/header/burger-menu";
+import {list} from "postcss";
 
 export default {
   data() {
     return {
       lang: false,
       modal: false,
-      burger: false
+      burger: false,
+      address: null
     }
   },
   components: {
@@ -144,6 +143,9 @@ export default {
     'burger-menu': BurgerMenu
   },
   computed: {
+    menu_burger () {
+      return this.$store.state.burger
+    },
     actionLang() {
       return this.$i18n.locales.find((el) => el.code === this.$i18n.locale)
     }
@@ -168,7 +170,14 @@ export default {
       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
     },
     changePlice(listPlice) {
-      console.log("listPlice", listPlice)
+      this.address = listPlice.fullName;
+      const langlot= {
+        latitude: listPlice.getNames[0].latitude,
+        longitude: listPlice.getNames[0].longitude
+      }
+      this.$store.dispatch('set_location', langlot)
+      window.location.reload()
+      // console.log("listPlice", listPlice)
     },
 
     // LocationModal () {
