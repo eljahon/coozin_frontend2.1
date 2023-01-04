@@ -8,8 +8,8 @@
       <span class="text-sm font-medium text-gray-500 cursor-pointer">Профиль</span>
     </div>
 
-    <div class="container mx-auto flex gap-5">
-      <div class="w-80 flex flex-col gap-5 shrink-0">
+    <div class="container mx-auto flex gap-5 xl:px-0 sm:px-4 px-2">
+      <div class="w-80 lg:flex hidden flex-col gap-5 shrink-0">
         <div class="p-6 bg-white rounded-2xl flex flex-col gap-2 w-full">
           <h3 class="text-xl font-semibold text-gray-800">{{ user.full_name }}</h3>
           <h6 class="text-xs text-color-700 font-medium">Coozin кошелёк:</h6>

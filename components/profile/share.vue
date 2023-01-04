@@ -4,7 +4,7 @@
     <h2 class="text-gray-800 text-2xl font-semibold mb-3">Поделиться с друзьями</h2>
     <p class="text-gray-700 text-base mb-8">Поделись со ссылкой с другом и получи 10%  от его первого заказа в свой Coozin кошелёк</p>
     <div class="input-styles">
-      <input class="input-styles" disabled type="text" value="https://coozin.uz/main/combo...">
+      <input class="input-styles" disabled type="text" value="https://coozin.uz...">
       <div @click="copy">
         <the-icon src="copy" />
       </div>
@@ -62,5 +62,14 @@ export default {
   right: 10px;
   background: #FF6600;
   border-radius: 100%;
+}
+@media screen and (max-width: 420px) {
+  .input-styles {
+    width: 90%;
+    /*margin: 0 auto;*/
+  }
+  .input-styles input {
+    width: 100%;
+  }
 }
 </style>

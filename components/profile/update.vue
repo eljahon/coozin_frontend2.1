@@ -9,7 +9,7 @@
       <the-icon class="cursor-pointer" src="trash" />
     </div>
 
-    <form class="mt-8 flex h-full gap-5 w-full">
+    <form class="lg:mt-8 my-8 flex justify-center h-full gap-5 w-full flex-wrap">
       <div class="relative">
         <label class="absolute text-xs	font-normal	text-gray-500 left-3 top-2" for="firstname">Имя</label>
         <input
@@ -30,7 +30,7 @@
       </div>
     </form>
 
-    <div class="flex items-center justify-end gap-5">
+    <div class="flex items-center lg:justify-end justify-center gap-5">
       <button class="text-orange-600 font-semibold p-3 rounded-3xl w-40 bg-white border border-orange-600 active:opacity-80 hover:opacity-80">Отменить</button>
       <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80" @click="updateUser">Сохранить</button>
     </div>
@@ -74,5 +74,16 @@ export default {
 <style scoped>
   .input-width {
     width: 400px;
+  }
+
+  @media screen and (max-width: 420px) {
+    .input-width {
+      width: 350px;
+    }
+  }
+  @media screen and (max-width: 375px) {
+    .input-width {
+      width: 300px;
+    }
   }
 </style>
