@@ -24,7 +24,7 @@
             </div>
             <div class="flex lg:flex-row flex-col lg:gap-0 lg:items-center lg:justify-between xl:px-0 lg:gap-0 sm:gap-6 gap-4">
               <div class="flex items-center sm:gap-5 gap-2">
-                <h2 class="md:text-2xl sm:text-xl text-base text-gray-800 font-semibold	items-center">{{ vendor?.user?.full_name ? vendor.user.full_name : 'No name'}}</h2>
+                <h2 class="md:text-2xl sm:text-xl text-sm text-gray-800 font-semibold	items-center">{{ vendor?.user?.full_name ? vendor.user.full_name : 'No name'}}</h2>
                 <the-icon class="md:block hidden" src="information-circle"/>
                 <the-icon class="md:hidden block" width="22" src="information-circle"/>
                 <the-icon class="cursor-pointer md:block hidden" src="share"/>
@@ -370,7 +370,9 @@ export default {
   border-radius: 8px;
   overflow: hidden;
 }
-
+.switch-rwd {
+  display: none;
+}
 @media screen and (max-width: 1024px) {
   .banner .banner__item {
     transform: translate(0, 140px);
@@ -406,6 +408,7 @@ export default {
     transform: translate(0, 150px);
   }
   .switch-rwd {
+    display: flex;
     width: 90%;
     margin: 0 auto;
   }
