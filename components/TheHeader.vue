@@ -157,10 +157,8 @@ export default {
         longitude: value?.coords?.longitude
       };
       this.$store.dispatch('set_location', locations)
-      // this.$cookies.set('langlot', locations)
       this.modal = false;
       window.location.reload()
-      // console.log(value.coords, locations)
     },
     locations () {
       window.navigator.geolocation.getCurrentPosition(this.showLocations)
