@@ -115,15 +115,15 @@
           <h3 class="text-lg font-semibold text-gray-700">К оплате</h3>
           <div class="flex justify-between">
             <h4 class="text-gray-600">Блюда</h4>
-            <h4 class="font-medium text-gray-600">{{$store.state.cart.totalPrice}} сум</h4>
+            <h4 class="font-medium text-gray-600">{{$store.state.cart.cartItem.total_price}} сум</h4>
           </div>
           <div class="flex justify-between my-2">
             <h4 class="text-gray-600">Доставка</h4>
-            <h4 class="font-medium text-gray-600">10 000 + сум</h4>
+            <h4 class="font-medium text-gray-600"> {{$store.state.cart.cartItem.delivery_price ? $store.state.cart.cartItem.delivery_price : ' 10 000 +' }} сум</h4>
           </div>
           <div class="flex justify-between">
             <h4 class="font-bold text-gray-600">Итого</h4>
-            <h4 class="font-bold text-gray-600">{{Number($store.state.cart.totalPrice)+10000}} сум</h4>
+            <h4 class="font-bold text-gray-600">{{$store.state.cart.cartItem.delivery_price ? Number($store.state.cart.cartItem.delivery_price)+Number($store.state.cart.cartItem.total_price) :$store.state.cart.cartItem.total_pric+1000 +"+" }} сум</h4>
           </div>
         </div>
         <button @click="orderCreate" class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
@@ -166,7 +166,7 @@ export default {
         address: "",
         address_comment: "",
         comment: this.$route.query.comment_text,
-        delivery_time: this.$dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+        delivery_time: this.$dayjs(new Date()).add(2, 'h').format('YYYY-MM-DD hh:mm:ss'),
         latitude: null,
         longitude: null,
         payment_type: "cash",
@@ -234,7 +234,10 @@ export default {
       }
     },
     async getOrderItem () {
-      await this.$store.dispatch('cart/getCardItem', this.$route.query.order_id)
+      await this.$store.dispatch('cart/getCardItem',
+        {id: this.$route.query.order_id,
+          longitude:this.$store.state.location.longitude,
+          latitude: this.$store.state.location.latitude})
     }
   }
 }

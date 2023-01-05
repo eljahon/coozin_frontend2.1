@@ -48,7 +48,7 @@ export default {
   /*right: auto;*/
   /*bottom: auto;*/
   padding: 24px;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: #ffffff;
