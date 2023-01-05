@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white rounded-2xl flex flex-col w-full gap-6">
+  <div class="sm:p-6 p-2 bg-white rounded-2xl flex flex-col w-full gap-6">
     <h3 class="font-semibold text-xl text-color text-left ">Мои карты</h3>
 
     <div style="height: 420px;" class="flex flex-wrap scroll-style gap-5 overflow-y-scroll">
@@ -69,5 +69,10 @@ export default {
 }
 .scroll-style::-webkit-scrollbar-thumb:hover {
   background: #a4a4a4;
+}
+@media screen and (max-width: 500px) {
+  .card-width {
+    width: 310px;
+  }
 }
 </style>

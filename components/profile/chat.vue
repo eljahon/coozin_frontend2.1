@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white rounded-2xl flex flex-col w-full gap-6">
+  <div class="p-6 bg-white rounded-2xl flex flex-col w-full gap-6 lg:h-auto h-96">
     <h3 class="font-semibold text-xl text-color text-left ">Оставьте свой вопрос</h3>
     <div class="h-full w-full bg-gray-50 rounded-2xl px-8 py-5 relative">
       <h4 class="text-center text-sm text-gray-600">Октябрь 16</h4>
