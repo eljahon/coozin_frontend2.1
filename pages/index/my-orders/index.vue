@@ -362,9 +362,9 @@
         </div>
         <div
           v-else-if="orderDetail.status === 'cancelled'"
-          class="w-8/12 flex shrink-0 bg-white rounded-2xl justify-center p-12 gap-14"
+          class="p-6 bg-white rounded-2xl flex xl:flex-nowrap flex-wrap gap-4 items-center justify-center w-full"
         >
-          <div class="flex flex-col text-center items-center gap-12 h-full xl:w-1/2">
+          <div class="flex flex-col text-center items-center justify-between xl:h-full h-64 xl:w-1/2 w-80">
             <h2 class="font-bold text-2xl text-gray-800">Заказ №{{ orderDetail.id }}</h2>
             <div class="relative">
               <the-icon class="relative z-10" src="order-7" />
@@ -404,7 +404,7 @@
         <div v-else class="p-6 w-full flex bg-white rounded-2xl items-center justify-center gap-14">
           <div class="flex flex-col gap-14">
             <the-icon src="order-empty" class="mx-auto" />
-            <p class="font-medium	text-xl text-gray-800">Выберите свой заказ чтобы посмотреть</p>
+            <p class="font-medium	md:text-xl text-lg text-gray-800">Выберите свой заказ чтобы посмотреть</p>
           </div>
         </div>
       </div>
