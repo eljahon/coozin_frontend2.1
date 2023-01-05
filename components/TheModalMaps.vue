@@ -2,7 +2,14 @@
 <div v-if="$route.query.maps">
      <div class="multiple-modal">
        <span class="flex items-center justify-end mb-3">
-         <the-icon src="x" width="20" height="20" />
+         <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query, maps: undefined}})">
+           <the-icon
+             class="cursor-pointer"
+             src="x"
+             width="20"
+             height="20"
+           />
+         </div>
        </span>
        <yandex-maps class="" @clickPlace="locationNames"></yandex-maps>
      </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="main-styles">
-    <div class="container mx-auto">
+    <div class="container px-4 mx-auto">
       <div class="flex items-center justify-between mb-5">
         <h2 id="menu" class="text-3xl font-semibold text-gray-800">
           <a href="#menu">Блог</a>
@@ -10,8 +10,8 @@
           <the-icon src="right-arrow" />
         </div>
       </div>
-      <div class="container mx-auto flex gap-5">
-        <div style="width: 33.333%" class="flex flex-col gap-5">
+      <div class="container px-4 mx-auto overflow-x-scroll scroll-style lg:flex lg:gap-5">
+        <div style="width: 33.333%" class="lg:flex hidden flex-col gap-5">
           <blog-card
             :src="blogData[0]?.media[0]?.url"
             :title="blogData[0]?.title"
@@ -27,7 +27,7 @@
             height="600px"
           />
         </div>
-        <div style="width: 66.666%" class="flex flex-col gap-5">
+        <div style="width: 66.666%" class="lg:flex hidden flex-col gap-5">
           <div class="flex gap-5">
             <div style="width: 50%">
               <div class="flex flex-col gap-5 w-full">
@@ -67,6 +67,15 @@
             />
           </div>
         </div>
+        <div class="lg:hidden flex items-center gap-3.5">
+          <div v-for="(item, idx) in blogData" :key="item.id">
+            <blog-card
+              :src="item?.media[0]?.url"
+              :title="item.title"
+              :avatar="item?.vendor?.avatar"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -82,8 +91,9 @@ export default {
   methods: {
     async getBlogs() {
       try {
-        const { objects } =  await this.$axios.get('front/reels');
+        const { objects } =  await this.$axios.get('reels');
         this.blogData = objects
+        console.log(objects)
       } catch (e) {
         console.log(e)
       }
@@ -99,5 +109,18 @@ export default {
 .main-styles {
   background: #F3F4F6;
   padding: 28px 0;
+}
+.scroll-style::-webkit-scrollbar {
+  height: 0;
+  border-radius: 24px;
+}
+.scroll-style::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.scroll-style::-webkit-scrollbar-thumb {
+  background: #888;
+}
+.scroll-style::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>
