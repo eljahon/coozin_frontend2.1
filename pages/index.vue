@@ -16,8 +16,8 @@ export default  {
   methods: {
     showLocations (value) {
       const locations  = {
-        latitude: value.coords.latitude,
-        longitude: value.coords.longitude
+        latitude: value?.coords?.latitude,
+        longitude: value?.coords?.longitude
       };
       this.$store.dispatch('set_location', locations)
       this.$cookies.set('langlot', locations)

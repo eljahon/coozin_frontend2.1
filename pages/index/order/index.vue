@@ -191,8 +191,8 @@ export default {
   methods: {
     changePlice(item) {
       console.log(item)
-      this.order.latitude = item.getNames[0].latitude
-      this.order.longitude = item.getNames[0].longitude
+      this.order.latitude = item?.getNames[0]?.latitude
+      this.order.longitude = item?.getNames[0]?.longitude
       this.order.address = item.fullName
     },
     openMaps () {

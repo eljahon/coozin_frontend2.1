@@ -89,8 +89,8 @@ export const actions = {
     this.$auth.setUser(userInfo)
     commit('SET_CURRENT_USER', userInfo);
     const loc = {
-      latitude: this.$cookies.get('langlot').latitude,
-      longitude: this?.$cookies.get('langlot').longitude ,
+      latitude: this.$cookies.get('langlot')?.latitude,
+      longitude: this?.$cookies.get('langlot')?.longitude ,
     }
     commit('SET_LOCATION', loc)
   },

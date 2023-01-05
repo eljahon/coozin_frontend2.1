@@ -120,4 +120,9 @@ export default {
 .open {
   left: 0;
 }
+@media screen and (max-width: 640px) {
+  .burger {
+    top: 72px;
+  }
+}
 </style>
