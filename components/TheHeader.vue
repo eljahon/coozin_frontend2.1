@@ -153,14 +153,12 @@ export default {
   methods: {
     showLocations (value) {
       const locations  = {
-        latitude: value.coords.latitude,
-        longitude: value.coords.longitude
+        latitude: value?.coords?.latitude,
+        longitude: value?.coords?.longitude
       };
       this.$store.dispatch('set_location', locations)
-      // this.$cookies.set('langlot', locations)
       this.modal = false;
       window.location.reload()
-      // console.log(value.coords, locations)
     },
     locations () {
       window.navigator.geolocation.getCurrentPosition(this.showLocations)
@@ -172,8 +170,8 @@ export default {
     changePlice(listPlice) {
       this.address = listPlice.fullName;
       const langlot= {
-        latitude: listPlice.getNames[0].latitude,
-        longitude: listPlice.getNames[0].longitude
+        latitude: listPlice?.getNames[0]?.latitude,
+        longitude: listPlice?.getNames[0]?.longitude
       }
       this.$store.dispatch('set_location', langlot)
       window.location.reload()
