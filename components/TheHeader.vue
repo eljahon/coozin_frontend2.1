@@ -186,8 +186,9 @@ export default {
   // },
    async checkLogin () {
       if (this.$auth.state.loggedIn) {
-        const item = this.$store?.state?.cart?.cartList?.length ?? false
-        if (item) {
+        const item = await this.$store.dispatch('cart/getCardList', {limit: 10,latitude: this.$store.state.location.latitude,
+          longitude: this.$store.state.location.longitude ,})
+        if (item.length) {
           await this.$router.push({
             path: this.localePath(this.$route.path),
             query: {...this.$route.query, foodSaw: "multipleOrder"}

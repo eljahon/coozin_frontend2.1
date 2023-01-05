@@ -173,7 +173,7 @@
           </div>
         </div>
         <button @click.stop="orderListSee" class="w-full text-white bg-orange-600 py-3 rounded-3xl font-semibold mt-8">
-          {{ $store.state.cart.totalPrice+10000 }} + сум перейти к оплате
+          {{ $store.state.cart.cartItem.delivery_price ? $store.state.cart.totalPrice+$store.state.cart.cartItem.delivery_price : $store.state.cart.totalPrice+10000 }} + сум перейти к оплате
         </button>
       </div>
       <div class="modal-background" @click="closeModal"></div>
@@ -189,7 +189,11 @@ export default {
       comment: false,
       choose: false,
       comment_text: '',
-      priceCount: 0
+      priceCount: 0,
+      lang: {
+        longitude:this.$store.state.location.longitude,
+        latitude: this.$store.state.location.latitude
+      }
     }
   },
   mounted() {
@@ -210,12 +214,12 @@ export default {
     async getCartList() {
       return await this.$store.dispatch('cart/getCardList', {
         limit: 100,
-        longitude: undefined,
-        latitude: undefined
+        longitude: this.$store.state.location.longitude ?? undefined,
+        latitude: this.$store.state.location.latitude?? undefined
       })
     },
     async getCartItem() {
-      await this.$store.dispatch('cart/getCardItem', parseInt(this.$route.query.order_id))
+      await this.getCartItemList(this.$route.query.order_id)
     },
     orderListSee() {
       this.$router.push({path: this.localePath('/order'),
@@ -237,13 +241,21 @@ export default {
       console.log(item)
     },
     async decrement(item) {
+      console.log(item)
       await this.$store.dispatch('cart/newOrderCreate', this.dataFormat({data: item, method: 'dec'}))
-      await this.$store.dispatch('cart/getCardItem', this.$route.query.order_id)
+      await this.getCartItemList(this.$route.query.order_id)
+      // await this.$store.dispatch('cart/getCardItem', {id: this.$route.query.order_id, })
     },
     async increment(item) {
       await this.$store.dispatch('cart/newOrderCreate', this.dataFormat({data: item, method: 'inc'}))
-      await this.$store.dispatch('cart/getCardItem', this.$route.query.order_id)
+      await this.getCartItemList(this.$route.query.order_id)
+
     },
+  async  getCartItemList (id) {
+  const data = await this.$store.dispatch('cart/getCardItem', {id:id, ...this.lang});
+  return data;
+
+  },
     dataFormat(item) {
       const data = {...item.data};
       let quantity = Number(data.quantity);
@@ -253,14 +265,9 @@ export default {
         quantity--;
       }
       return {
-        food_id: data.id,
+        food_id: data.food.id,
         quantity
       }
-    },
-    itemOrderAdd(item) {
-      // increment
-      // this.$store.dispatch('orderCarzina/item_order_add', item.add.id)
-      console.log(item)
     },
     async deleteOrder(item) {
       try {
@@ -271,7 +278,7 @@ export default {
       }
     },
     async orderDetail(item, carNumber) {
-      await this.$store.dispatch('cart/getCardItem', item)
+      await this.$store.dispatch('cart/getCardItem', {id: item, longitude: this.$store.state.location.longitude, latitude: this.$store.state.location.latitude})
       await this.$router.push({
         path: this.localePath(this.$route.path),
         query: {...this.$route.query, foodSaw: 'detailOrder', order_id: item, carNumber: carNumber}
