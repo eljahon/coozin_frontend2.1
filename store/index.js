@@ -61,14 +61,14 @@ export const actions = {
       seeDate: this.$dayjs(new Date ()).add(i, 'day').format('DD'),
       name: state.monthNames[this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD').split('-')[1]],
     })
-    };
+    }
     console.log('days', days)
     commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {
     try {
       let token = res.token
-      this.$auth.setUserToken(token)
+      await this.$auth.setUserToken(token)
       const info = await this.$axios.get('/auth/user')
       await this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)
