@@ -16,7 +16,7 @@ export const mutations = {
   }
 };
 export const actions = {
-   async getCardList({commit}, payload) {
+   async getCardList({commit,state}, payload) {
    const {limit} = payload;
   try {
     if (!limit) payload['limit'] = 10;
@@ -30,11 +30,15 @@ export const actions = {
   }
  },
    async getCardItem({commit}, payload) {
+     const {id,latitude,longitude} = payload;
   try {
-    const data = await this.$axios.get(`cart/${payload}`)
+    const data = await this.$axios.get(`cart/${id}`, {params: {longitude, latitude}})
     commit('SET_CART_ITEM', data)
     if (data.delivery_price === null) {
       commit('SET_TOTAL_PRICE', data.total_price)
+    } else {
+      commit('SET_TOTAL_PRICE', data.total_price)
+
     }
     return data;
   } catch (err) {
