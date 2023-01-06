@@ -137,35 +137,6 @@
             :avatar="item.vendor.avatar"
           />
         </div>
-<!--        <div v-if="true" class="login">-->
-<!--          <div class="login-modal">-->
-<!--            <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">-->
-<!--              <the-icon src="x" />-->
-<!--            </div>-->
-<!--            <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>-->
-<!--            <p class="text-lg text-center text-gray-700 mt-1">У вас ещё нет аккаунта?-->
-<!--              <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: 'register'}})" class="text-orange-600 cursor-pointer font-semibold	">Регистрация</span>-->
-<!--            </p>-->
-<!--            <input-->
-<!--              class="bg-white text-gray-500 border rounded-2xl border-gray-200-->
-<!--         py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 my-6"-->
-<!--              v-model="login.phone"-->
-<!--              placeholder="Введите номер телефона"-->
-<!--              type="text"-->
-<!--            >-->
-<!--            <input-->
-<!--              class="bg-white text-gray-500 border rounded-2xl border-gray-200-->
-<!--         py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600 w-96"-->
-<!--              v-model="login.password"-->
-<!--              type="text"-->
-<!--            >-->
-<!--            <button-->
-<!--              @click="funcLogin"-->
-<!--              class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"-->
-<!--            >Получить пароль</button>-->
-<!--          </div>-->
-<!--          <div @click="$store.dispatch('loginModal', false)" class="login-background"></div>-->
-<!--        </div>-->
       </div>
     </div>
   </div>

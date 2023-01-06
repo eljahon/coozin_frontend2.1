@@ -68,7 +68,7 @@ export const actions = {
   async setUser ({commit}, res) {
     try {
       let token = res.token
-      this.$auth.setUserToken(token)
+      await this.$auth.setUserToken(token)
       const info = await this.$axios.get('/auth/user')
       await this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)

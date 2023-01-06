@@ -2,7 +2,7 @@ export const state = () => ({
   cardList: [],
 })
 export const mutations = {
-  SET_CARDS: (state,payload) => {
+  GET_CARDS: (state,payload) => {
     state.cardList = payload
   }
 }
@@ -38,6 +38,9 @@ export const actions = {
     try {
       const data  = await this.$axios.delete('cards', {
         params: {...payload}
+      }).then(res => {
+        const { objects } = res
+        commit('GET_CARDS', objects)
       })
     } catch (err) {
       console.log(err)

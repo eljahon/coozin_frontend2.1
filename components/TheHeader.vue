@@ -25,7 +25,7 @@
             />
           </div>
           <div class="relative">
-            <div v-if="modal" class="absolute z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
+            <div v-if="modal" class="absolute position z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
               <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
               <div class="flex items-center gap-3 mx-auto">
@@ -47,13 +47,13 @@
           </li>
         </ul>
         <div class="flex items-center xl:gap-4 gap-3">
-          <div class="relative lg:hidden">
-            <div v-if="modal" class="absolute z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
+          <div class="lg:hidden">
+            <div v-if="modal" class="absolute position z-10 top-16 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
               <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
               <div class="flex items-center gap-3 mx-auto">
-                <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
-                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
+                <button @click="locations" class="bg-orange-600 p-3 text-white sm:w-40 w-36 rounded-3xl">Да, верно</button>
+                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 sm:w-40 w-36 rounded-3xl">Вы ошиблись</button>
               </div>
             </div>
           </div>
@@ -222,7 +222,10 @@ export default {
   z-index: 10;
   background: #ffffff;
 }
-
+.position {
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 .header-nav li a {
   position: relative;
 }
@@ -318,6 +321,11 @@ export default {
 .effect:hover .icon-bnt {
   transition: all 0.8s;
   transform: rotate(360deg);
-
 }
+/*@media screen and (max-width: 768px) {*/
+/*  .position {*/
+/*    left: 20%;*/
+/*    transform: translate(-50%, 0);*/
+/*  }*/
+/*}*/
 </style>
