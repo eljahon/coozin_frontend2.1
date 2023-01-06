@@ -8,11 +8,12 @@
           style="height: 100% !important; width: 100% !important;"
           :settings="setting"
           :coords="lot ? [lot, lang] : markerIcon"
-          :zoom="9"
+          :zoom="11"
           class="yandexMap"
           map-type="map"
           @click="Location"
-          :controls="['zoomControl', 'fullscreenControl', 'trafficControl']">
+          :controls="['zoomControl', 'fullscreenControl', 'trafficControl', 'searchControl', 'smallMapDefaultSet']"
+        >
           <ymap-marker
             v-if="lang && lot"
             :coords="[lot, lang]"

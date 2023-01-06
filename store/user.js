@@ -32,6 +32,6 @@ export const actions = {
   logout() {
     this.$auth.logout()
     this.$axios.post('logout')
-    console.log(this.$auth)
+    // console.log(this.$auth)
   }
 }

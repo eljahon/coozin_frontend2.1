@@ -111,10 +111,10 @@
       </div>
     </div>
 <!--      <div  style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">-->
-      <div @click="pageCount" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
+      <button :disabled="isPageCount" @click="pageCount" class="mx-auto block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
         <span class="text-sm text-gray-700">Показать больше</span>
 <!--      </div>-->
-      </div>
+      </button>
 
     <!--  Blog section  -->
     <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">
@@ -218,6 +218,7 @@ import {mapGetters} from "vuex"
           },
         ],
         productData: null,
+        isPageCount: false,
         page: 2,
       list: {
           1: null,
@@ -321,9 +322,13 @@ import {mapGetters} from "vuex"
         console.log(item)
       },
      async pageCount () {
-        this.page++;
-       await this.getVendors(this.page)
-       console.log(this.list)
+        this.isPageCount = true;
+        let  limit  = this.page;
+        limit++;
+       await this.getVendors(limit)
+       await this.page++;
+       this.isPageCount = false;
+       // console.log(limit)
       }
     },
     computed: {

@@ -15,9 +15,14 @@
 <script>
 export default {
   methods: {
-    logout() {
-      this.$axios.post('logout')
-      console.log(this.$auth)
+    async logout() {
+    await this.$axios.post('/auth/logout');
+      await this.$auth.logout()
+      this.$cookies.remove('userInfo')
+      this.$cookies.remove('langlot')
+      this.$toast.error('You are now logged out')
+      this.$router.push(this.localePath('/'))
+      // console.log(this.$auth)
     }
   }
 }
