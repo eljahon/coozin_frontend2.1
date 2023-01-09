@@ -61,8 +61,8 @@ export const actions = {
       seeDate: this.$dayjs(new Date ()).add(i, 'day').format('DD'),
       name: state.monthNames[this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD').split('-')[1]],
     })
-    }
-    console.log('days', days)
+    };
+    // console.log('days', days)
     commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {

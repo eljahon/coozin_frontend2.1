@@ -115,19 +115,21 @@
           <h3 class="text-lg font-semibold text-gray-700">К оплате</h3>
           <div class="flex justify-between">
             <h4 class="text-gray-600">Блюда</h4>
-            <h4 class="font-medium text-gray-600">{{$store.state.cart.totalPrice}} сум</h4>
+            <h4 class="font-medium text-gray-600">{{$store.state.cart.cartItem.total_price}} сум</h4>
           </div>
           <div class="flex justify-between my-2">
             <h4 class="text-gray-600">Доставка</h4>
-            <h4 class="font-medium text-gray-600">10 000 + сум</h4>
+            <h4 class="font-medium text-gray-600"> {{$store.state.cart.cartItem.delivery_price ? $store.state.cart.cartItem.delivery_price : ' 10 000 +' }} сум</h4>
           </div>
           <div class="flex justify-between">
             <h4 class="font-bold text-gray-600">Итого</h4>
-            <h4 class="font-bold text-gray-600">{{Number($store.state.cart.totalPrice)+10000}} сум</h4>
+            <h4 v-if="$store.state.cart.cartItem.delivery_price !== null" class="font-bold text-gray-600">{{Number($store.state.cart.cartItem.delivery_price)+Number($store.state.cart.cartItem.total_price) }} сум</h4>
+            <h4 v-else class="font-bold text-gray-600">{{Number($store.state.cart.cartItem.total_price)+10000 +"+" }} сум</h4>
           </div>
         </div>
         <button @click="orderCreate" class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
       </div>
+<!--      my order list -->
       <div class="bg-white w-80 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
         <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
         <div class="flex flex-col gap-3 overflow-y-scroll scroll-style pl-2 pr-4" style="max-height: 516px;">
@@ -166,7 +168,7 @@ export default {
         address: "",
         address_comment: "",
         comment: this.$route.query.comment_text,
-        delivery_time: this.$dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+        delivery_time: this.$dayjs(new Date()).add(2, 'h').format('YYYY-MM-DD HH:mm:ss'),
         latitude: null,
         longitude: null,
         payment_type: "cash",
@@ -186,30 +188,30 @@ export default {
     // }
   },
   mounted() {
-    console.log(this.$auth.state)
+    // console.log(this.$auth.state)
   },
   methods: {
     changePlice(item) {
       console.log(item)
-      this.order.latitude = item?.getNames[0]?.latitude
-      this.order.longitude = item?.getNames[0]?.longitude
-      this.order.address = item.fullName
+      this.$store.dispatch('set_location', {latitude:item?.getNames[0]?.latitude,longitude: item?.getNames[0]?.longitude })
+      this.order.address = item.fullName;
+      this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude)
     },
     openMaps () {
       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
     },
     orderCreate () {
-      this.order['food'] = this.$store.state.cart.cartItem.items.map(el => ({id: el.id, count: el.quantity}))
+      this.order['food'] = this.$store.state.cart.cartItem.items.map(el => ({id: el.food.id, count: el.quantity}))
       console.log(this.order)
       const order = {
         ...this.order,
         ...this.$store.state.location
       }
 
-      console.log(order)
+      // console.log(order)
       this.$axios.post('orders', {...order})
         .then(res => {
-          this.$toast.success("успех Оформление заказа")
+          // this.$toast.success("успех Оформление заказа")
           console.log(res)
         })
     },
@@ -233,9 +235,16 @@ export default {
         console.log(err)
       }
     },
-    async getOrderItem () {
-      await this.$store.dispatch('cart/getCardItem', this.$route.query.order_id)
-    }
+    async getOrderItem (longitude,latitude) {
+      await this.$store.dispatch('cart/getCardItem',
+        this.lotLang(longitude, latitude))
+    },
+    lotLang(longitude,latitude) {
+    return   {id: this.$route.query.order_id,
+        longitude: longitude ?? this.$store.state.location.longitude,
+        latitude: latitude ?? this.$store.state.location.latitude}
+    },
+    // }
   }
 }
 </script>

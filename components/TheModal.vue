@@ -6,7 +6,7 @@
           <h3 class="text-gray-800 text-xl font-bold">Ваши корзинки</h3>
           <the-icon class="cursor-pointer" src="trash-gray"/>
         </div>
-        <div class="mt-4 flex flex-col gap-3" v-for="(item, index) in $store.state.cart.cartList" :key="index">
+        <div class="mt-4 flex flex-col gap-3 hover_class transition-all delay-75" v-for="(item, index) in $store.state.cart.cartList" :key="index">
           <div @click.stop="orderDetail(item.id, index+1)" class="product">
             <div class="cart-bg">
               <the-icon src="big-shopping-cart" class="flex shrink-0 w-14	h-14"/>
@@ -17,7 +17,7 @@
                 <the-icon src="chef-ligth"/>
                 <span
                   class="font-medium text-gray-700 text-sm">{{
-                    $store.state.orderCarzina.vendorName ? $store.state.orderCarzina.vendorName : 'salom'
+                    $store.state.orderCarzina.vendorName ? $store.state.orderCarzina.vendorName : 'vendor name not'
                   }}</span>
               </div>
               <div class="flex items-center gap-2">
@@ -25,6 +25,7 @@
                 <span class="font-semibold text-sm">{{ item.total_price }} сум</span>
               </div>
             </div>
+            <button @click.stop="deleteOrder(item)" class="delete_button"><the-icon class="cursor-pointer" src="trash-gray"/></button>
           </div>
           <!--          <div @click="orderDetail" class="product">-->
           <!--            <div class="cart-bg">-->
@@ -97,15 +98,15 @@
 
                 </div>
                 <div class="flex gap-3 items-center">
-                  <div @click.stop="increment(item)"
+                  <button :disabled="isDisbale" @click.stop="increment(item)"
                        class="w-7	h-7 rounded bg-gray-200 flex items-center justify-center cursor-pointer">
                     <span class="line"></span>
-                  </div>
+                  </button>
                   <span class="font-semibold text-gray-700">{{ item.quantity }}</span>
-                  <div @click.stop="decrement(item)"
+                  <button :disabled="isDisbale" @click.stop="decrement(item)"
                        class="w-7	h-7 rounded bg-gray-200 flex items-center justify-center cursor-pointer">
                     <span class="text-gray-700 text-3xl leading-none -translate-y-1">+</span>
-                  </div>
+                  </button>
                 </div>
               </div>
               <div @click.stop="itemOrderRemove(item.id)">
@@ -190,6 +191,7 @@ export default {
       choose: false,
       comment_text: '',
       priceCount: 0,
+      isDisbale: false,
       lang: {
         longitude:this.$store.state.location.longitude,
         latitude: this.$store.state.location.latitude
@@ -241,14 +243,17 @@ export default {
       console.log(item)
     },
     async decrement(item) {
-      console.log(item)
+      this.isDisbale = !this.isDisbale
       await this.$store.dispatch('cart/newOrderCreate', this.dataFormat({data: item, method: 'dec'}))
       await this.getCartItemList(this.$route.query.order_id)
+      this.isDisbale = !this.isDisbale
       // await this.$store.dispatch('cart/getCardItem', {id: this.$route.query.order_id, })
     },
     async increment(item) {
+      this.isDisbale = true
       await this.$store.dispatch('cart/newOrderCreate', this.dataFormat({data: item, method: 'inc'}))
       await this.getCartItemList(this.$route.query.order_id)
+      this.isDisbale = false;
 
     },
   async  getCartItemList (id) {
@@ -270,9 +275,15 @@ export default {
       }
     },
     async deleteOrder(item) {
+      const {id} =item;
       try {
-        await this.$store.dispatch('cart/removeCart', item)
-        await this.back()
+        if (id) {
+          await this.$store.dispatch('cart/removeCart', id)
+          await this.getCartList()
+        } else {
+          await this.$store.dispatch('cart/removeCart', item)
+          await this.back()
+        }
       } catch (err) {
         console.log(err)
       }
@@ -336,6 +347,7 @@ export default {
 .product {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   gap: 12px;
   padding: 12px;
   background: #FFFFFF;
@@ -382,5 +394,13 @@ export default {
 
 .container-switch label:active .bar {
   box-shadow: 0px 0px 0px 15px rgba(0, 0, 0, 0.322);
+}
+.hover_class:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  border-radius: 8px;
+  transition: all 0.8s;
+}
+.delete_button:hover .delete_img{
+  background-color: black;
 }
 </style>

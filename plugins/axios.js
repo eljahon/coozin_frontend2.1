@@ -26,7 +26,7 @@ export default function ({ $axios, redirect, $auth,app }) {
     if (code === 400) {
 
     };
-    return message.data.message
+    return message
   })
   $axios.setBaseURL(process.env.NUXT_APP_BASE_URL);
   // $axios.onRequest((config) => {

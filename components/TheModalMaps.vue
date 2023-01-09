@@ -49,7 +49,7 @@ export default {
 }
 
 .multiple-modal {
-  width: 90%;
+  width: 600px;
   position: fixed;
   z-index: 5;
   padding: 16px;
