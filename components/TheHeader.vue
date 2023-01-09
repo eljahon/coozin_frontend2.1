@@ -9,7 +9,12 @@
             <span></span>
             <span></span>
           </div>
-          <the-logo />
+          <div class="sm:block hidden">
+            <the-logo />
+          </div>
+          <div class="sm:hidden block w-28">
+            <the-logo />
+          </div>
         </div>
         <div class="lg:flex hidden items-center gap-3">
           <header-card>
