@@ -60,14 +60,12 @@ export default {
             duration: 2000,
             position: 'bottom-right',
           })
-          await this.$store.dispatch('Login', res)
-            .then(async () => {
-             await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,login: undefined}})
-             await this.$toast.success('success Login',)
-              await this.$store.dispatch('cart/getCardList')
-
-            })
+          await this.$store.dispatch('Login', res).then(async () => {
+          await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, login: undefined}})
+          await this.$toast.success('success Login')
+          await this.$store.dispatch('cart/getCardList')
         })
+      })
       } catch (e) {
         this.$toast.error(e, {
           duration: 2000,

@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <div style="height: 420px;" class="flex flex-wrap scroll-style gap-5 overflow-y-scroll">
+    <div class="flex flex-wrap scroll-style gap-5 overflow-y-scroll">
       <div v-for="item in cards">
         <div class="card-width border border-gray-200 px-3 py-4 rounded-lg flex items-center justify-between">
           <div class="flex items-center gap-4">
@@ -19,18 +19,35 @@
             </div>
             <h3 class="text-gray-700 text-base">{{ item.card_number }}</h3>
           </div>
-          <the-icon class="cursor-pointer" src="trash-gray" />
+          <div @click="deleteCard(item.id)">
+            <the-icon class="cursor-pointer" src="trash-gray" />
+          </div>
         </div>
       </div>
     </div>
 
 
     <div v-if="modal" class="modal">
+
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
-         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-6"
+         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
+        v-model="name"
+        placeholder="Enter credit card name"
+        type="text"
+      >
+      <input
+        class="bg-white text-gray-500 border rounded-2xl border-gray-200
+         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
         v-model.number="number"
-        placeholder="Введите номер телефона"
+        placeholder="Enter credit card number"
+        type="number"
+      >
+      <input
+        class="bg-white text-gray-500 border rounded-2xl border-gray-200
+         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
+        v-model="expiry"
+        placeholder="Enter credit card expiry"
         type="number"
       >
       <button
@@ -50,7 +67,9 @@ export default {
     return {
       cards: [],
       modal: false,
-      number: ''
+      number: '',
+      expiry: '',
+      name: ''
     }
   },
   mounted() {
@@ -64,9 +83,25 @@ export default {
       })
     },
     addCard()  {
-       this.$axios.put(`cards`, {
-          params: {}
-       })
+      const data = {
+        card_number: this.number,
+        expiry: this.expiry,
+        name: this.name
+      }
+      this.$axios.post('cards', data)
+        .then(response => {
+          this.getCards()
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    deleteCard(id) {
+      this.$axios.delete(`cards/${id}`).then(res => {
+        this.getCards()
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 }
