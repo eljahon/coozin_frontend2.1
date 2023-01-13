@@ -1,12 +1,12 @@
 <template>
   <div v-if="$route.query.login" class="login">
-    <div class="login-modal">
-      <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
+    <div v-if="$route.query.login === 'login'" class="login-modal">
+      <div @click="$router.push({path: localePath($route.path), query: {...$route.query,login: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
         <the-icon src="x" />
       </div>
       <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
       <p class="text-lg text-center text-gray-700 mt-1">У вас ещё нет аккаунта?
-        <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: 'register'}})" class="text-orange-600 cursor-pointer font-semibold	">Регистрация</span>
+        <span @click="$router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: 'register'}})" class="text-orange-600 cursor-pointer font-semibold	">Регистрация</span>
       </p>
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
@@ -15,18 +15,29 @@
         placeholder="Введите номер телефона"
         type="text"
       >
+      <button
+        @click="$router.push({path: localePath($route.path), query: {...$route.query, login: 'otp'}})"
+        class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"
+      >Получить пароль</button>
+    </div>
+    <div v-else-if="$route.query.login === 'otp'" class="login-modal">
+      <div @click="$router.push({path: localePath($route.path), query: {...$route.query,login: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
+        <the-icon src="x" />
+      </div>
+      <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
-         py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600 w-96"
+         py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 my-6"
         v-model="login.password"
+        placeholder="Enter OTP"
         type="text"
       >
       <button
         @click="funcLogin"
         class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"
-      >Получить пароль</button>
+      >Войти</button>
     </div>
-    <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query, login: undefined}})" class="login-background"></div>
+    <div @click="$router.push({path: localePath($route.path), query: {...$route.query, login: undefined}})" class="login-background"></div>
   </div>
 </template>
 
@@ -49,6 +60,7 @@ export default {
             duration: 2000,
             position: 'bottom-right',
           })
+<<<<<<< HEAD
           await this.$store.dispatch('Login', res)
             .then(async (resq) => {
               console.log(resq)
@@ -57,7 +69,14 @@ export default {
               await this.$store.dispatch('cart/getCardList')
 
             })
+=======
+          await this.$store.dispatch('Login', res).then(async () => {
+          await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, login: undefined}})
+          await this.$toast.success('success Login')
+          await this.$store.dispatch('cart/getCardList')
+>>>>>>> cfac366bbd21bee35a95e4f8c5125e43fda2a836
         })
+      })
       } catch (e) {
         this.$toast.error(e, {
           duration: 2000,
