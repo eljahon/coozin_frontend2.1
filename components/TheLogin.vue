@@ -50,9 +50,10 @@ export default {
             position: 'bottom-right',
           })
           await this.$store.dispatch('Login', res)
-            .then(async () => {
+            .then(async (resq) => {
+              console.log(resq)
              await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,login: undefined}})
-             await this.$toast.success('success Login',)
+             await this.$toast.success('success Login')
               await this.$store.dispatch('cart/getCardList')
 
             })

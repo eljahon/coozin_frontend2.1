@@ -19,7 +19,8 @@ export const state = () => ({
     "12": 'Dec',
   },
   days_list: [],
-  location: null
+  location: null,
+  locatinsName: null
 });
 export const mutations = {
   SET_USER: (state, payload) => {
@@ -39,6 +40,9 @@ export const mutations = {
   },
   FOOD_MODAL: (state, payload) => {
     state.food = payload
+  },
+  SET_LOCATION_NAME: (state, paylaod) => {
+    state.locatinsName = paylaod;
   },
   SET_LOCATION: (state, payload) => {
     state.location = payload
@@ -66,11 +70,12 @@ export const actions = {
     commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {
+    console.log(res);
     try {
-      let token = res.token
-      await this.$auth.setUserToken(token)
+      this.$auth.setUserToken(res.token)
       const info = await this.$axios.get('/auth/user')
-      await this.$auth.setUser(info)
+      console.log(info, 'info ====>>>')
+      this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)
       return info;
     } catch (err) {
@@ -93,6 +98,11 @@ export const actions = {
       longitude: this?.$cookies.get('langlot')?.longitude ,
     }
     commit('SET_LOCATION', loc)
+    if (this.$cookies.get('lacationName')) {
+      commit('SET_LOCATION_NAME', this.$cookies.get('lacationName'))
+
+    }
+
   },
   loginModal ({ commit }, payload) {
     commit('LOGIN_MODAL', payload)
@@ -106,6 +116,10 @@ export const actions = {
   burgerOpen({ commit }, payload) {
     commit('BURGER_OPEN', payload)
   },
+  set_location_name ({commit}, payload) {
+    commit("SET_LOCATION_NAME", payload)
+    this.$cookies.set('lacationName', payload)
+  }
 };
 export const getters = {
   get_user_lit: (state) => state.userList,

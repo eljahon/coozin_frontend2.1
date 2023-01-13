@@ -97,6 +97,10 @@ async  set_order({ commit,state }, payload) {
   },
   item_order_add ({commit}, payload) {
     commit('SET_ITEM_ADD_COUNT', {id: payload, commit: commit})
+  },
+  async order_deleveriy_time ({commit}, payload) {
+    const date = await this.$axios.post('/orders/calc', {...payload})
+    return date;
   }
 };
 export const getters = {

@@ -22,12 +22,13 @@
               icon="address"
               :readonly="true"
               inputStyles="cursor-pointer"
+              :value="locationName"
             />
           </div>
           <div class="relative">
             <div v-if="modal" class="absolute position z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
-              <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
+              <p class="font-medium text-gray-700">{{locationName}}</p>
               <div class="flex items-center gap-3 mx-auto">
                 <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
                 <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
@@ -50,7 +51,7 @@
           <div class="lg:hidden">
             <div v-if="modal" class="absolute position z-10 top-16 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
-              <p class="font-medium text-gray-700">Правильный выбор региона влияет на отображение акций и товаров</p>
+              <p class="font-medium text-gray-700">{{locationName}}</p>
               <div class="flex items-center gap-3 mx-auto">
                 <button @click="locations" class="bg-orange-600 p-3 text-white sm:w-40 w-36 rounded-3xl">Да, верно</button>
                 <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 sm:w-40 w-36 rounded-3xl">Вы ошиблись</button>
@@ -74,7 +75,7 @@
               icon="address"
               :readonly="true"
               inputStyles="cursor-pointer"
-              :value="address"
+              :value="locationName"
             />
           </div>
           <button class="sm:flex hidden effect" @click="checkLogin" >
@@ -143,6 +144,9 @@ export default {
     'burger-menu': BurgerMenu
   },
   computed: {
+    locationName () {
+      return this.$store.state.locatinsName
+    },
     menu_burger () {
       return this.$store.state.burger
     },
@@ -156,9 +160,24 @@ export default {
         latitude: value?.coords?.latitude,
         longitude: value?.coords?.longitude
       };
+      console.log(locations)
+      const sendata = ""+ locations.latitude + "," +locations.longitude;
+      console.log(sendata);
+      this.$store.dispatch('yandex/pointSearchLotLang',sendata)
+        .then(res => {
+          console.log(res, '==>>>')
+          if(!res.fullName.length) {
+            this.$toast.error('kechirasiz biz Toshkent shaxari boylab hizmat korsatamiz')
+          }
+          else {
+            this.$store.dispatch('set_location_name', res.fullName)
+          }
+        })
       this.$store.dispatch('set_location', locations)
       this.modal = false;
-      window.location.reload()
+      if(this.$route.path === '/') {
+        window.location.reload()
+      }
     },
     locations () {
       window.navigator.geolocation.getCurrentPosition(this.showLocations)
@@ -183,6 +202,7 @@ export default {
     // }
   // },
    async checkLogin () {
+     console.log(this.$auth.state)
       if (this.$auth.state.loggedIn) {
         const item = await this.$store.dispatch('cart/getCardList', {limit: 10,latitude: this.$store.state.location.latitude,
           longitude: this.$store.state.location.longitude ,})

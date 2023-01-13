@@ -34,12 +34,6 @@ export const actions = {
   try {
     const data = await this.$axios.get(`cart/${id}`, {params: {longitude, latitude}})
     commit('SET_CART_ITEM', data)
-    if (data.delivery_price === null) {
-      commit('SET_TOTAL_PRICE', data.total_price)
-    } else {
-      commit('SET_TOTAL_PRICE', data.total_price)
-
-    }
     return data;
   } catch (err) {
     console.log(err)

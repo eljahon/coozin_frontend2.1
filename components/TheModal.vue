@@ -4,7 +4,7 @@
       <div class="multiple-modal">
         <div class="flex items-center justify-between">
           <h3 class="text-gray-800 text-xl font-bold">Ваши корзинки</h3>
-          <the-icon class="cursor-pointer" src="trash-gray"/>
+<!--          <the-icon class="cursor-pointer" src="trash-gray"/>-->
         </div>
         <div class="mt-4 flex flex-col gap-3 hover_class transition-all delay-75" v-for="(item, index) in $store.state.cart.cartList" :key="index">
           <div @click.stop="orderDetail(item.id, index+1)" class="product">
@@ -16,9 +16,7 @@
               <div class="flex items-center gap-2">
                 <the-icon src="chef-ligth"/>
                 <span
-                  class="font-medium text-gray-700 text-sm">{{
-                    $store.state.orderCarzina.vendorName ? $store.state.orderCarzina.vendorName : 'vendor name not'
-                  }}</span>
+                  class="font-medium text-gray-700 text-sm">{{vendorNameFormat(item)}}</span>
               </div>
               <div class="flex items-center gap-2">
                 <the-icon src="cash"/>
@@ -131,7 +129,7 @@
               <the-icon src="dark-x"/>
             </div>
           </div>
-          <textarea v-if="comment" v-model="comment_text" class="w-full bg-gray-100 rounded-lg outline-orange-600 p-1"
+          <textarea ref="input_text" v-show="comment" v-model="comment_text" class="w-full bg-gray-100 rounded-lg outline-orange-600 p-1"
                     rows="4"></textarea>
         </div>
         <div class="flex items-center justify-between mt-5">
@@ -174,7 +172,7 @@
           </div>
         </div>
         <button @click.stop="orderListSee" class="w-full text-white bg-orange-600 py-3 rounded-3xl font-semibold mt-8">
-          {{ $store.state.cart.cartItem.delivery_price ? $store.state.cart.totalPrice+$store.state.cart.cartItem.delivery_price : $store.state.cart.totalPrice+10000 }} + сум перейти к оплате
+          {{ formatPrice($store.state.cart.cartItem) }} сум перейти к оплате
         </button>
       </div>
       <div class="modal-background" @click="closeModal"></div>
@@ -213,6 +211,12 @@ export default {
     // }
   },
   methods: {
+    formatPrice(item) {
+    const data=   item.delivery_price ?
+       item.total_price+item.delivery_price :
+        item.total_price+10000+'+';
+    return data
+    },
     async getCartList() {
       return await this.$store.dispatch('cart/getCardList', {
         limit: 100,
@@ -224,14 +228,32 @@ export default {
       await this.getCartItemList(this.$route.query.order_id)
     },
     orderListSee() {
-      this.$router.push({path: this.localePath('/order'),
-        query: {comment_text: this.comment_text ? this.comment_text : undefined , order_id: this.$route.query.order_id}})
+      if (this.comment_text) {
+        this.$router.push({path: this.localePath('/order'),
+          query: {comment_text: this.comment_text , order_id: this.$route.query.order_id}})
+      } else {
+        this.comment = !this.comment;
+        // console.log()
+        setTimeout(() => {
+          this.$refs.input_text.focus()
+        },0)
+      }
     },
     closeModal() {
-      this.$router.push({
-        path: this.localePath(this.$route.path),
-        query: {...this.$route.query, foodSaw: undefined, order_id: undefined}
-      })
+      if(this.$route.path === '/order') {
+        this.$router.push({
+          path: this.localePath(this.$route.path),
+          query: {...this.$route.query, foodSaw: undefined}
+        })
+      } else {
+        this.$router.push({
+          path: this.localePath(this.$route.path),
+          query: {...this.$route.query, foodSaw: undefined, order_id: undefined}
+        })
+      }
+    },
+    isComment () {
+      this.comment = !this.comment
     },
     itemOrderRemove(item) {
       const orderRemove = {
@@ -256,7 +278,7 @@ export default {
       this.isDisbale = false;
 
     },
-  async  getCartItemList (id) {
+    async  getCartItemList (id) {
   const data = await this.$store.dispatch('cart/getCardItem', {id:id, ...this.lang});
   return data;
 
@@ -301,8 +323,12 @@ export default {
       await this.getCartList()
       await this.$router.push({
         path: this.localePath(this.$route.path),
-        query: {...this.$route.query, foodSaw: 'multipleOrder', order_id: undefined, carNumber: undefined}
+        query: {...this.$route.query, foodSaw: 'multipleOrder', carNumber: undefined}
       })
+    },
+    vendorNameFormat (item) {
+      const full_name= item.vendor.about_me.split('.');
+      return full_name[0] + full_name[1]
     }
   }
 }

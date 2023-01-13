@@ -36,16 +36,10 @@
                   id="dilevery-time"
                   name="dilevery-time"
                   style="-webkit-appearance: none;"
+                  v-model="order.delivery_time"
                 >
-                  <option value="">13:00 - 14:00</option>
-                  <option value="">14:00 - 15:00</option>
-                  <option value="">15:00 - 16:00</option>
-                  <option value="">16:00 - 17:00</option>
-                  <option value="">17:00 - 18:00</option>
-                  <option value="">18:00 - 19:00</option>
-                  <option value="">19:00 - 20:00</option>
-                  <option value="">20:00 - 21:00</option>
-                  <option value="">21:00 - 22:00</option>
+                  <option v-for="(item, index) in timeList" :value="item" :key="index">{{item}}</option>
+
                 </select>
                 <img class="absolute position" src="../../../assets/svg/clock-gray.svg" alt="Input icon" >
                 <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
@@ -161,14 +155,14 @@ export default {
         {value: 'card', label:'card'},
         {value: 'balance', label:'balance'},
       ],
-
+      timeList: [],
       order:{
         additional_name: this.$auth.state.user.full_name,
         additional_phone: this.$auth.state.user.phone,
         address: "",
         address_comment: "",
-        comment: this.$route.query.comment_text,
-        delivery_time: this.$dayjs(new Date()).add(2, 'h').format('YYYY-MM-DD HH:mm:ss'),
+        comment: this.$route.query.comment_text ?? '',
+        delivery_time: null,
         latitude: null,
         longitude: null,
         payment_type: "cash",
@@ -183,36 +177,37 @@ export default {
   async fetch () {
     await this.getOrderItem()
     await this.getDate()
-    // if (this.$auth.state.loggedIn) {
-    //   await this.getMyCard()
-    // }
+    await this.orderTimeDelever()
   },
   mounted() {
     // console.log(this.$auth.state)
   },
   methods: {
-    changePlice(item) {
+   async changePlice(item) {
       console.log(item)
-      this.$store.dispatch('set_location', {latitude:item?.getNames[0]?.latitude,longitude: item?.getNames[0]?.longitude })
+     await this.$store.dispatch('set_location', {latitude:item?.getNames[0]?.latitude,longitude: item?.getNames[0]?.longitude })
       this.order.address = item.fullName;
-      this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude)
+     await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
+     await this.orderTimeDelever()
     },
     openMaps () {
       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
     },
-    orderCreate () {
+   async orderCreate () {
       this.order['food'] = this.$store.state.cart.cartItem.items.map(el => ({id: el.food.id, count: el.quantity}))
-      console.log(this.order)
       const order = {
         ...this.order,
         ...this.$store.state.location
-      }
-
-      // console.log(order)
-      this.$axios.post('orders', {...order})
+      };
+  const data = await this.$axios.post('orders', {...order})
         .then(res => {
-          // this.$toast.success("успех Оформление заказа")
-          console.log(res)
+          const {delivery_time, address, geolocation} = res.errors;
+          if (delivery_time) this.$toast.error(delivery_time[0], {duration: 4000})
+          if (address) this.$toast.error(address[0], {duration: 3000})
+          if (geolocation) this.$toast.error(geolocation[0], {duration: 3000})
+        })
+        .catch(error=> {
+          console.log(error)
         })
     },
     async getDate () {
@@ -244,7 +239,22 @@ export default {
         longitude: longitude ?? this.$store.state.location.longitude,
         latitude: latitude ?? this.$store.state.location.latitude}
     },
-    // }
+    async orderTimeDelever () {
+      let data = {
+        food: this.$store.state.cart.cartItem.items.map(el => ({id: el.food.id, count: el.quantity})),
+      }
+      const getData = await this.$store.dispatch('orderCarzina/order_deleveriy_time', {...data,...this.$store.state.location})
+      this.timeGenert(getData.preparation)
+    },
+   timeGenert (arr) {
+    this.timeList = [];
+      this.timeList.push(arr)
+      for (let i=0; i<5; i++) {
+         this.timeList.push(this.$dayjs(this.timeList[this.timeList.length-1]).add(10,'m').format('YYYY-MM-DD HH:mm:ss'))
+      };
+      console.log(this.timeList)
+
+    }
   }
 }
 </script>

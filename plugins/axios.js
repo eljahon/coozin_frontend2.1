@@ -22,7 +22,7 @@ export default function ({ $axios, redirect, $auth,app }) {
       duration: 2000,
       position: 'bottom-right',
     })
-    console.log('error', error, message, app)
+    // console.log('error', error, message, app)
     if (code === 400) {
 
     };
