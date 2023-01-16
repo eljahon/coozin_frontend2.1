@@ -1,21 +1,34 @@
 <template>
-<div v-if="$route.query.maps">
-     <div class="multiple-modal">
-       <span class="flex items-center justify-end mb-3">
-         <div @click="$router.push({path: localePath($route.path), query: {...$route.query, maps: undefined}})">
-           <the-icon
-             class="cursor-pointer"
-             src="x"
-             width="20"
-             height="20"
-           />
-         </div>
-       </span>
-       <yandex-maps class="" @clickPlace="locationNames"></yandex-maps>
-     </div>
-     <div class="modal-background 1"
-          @click="$router.push({path: localePath($route.path), query: {...$route.query, maps: undefined}})">
-     </div>
+  <div v-if="$route.query.maps">
+    <div class="multiple-modal">
+      <span class="flex flex-col mb-2">
+        <div class="flex items-center justify-between mb-3">
+          <h2>Укажите адрес доставки</h2>
+          <span @click="$router.push({path: localePath($route.path), query: {...$route.query, maps: undefined}})">
+            <the-icon
+              class="cursor-pointer"
+              src="x"
+              width="20"
+              height="20"
+            />
+          </span>
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <button class="sm:flex hidden text-white p-2 rounded-2xl bg-orange-500">Определить</button>
+          <input
+            class="w-full p-2 rounded-2xl bg-white outline-orange-500 border border-gray-200"
+            type="text"
+            placeholder="Выбирайте или найдите свой локация"
+          >
+          <button class="text-white p-2 px-4 rounded-2xl bg-orange-500">OK</button>
+        </div>
+      </span>
+
+     <yandex-maps @clickPlace="locationNames"></yandex-maps>
+    </div>
+    <div class="modal-background 1"
+        @click="$router.push({path: localePath($route.path), query: {...$route.query, maps: undefined}})">
+    </div>
   </div>
 </template>
 
@@ -62,11 +75,17 @@ export default {
 }
 .multiple-modal > div {
   overflow: hidden;
-  height: 94%;
+  height: 86%;
 }
 .ymaps-2-1-79-map {
   width: 100%;
   height: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .multiple-modal {
+    width: 96%;
+  }
 }
 
 </style>
