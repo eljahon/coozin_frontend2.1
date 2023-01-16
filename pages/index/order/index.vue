@@ -185,7 +185,7 @@ export default {
   methods: {
    async changePlice(item) {
       console.log(item)
-     await this.$store.dispatch('set_location', {latitude:item?.getNames[0]?.latitude,longitude: item?.getNames[0]?.longitude })
+     await this.$store.dispatch('set_location', {latitude:item.getNames[0].latitude,longitude: item.getNames[0].longitude })
       this.order.address = item.fullName;
      await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
      await this.orderTimeDelever()
@@ -245,6 +245,7 @@ export default {
       }
       const getData = await this.$store.dispatch('orderCarzina/order_deleveriy_time', {...data,...this.$store.state.location})
       this.timeGenert(getData.preparation)
+      this.order.delivery_time = getData.preparation;
     },
    timeGenert (arr) {
     this.timeList = [];
