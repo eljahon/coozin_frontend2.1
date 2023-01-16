@@ -205,6 +205,7 @@ export default {
         longitude: listPlice?.getNames[0]?.longitude
       }
       this.$store.dispatch('set_location', langlot)
+      this.$store.dispatch('set_location_name', listPlice.fullName)
       window.location.reload()
       // console.log("listPlice", listPlice)
     },
