@@ -32,8 +32,7 @@
           </div>
           <div class="relative">
             <div v-if="modal" class="absolute position z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
-              <div class="flex justify-between"><h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3> <span @click="modal=false"><the-icon  class="mt-1 mr-1 cursor-pointer" src="x"></the-icon></span></div>
-              <p class="font-medium text-gray-700">{{locationName}}</p>
+              <div class="flex justify-between"><h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3> <span @click="modal=false"><the-icon width="30px" class="mt-1 mr-1 cursor-pointer flex shrink-0" src="x"></the-icon></span></div>
               <div class="flex items-center gap-3 mx-auto">
                 <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
                 <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
@@ -55,8 +54,8 @@
         <div class="flex items-center xl:gap-4 gap-3">
           <div class="lg:hidden">
             <div v-if="modal" class="absolute position z-10 top-16 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
-              <h3 class="text-gray-800 font-semibold">Вы в г.Ташкент</h3>
-              <p class="font-medium text-gray-700">{{locationName}}</p>
+              <h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3>
+<!--              <p class="font-medium text-gray-700">{{locationName}}</p>-->
               <div class="flex items-center gap-3 mx-auto">
                 <button @click="locations" class="bg-orange-600 p-3 text-white sm:w-40 w-36 rounded-3xl">Да, верно</button>
                 <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 sm:w-40 w-36 rounded-3xl">Вы ошиблись</button>
@@ -145,6 +144,16 @@ export default {
   components: {
     'header-card': HeaderCard,
     'burger-menu': BurgerMenu
+  },
+  filters: {
+    location: function (item) {
+      if (item.length > 60) {
+        let result = String(item)
+        return result.slice(0, 60) + '...'
+      } else {
+        return item
+      }
+    }
   },
   computed: {
     locationName () {

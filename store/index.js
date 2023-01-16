@@ -99,8 +99,8 @@ export const actions = {
     }
     commit('SET_LOCATION', loc)
     if (this.$cookies.get('lacationName')) {
+      console.log(this.$cookies.get("lacationName"))
       commit('SET_LOCATION_NAME', this.$cookies.get('lacationName'))
-
     }
 
   },
