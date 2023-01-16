@@ -94,10 +94,8 @@
               <div v-if="lang" @mouseleave="lang = false"
                    class="absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
                 <span
-                  v-for="
-                  (item, index)
-                  in
-                  $i18n.locales.filter(el=> el.code !== $i18n.locale)"
+                  v-for="(item, index) in $i18n.locales.filter(el=> el.code !== $i18n.locale)"
+                  :key="index"
                   class="w-full hover:bg-gray-100 rounded"
                   @click="handleLang(item.code)">
                   {{ item.name }}

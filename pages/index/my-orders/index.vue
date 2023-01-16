@@ -87,7 +87,7 @@
                 </div>
                 <div class="flex justify-between">
                   <h5 class="text-gray-700">Доставка</h5>
-                  <h5 class="text-gray-700">{{ orderDetail.delivery_price }} сум</h5>
+                  <h5 class="text-gray-700">{{ orderDetail?.delivery_price }} сум</h5>
                 </div>
               </div>
               <div class="flex justify-between">
@@ -391,7 +391,7 @@
                 </div>
                 <div class="flex justify-between">
                   <h5 class="text-gray-700">Доставка</h5>
-                  <h5 class="text-gray-700">{{ orderDetail.delivery_price }} сум</h5>
+                  <h5 class="text-gray-700">{{ orderDetail?.delivery_price }} сум</h5>
                 </div>
               </div>
               <div class="flex justify-between">

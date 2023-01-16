@@ -78,15 +78,15 @@
           </div>
         </div>
     </div>
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7 xl:px-0 sm:px-4 px-2">
+    <div class="container mx-auto overflow-x-scroll scroll-style my-3 xl:px-0 sm:px-4 px-2">
       <div class="flex items-center sm:gap-4 gap-2 w-full">
-          <category-card
-            v-for="item in categories"
-            :key="item.id"
-            :title="item.name"
-            :id="item.id"
-            @clickCategories="categoriesFilter"
-          />
+        <category-card
+          v-for="item in categories"
+          :key="item.id"
+          :title="item.name"
+          :id="item.id"
+          @clickCategories="categoriesFilter"
+        />
       </div>
     </div>
 
@@ -103,8 +103,8 @@
           :product-img="item.productImg"
           :avatar="item?.avatar?.small_size_url"
           :rate="item?.ratings_avg"
-          :deliveryPrice="item.delivery_price"
-          :count="idx+1"
+          :deliveryPrice="item?.delivery_price"
+          :count="idx + 1"
         />
       </div>
     </div>
@@ -241,7 +241,7 @@ import {mapGetters} from "vuex"
       async getVendors(page) {
         console.log(page, this.$store.state?.location)
         try {
-        const {objects,meta} = await this.$axios.get('vendors', {
+        const {objects, meta} = await this.$axios.get('vendors', {
             params: {
               limit: 10,
               page: page,
