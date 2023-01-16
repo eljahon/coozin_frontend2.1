@@ -69,6 +69,13 @@ export default {
       ],
     }
   },
+  head () {
+    return {
+      bodyAttrs: {
+        class: this.$store.state.burger ? 'overflow-hidden' : ''
+      }
+    }
+  },
   mounted() {
     this.getUser()
   },

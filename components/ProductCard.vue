@@ -56,6 +56,7 @@ export default {
   border-radius: 100%;
   overflow: hidden;
   width: 100px;
+  height: 100px;
   position: absolute;
   bottom: 18px;
   right: 18px;

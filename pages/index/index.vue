@@ -90,24 +90,24 @@
       </div>
     </div>
 
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7" v-for="(count, index) in page" :key="index">
+    <div class="container mx-auto overflow-x-scroll scroll-style my-3" v-for="(count, index) in page" :key="index">
       <div class="flex items-center gap-4 w-full">
-    <div class="container mx-auto overflow-x-scroll scroll-style my-7 xl:px-0 sm:px-4 px-2">
-      <div class="flex items-center sm:gap-4 gap-2 w-full">
-        <product-card
-          v-for="(item, idx) in verdor_list[count]"
-          :key="idx"
-          :id="item.id"
-          :src="item.src"
-          :title="item?.user?.full_name"
-          :product-img="item.productImg"
-          :avatar="item?.avatar?.small_size_url"
-          :rate="item?.ratings_avg"
-          :deliveryPrice="item?.delivery_price"
-          :count="idx + 1"
-        />
-      </div>
-    </div>
+        <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-2">
+          <div class="flex items-center sm:gap-4 gap-2 w-full">
+            <product-card
+              v-for="(item, idx) in verdor_list[count]"
+              :key="idx"
+              :id="item.id"
+              :src="item.src"
+              :title="item?.user?.full_name"
+              :product-img="item.productImg"
+              :avatar="item?.avatar?.small_size_url"
+              :rate="item?.ratings_avg"
+              :deliveryPrice="item?.delivery_price"
+              :count="idx + 1"
+            />
+          </div>
+        </div>
       </div>
     </div>
 <!--      <div  style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">-->
