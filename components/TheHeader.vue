@@ -17,9 +17,12 @@
           </div>
         </div>
         <div class="lg:flex hidden items-center gap-3">
-          <header-card>
-            <the-icon src="search"/>
-          </header-card>
+          <div @click="search = !search">
+            <header-card>
+              <the-icon :src="search ? 'x' : 'search'"/>
+            </header-card>
+          </div>
+          <input v-if="search" class="search-input" type="text">
           <div class="md:flex hidden" @click="modal = true">
             <the-input
               type="text"
@@ -32,7 +35,10 @@
           </div>
           <div class="relative">
             <div v-if="modal" class="absolute position z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
-              <div class="flex justify-between"><h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3> <span @click="modal=false"><the-icon width="30px" class="mt-1 mr-1 cursor-pointer flex shrink-0" src="x"></the-icon></span></div>
+              <div class="flex justify-between gap-1">
+                <h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3>
+                <span @click="modal=false"><the-icon width="30px" class="mt-1 mr-1 cursor-pointer flex shrink-0" src="x"></the-icon></span>
+              </div>
               <div class="flex items-center gap-3 mx-auto">
                 <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
                 <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
@@ -65,6 +71,7 @@
           <div class="lg:hidden">
             <header-card>
               <the-icon src="search"/>
+<!--              <input type="text">-->
             </header-card>
           </div>
           <div @click="modal = true" class="md:hidden sm:flex hidden">
@@ -138,7 +145,8 @@ export default {
       lang: false,
       modal: false,
       burger: false,
-      address: null
+      address: null,
+      search: false
     }
   },
   components: {
@@ -254,6 +262,24 @@ export default {
   position: relative;
   z-index: 10;
   background: #ffffff;
+}
+
+.search-input {
+  position: absolute;
+  z-index: 50;
+  height: 48px;
+  background: #ffffff;
+  border: 1px solid rgb(229,231,235);
+  width: 60%;
+  left: 54%;
+  transform: translate(-50%, 0px);
+  border-radius: 16px;
+  padding: 20px;
+  font-size: 18px;
+}
+.search-input:focus {
+  border-color: rgb(234,88,12);
+  outline: rgb(234,88,12);
 }
 .position {
   left: 50%;

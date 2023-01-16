@@ -123,7 +123,7 @@
           <a href="#menu">Блог</a>
         </h2>
         <div class="flex items-center gap-1">
-          <span class="font-normal text-orange-600 cursor-pointer">Посмотреть больше</span>
+          <nuxt-link class="font-normal text-orange-600 cursor-pointer" to="/blog">Посмотреть больше</nuxt-link>
           <the-icon src="right-arrow" />
         </div>
       </div>
