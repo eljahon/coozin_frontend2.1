@@ -13,6 +13,13 @@ export default  {
 
     }
   },
+  head () {
+    return {
+      bodyAttrs: {
+        class: this.$route.query.foodSaw ? 'overflow-hidden' : ''
+      }
+    }
+  },
   methods: {
     showLocations (value) {
       const locations  = {
@@ -27,11 +34,10 @@ export default  {
      window.navigator.geolocation.getCurrentPosition(this.showLocations)
     },
     LocationModal () {
-this.isModal = !this.isModal
+      this.isModal = !this.isModal
     }
   },
-  mounted() {
-    // this.locations()
-  }
 }
 </script>
+
+<style></style>

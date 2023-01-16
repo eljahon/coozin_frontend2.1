@@ -3,7 +3,7 @@
     <div class="multiple-modal" :class="$route.query.foodSaw === 'multipleOrder' ? 'open' : ''">
       <div class="flex items-center justify-between">
         <h3 class="text-gray-800 text-xl font-bold">Ваши корзинки</h3>
-        <div @click="closeModal">
+        <div class="flex flex-shrink" @click="closeModal">
           <the-icon class="cursor-pointer" src="x" />
         </div>
       </div>
@@ -15,12 +15,12 @@
           <div class="flex flex-col gap-1">
             <h3 class="font-bold text-gray-800">Корзинка № {{ index + 1 }}</h3>
             <div class="flex items-center gap-2">
-              <the-icon src="chef-ligth"/>
+              <div class="flex flex-shrink"><the-icon src="chef-ligth"/></div>
               <span
                 class="font-medium text-gray-700 text-sm">{{vendorNameFormat(item)}}</span>
             </div>
             <div class="flex items-center gap-2">
-              <the-icon src="cash"/>
+              <div class="flex flex-shrink"><the-icon src="cash"/></div>
               <span class="font-semibold text-sm">{{ item.total_price }} сум</span>
             </div>
           </div>
@@ -44,7 +44,7 @@
           <br>
           <span class="text-orange-600">{{ $store.state.orderCarzina.vendorName }}</span>
         </h4>
-        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-orange-100">
+        <div class="w-14 h-14 flex-shrink flex rounded-full overflow-hidden border-2 border-orange-100">
           <img class="w-full object-cover" src="https://i.pravatar.cc/140" alt="Avatar Chef">
         </div>
       </div>
@@ -336,6 +336,7 @@ export default {
   border-radius: 100%;
   width: 80px;
   height: 80px;
+  flex-shrink: 0;
 }
 
 .product {
@@ -396,5 +397,30 @@ export default {
 }
 .delete_button:hover .delete_img{
   background-color: black;
+}
+
+@media screen and (max-width: 640px) {
+  .multiple-modal {
+    top: 72px;
+    width: 375px;
+    padding: 16px 10px;
+  }
+  .cart-bg {
+    width: 70px;
+    height: 70px;
+  }
+  .delete_button {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .product {
+    gap: 6px;
+    padding: 8px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .multiple-modal {
+    width: 100%;
+  }
 }
 </style>
