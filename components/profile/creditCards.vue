@@ -57,7 +57,7 @@
         Добавить карту
       </button>
     </div>
-    <div @click="modal = false" v-if="modal" class="modal-background"></div>
+    <div @click="modal = false" v-if="modal" class="modal-background 4"></div>
   </div>
 </template>
 

@@ -113,11 +113,11 @@
           </div>
           <div class="flex justify-between my-2">
             <h4 class="text-gray-600">Доставка</h4>
-            <h4 class="font-medium text-gray-600"> {{$store.state.cart.cartItem.delivery_price ? $store.state.cart.cartItem.delivery_price : ' 10 000 +' }} сум</h4>
+            <h4 class="font-medium text-gray-600"> {{$store.state.cart?.cartItem?.delivery_price ? $store.state.cart.cartItem.delivery_price : ' 10 000 +' }} сум</h4>
           </div>
           <div class="flex justify-between">
             <h4 class="font-bold text-gray-600">Итого</h4>
-            <h4 v-if="$store.state.cart.cartItem.delivery_price !== null" class="font-bold text-gray-600">{{Number($store.state.cart.cartItem.delivery_price)+Number($store.state.cart.cartItem.total_price) }} сум</h4>
+            <h4 v-if="$store.state.cart?.cartItem?.delivery_price !== null" class="font-bold text-gray-600">{{Number($store.state.cart.cartItem.delivery_price)+Number($store.state.cart.cartItem.total_price) }} сум</h4>
             <h4 v-else class="font-bold text-gray-600">{{Number($store.state.cart.cartItem.total_price)+10000 +"+" }} сум</h4>
           </div>
         </div>
@@ -127,7 +127,7 @@
       <div class="bg-white w-80 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
         <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
         <div class="flex flex-col gap-3 overflow-y-scroll scroll-style pl-2 pr-4" style="max-height: 516px;">
-          <div v-for="item in $store.state.cart.cartItem.items">
+          <div v-for="item in $store.state.cart?.cartItem?.items">
             <div class="flex gap-4">
               <div class="w-24 h-24 overflow-hidden border border-gray-100 rounded-lg">
                 <img class="w-full" src="../../../assets/img/img-1.jpg" alt="Food Image">
@@ -194,7 +194,7 @@ export default {
       this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
     },
    async orderCreate () {
-      this.order['food'] = this.$store.state.cart.cartItem.items.map(el => ({id: el.food.id, count: el.quantity}))
+      this.order['food'] = this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity}))
       const order = {
         ...this.order,
         ...this.$store.state.location
@@ -241,7 +241,7 @@ export default {
     },
     async orderTimeDelever () {
       let data = {
-        food: this.$store.state.cart.cartItem.items.map(el => ({id: el.food.id, count: el.quantity})),
+        food: this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity})),
       }
       const getData = await this.$store.dispatch('orderCarzina/order_deleveriy_time', {...data,...this.$store.state.location})
       this.timeGenert(getData.preparation)

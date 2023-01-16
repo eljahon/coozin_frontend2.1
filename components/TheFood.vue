@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex items-center bg-gray-100 gap-1 py-1 px-2 overflow-hidden rounded-full">
                   <img width="16" height="16" src="../assets/svg/car.svg" alt="Car icon">
-                  <span class="text-xs text-gray-800 font-medium">{{item.delivery_price ? item.delivery_price : '10000'}} сум</span>
+                  <span class="text-xs text-gray-800 font-medium">{{item?.delivery_price ? item?.delivery_price : '10000'}} сум</span>
                 </div>
               </div>
             </div>
