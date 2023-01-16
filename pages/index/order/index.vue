@@ -167,7 +167,7 @@ export default {
         longitude: null,
         payment_type: "cash",
         card_id: null,
-        user_address_id: '',
+        user_address_id: null,
         promocode: null,
         voucher: null
 
@@ -178,9 +178,6 @@ export default {
     await this.getOrderItem()
     await this.getDate()
     await this.orderTimeDelever()
-  },
-  mounted() {
-    // console.log(this.$auth.state)
   },
   methods: {
    async changePlice(item) {

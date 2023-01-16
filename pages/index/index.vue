@@ -309,7 +309,7 @@ import {mapGetters} from "vuex"
       }
     },
     mounted() {
-      this.location  = !this.location;
+      this.location = true;
     }
   }
 </script>
