@@ -7,10 +7,10 @@
       <the-icon src="right-arrow-black" />
       <span class="text-sm font-medium text-gray-500 cursor-pointer">Оформление заказа</span>
     </div>
-    <div class="container mx-auto flex gap-9">
+    <div class="container mx-auto flex gap-9 xl:px-0 xl:flex-nowrap	flex-wrap px-4">
       <div class="bg-white w-full p-6 rounded-2xl">
         <h1 class="font-semibold text-gray-800 text-2xl">Оформление заказа</h1>
-        <div class="px-3 pt-5 flex justify-between">
+        <div class="px-3 pt-5 flex xl:justify-between justify-center gap-4 lg:flex-nowrap flex-wrap">
           <div>
             <div class="flex items-end gap-2.5">
               <the-input
@@ -78,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div class="px-3 pt-5 flex justify-between">
+        <div class="px-3 pt-5 flex xl:justify-between justify-center gap-4 lg:flex-nowrap flex-wrap">
           <div class="flex items-center justify-between w-96">
             <div class="flex items-center justify-center gap-3">
               <h3>Повторный заказ</h3>
@@ -105,7 +105,7 @@
             </div>
           </div>
         </div>
-        <div class="w-96">
+        <div class="w-96 xl:m-0 mx-auto my-2">
           <h3 class="text-lg font-semibold text-gray-700">К оплате</h3>
           <div class="flex justify-between">
             <h4 class="text-gray-600">Блюда</h4>

@@ -113,7 +113,7 @@
             <nuxt-link  v-if="$auth.loggedIn" to="profile">
               <the-icon src="user"/>
             </nuxt-link>
-            <div v-else @click.stop="() => $router.push({ path: localePath($route.path), query: {...$route.query, login: 'login'}})">
+            <div v-else @click.stop="$router.push({ path: localePath($route.path), query: {...$route.query, login: 'login'}})">
               <the-icon src="user"/>
             </div>
           </header-card>
