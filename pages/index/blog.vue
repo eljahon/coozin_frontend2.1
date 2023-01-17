@@ -93,9 +93,7 @@ export default {
       try {
         const { objects } =  await this.$axios.get('reels');
         this.blogData = objects
-        console.log(objects)
       } catch (e) {
-        console.log(e)
       }
     }
   },

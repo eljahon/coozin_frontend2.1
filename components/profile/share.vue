@@ -22,9 +22,7 @@ export default {
   methods: {
     copy() {
       navigator.clipboard.writeText('https://coozin.uz/').then(() => {
-        console.log('Copied!');
       }, function() {
-        console.log('Copy error')
       });
     }
   }

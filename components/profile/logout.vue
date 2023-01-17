@@ -22,7 +22,6 @@ export default {
       this.$cookies.remove('langlot')
       this.$toast.error('You are now logged out')
       this.$router.push(this.localePath('/'))
-      // console.log(this.$auth)
     }
   }
 }

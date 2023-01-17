@@ -258,7 +258,6 @@ export default {
           this.foods = objects
         })
       } catch (err) {
-        console.log(err)
       }
     }
   },

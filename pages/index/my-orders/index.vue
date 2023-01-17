@@ -446,7 +446,6 @@ export default {
     },
     getOrderDetail(item) {
       this.orderDetail = item
-      console.log(this.orderDetail)
     },
     async cancelOrder () {
       const data  = await this.$axios.patch(`/orders/${this.orderDetail.id}/cancel`);
@@ -457,7 +456,6 @@ export default {
         this.isCanseled = true;
         this.orderDetail['status'] = 'status'
       }
-      console.log(data)
     }
   }
 }

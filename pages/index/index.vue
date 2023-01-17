@@ -217,7 +217,6 @@ import {mapGetters} from "vuex"
         await this.getBlogs()
         await this.getDate()
       } catch (err) {
-        console.log(err)
       }
     },
     methods: {
@@ -227,7 +226,6 @@ import {mapGetters} from "vuex"
             this.categories = res.objects
           })
         } catch (err) {
-          console.log(err)
         }
       },
       async getCollection() {
@@ -235,11 +233,9 @@ import {mapGetters} from "vuex"
           const { objects } = await this.$axios.get('collections')
           this.collections = objects
         } catch (err) {
-          console.log(err)
         }
       },
       async getVendors(page) {
-        console.log(page, this.$store.state?.location)
         try {
         const {objects, meta} = await this.$axios.get('vendors', {
             params: {
@@ -254,12 +250,9 @@ import {mapGetters} from "vuex"
         // if (page ===1) {
           this.list[`${page}`]= objects
           this.productData = objects;
-          console.log(this.list, '=>>>>')
         // } else {
         //   this.productDataTwoo = objects
-        //   console.log(objects, 'tooo')
         // }
-        //   console.log("objects",objects)
         } catch (e) {
 
         }
@@ -269,7 +262,6 @@ import {mapGetters} from "vuex"
           const { objects } =  await this.$axios.get('reels');
           this.blogCard = objects
         } catch (e) {
-          console.log(e)
         }
       },
       async onDatesFilter (item) {
@@ -290,7 +282,6 @@ import {mapGetters} from "vuex"
       },
       categoriesFilter (item) {
         this.setQuery(item)
-        console.log(item)
       },
      async pageCount () {
         this.isPageCount = true;
@@ -299,7 +290,6 @@ import {mapGetters} from "vuex"
        await this.getVendors(limit)
        await this.page++;
        this.isPageCount = false;
-       // console.log(limit)
       }
     },
     computed: {

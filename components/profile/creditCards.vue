@@ -109,7 +109,6 @@ export default {
      try {
        if (this.checkValueCard()) {
          const itemCar = await this.$axios.post('cards', this.card);
-         console.log(itemCar)
          if(itemCar.id) {
            this.modal = false;
            this.$toast.success('new card create now')
@@ -117,7 +116,6 @@ export default {
          }
        }
      }catch (err) {
-       console.log(err)
      }
     },
     async deleteCard(id) {
@@ -128,7 +126,6 @@ export default {
           this.getCards()
         }
       } catch (err) {
-        console.log(err)
       }
     }
   }

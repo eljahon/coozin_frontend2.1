@@ -21,11 +21,9 @@ export const actions = {
   try {
     if (!limit) payload['limit'] = 10;
     const {objects} = await this.$axios.get('cart', {...payload})
-    console.log(objects)
     commit('SET_CART_LIST', objects)
     return objects;
   } catch (err) {
-    console.log(err)
     return err;
   }
  },
@@ -36,7 +34,6 @@ export const actions = {
     commit('SET_CART_ITEM', data)
     return data;
   } catch (err) {
-    console.log(err)
     return err;
   }
  },
@@ -57,20 +54,17 @@ export const actions = {
      return data;
    } catch (err) {
      this.$toast.error(err)
-     console.log(err)
    }
    },
    async removeCartItem({commit,state, dispatch}, payload) {
    const {order_id, id, latitude,longitude} = payload;
    try {
      const data = await this.$axios.delete(`cart/item/${id}`);
-     console.log(data)
      this.$toast.success('order item remove corzina ')
      dispatch('getCardItem', {id:order_id, latitude,longitude})
      return data;
    } catch (err) {
      this.$toast.error(err)
-     console.log(err)
    }
    }
 };

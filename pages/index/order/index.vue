@@ -181,7 +181,6 @@ export default {
   },
   methods: {
    async changePlice(item) {
-      console.log(item)
      await this.$store.dispatch('set_location', {latitude:item.getNames[0].latitude,longitude: item.getNames[0].longitude })
       this.order.address = item.fullName;
      await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
@@ -208,9 +207,7 @@ export default {
           if (geolocation) this.$toast.error(geolocation[0], {duration: 3000})
         })
         .catch(error=> {
-          console.log(error)
         })
-     console.log(data)
     },
     async getDate () {
       return this.$store.dispatch('set_day')
@@ -221,7 +218,6 @@ export default {
    async getMyCard () {
       try {
         const {objects} = await this.$axios.get('cards');
-        console.log(objects,'objectsCardlis')
         this.cardList = objects.map((el) => {
           return {
             label: el.card_number,
@@ -229,7 +225,6 @@ export default {
           }
         })
       }catch (err) {
-        console.log(err)
       }
     },
     async getOrderItem (longitude,latitude) {
@@ -255,7 +250,6 @@ export default {
       for (let i=0; i<5; i++) {
          this.timeList.push(this.$dayjs(this.timeList[this.timeList.length-1]).add(10,'m').format('YYYY-MM-DD HH:mm:ss'))
       };
-      console.log(this.timeList)
 
     }
   }

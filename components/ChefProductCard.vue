@@ -47,7 +47,6 @@ export default {
         // this.$toast.success('new order item corzina add')
       }
     }catch (err) {
-      console.log(err)
     }
     }
   }

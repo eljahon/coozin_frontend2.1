@@ -67,7 +67,6 @@ export default {
          const token = await this.$axios.post('/auth/register', {...this.register});
          await this.$store.dispatch('setUser', token)
        } catch (err) {
-         console.log()
        }
       },
     toLogin() {

@@ -21,7 +21,6 @@ export default  {
     }
   },
   mounted() {
-    // console.log(this.$route)
   },
   methods: {
     showLocations (value) {
@@ -31,7 +30,6 @@ export default  {
       };
       this.$store.dispatch('set_location', locations)
       this.$cookies.set('langlot', locations)
-      // console.log(value.coords, locations)
     },
     locations () {
      window.navigator.geolocation.getCurrentPosition(this.showLocations)
