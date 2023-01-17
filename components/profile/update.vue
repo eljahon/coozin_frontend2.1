@@ -5,8 +5,8 @@
       <img class="w-full fit-cover" src="https://i.pravatar.cc/140" alt="Avatar image">
     </div>
     <div class="flex items-center justify-center gap-3 mt-6">
-      <the-icon class="cursor-pointer" src="update" />
-      <the-icon class="cursor-pointer" src="trash" />
+      <the-icon class="cursor-pointer" src="update"/>
+      <the-icon class="cursor-pointer" src="trash"/>
     </div>
 
     <form class="lg:mt-8 my-8 flex justify-center h-full gap-5 w-full flex-wrap">
@@ -16,7 +16,7 @@
           class="input-width w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg	"
           type="text"
           id="firstname"
-          v-model="first_name"
+          v-model="form.first_name"
         >
       </div>
       <div class="relative">
@@ -25,14 +25,19 @@
           class="input-width  w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg"
           type="text"
           id="lastname"
-          v-model="last_name"
+          v-model="form.last_name"
         >
       </div>
     </form>
 
     <div class="flex items-center lg:justify-end justify-center gap-5">
-      <button class="text-orange-600 font-semibold p-3 rounded-3xl w-40 bg-white border border-orange-600 active:opacity-80 hover:opacity-80">Отменить</button>
-      <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80" @click="updateUser">Сохранить</button>
+      <button
+        class="text-orange-600 font-semibold p-3 rounded-3xl w-40 bg-white border border-orange-600 active:opacity-80 hover:opacity-80">
+        Отменить
+      </button>
+      <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80"
+              @click="updateUser">Сохранить
+      </button>
     </div>
   </div>
 </template>
@@ -41,8 +46,10 @@
 export default {
   data() {
     return {
-      first_name: '',
-      last_name: '',
+      form: {
+        first_name: '',
+        last_name: ''
+      },
       user: []
     }
   },
@@ -51,39 +58,44 @@ export default {
   },
   methods: {
     async getUser() {
-      await this.$axios.get('user').then(res => {
-        this.user = res
-      })
-      this.first_name = this.user.first_name
-      this.last_name = this.user.last_name
-    },
-    updateUser() {
-      const _data = {
-        first_name: this.first_name,
-        last_name: this.last_name
+      try {
+        const userdata = await this.$axios.get('user');
+        console.log(userdata)
+        this.form.first_name = userdata.first_name;
+        this.form.last_name = userdata.last_name
+      } catch (err) {
+        console.log(errr)
       }
-      this.$axios.post('user', {
-        ..._data
-      })
-      // this.$store.dispatch('user/getUser')
+    },
+    async updateUser() {
+      try {
+        const userupdate = await this.$axios.post('user', {...this.form});
+        if (userupdate.id) {
+          this.$toast.success('user data upadate')
+          this.$router.push({path: this.localePath(this.$route.path)})
+        }
+      } catch (err) {
+        console.log(err)
+      }
     },
   }
 }
 </script>
 
 <style scoped>
-  .input-width {
-    width: 400px;
-  }
+.input-width {
+  width: 400px;
+}
 
-  @media screen and (max-width: 420px) {
-    .input-width {
-      width: 350px;
-    }
+@media screen and (max-width: 420px) {
+  .input-width {
+    width: 350px;
   }
-  @media screen and (max-width: 375px) {
-    .input-width {
-      width: 300px;
-    }
+}
+
+@media screen and (max-width: 375px) {
+  .input-width {
+    width: 300px;
   }
+}
 </style>

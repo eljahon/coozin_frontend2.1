@@ -67,7 +67,7 @@
                   class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
                   id="dilevery-time"
                   name="dilevery-time"
-                  v-model="order.card_id"
+                  v-model="order.payment_type"
                   style="-webkit-appearance: none;"
                 >
                   <option v-for="(item, ind) in cardList" :key="ind" :value="item.value">{{$t(`word.${item.label}`)}}</option>
@@ -198,18 +198,19 @@ export default {
       };
   const data = await this.$axios.post('orders', {...order})
         .then(res => {
+          if (res.status) {
+              this.$router.push({path: this.localePath('/my-orders')})
+              this.$toast.success('new order create', {duration: 3000})
+          }
           const {delivery_time, address, geolocation} = res.errors;
           if (delivery_time) this.$toast.error(delivery_time[0], {duration: 4000})
           if (address) this.$toast.error(address[0], {duration: 3000})
           if (geolocation) this.$toast.error(geolocation[0], {duration: 3000})
-          if (res.id) {
-            this.$router.push({path: this.localePath('/my-orders')})
-            this.$toast.error('new order create', {duration: 3000})
-          }
         })
         .catch(error=> {
           console.log(error)
         })
+     console.log(data)
     },
     async getDate () {
       return this.$store.dispatch('set_day')

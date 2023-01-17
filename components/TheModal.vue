@@ -222,7 +222,9 @@ export default {
     itemOrderRemove(item) {
       const orderRemove = {
         order_id: this.$route.query.order_id,
-        id: item
+        id: item,
+        latitude: this.$store.state.location.latitude,
+        longitude: this.$store.state.location.longitude
       }
       console.log(item)
       this.$store.dispatch('cart/removeCartItem', orderRemove)
