@@ -17,7 +17,6 @@ export const actions = {
         commit('SET_USER', res)
       })
     } catch (err) {
-      console.log(err)
     }
   },
   async postUser ({ commit },payload)  {
@@ -26,12 +25,10 @@ export const actions = {
         ...payload
       })
     } catch (err) {
-      console.log(err)
     }
   },
   logout() {
     this.$auth.logout()
     this.$axios.post('logout')
-    // console.log(this.$auth)
   }
 }

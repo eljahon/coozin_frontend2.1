@@ -8,6 +8,8 @@
       <p class="text-lg text-center text-gray-700 mt-1">У вас ещё нет аккаунта?
         <span @click="$router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: 'register'}})" class="text-orange-600 cursor-pointer font-semibold	">Регистрация</span>
       </p>
+<!--      <ValidationObserver ref="observer" v-slot="{ passes, invalid }">-->
+<!--        <form @submit.prevent="passes()">-->
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
          py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 my-6"
@@ -19,6 +21,8 @@
         @click="$router.push({path: localePath($route.path), query: {...$route.query, login: 'otp'}})"
         class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"
       >Получить пароль</button>
+<!--        </form>-->
+<!--        </ValidationObserver>-->
     </div>
     <div v-else-if="$route.query.login === 'otp'" class="login-modal">
       <div @click="$router.push({path: localePath($route.path), query: {...$route.query,login: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
@@ -62,7 +66,6 @@ export default {
           })
           await this.$store.dispatch('Login', res)
             .then(async (response) => {
-              console.log(response)
              await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, login: undefined}})
              await this.$toast.success('success Login')
               await this.$store.dispatch('cart/getCardList')

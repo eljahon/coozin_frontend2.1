@@ -15,14 +15,12 @@ export default function ({ $axios, redirect, $auth,app }) {
           }
 
   $axios.onError(error => {
-    console.log(error)
     const code = error.response.status;
     const message = error.response;
     app.$toast.error(`${code } ${message.data.message}`, {
       duration: 2000,
       position: 'bottom-right',
     })
-    // console.log('error', error, message, app)
     if (code === 400) {
 
     };
@@ -36,7 +34,6 @@ export default function ({ $axios, redirect, $auth,app }) {
   //   };
   // });
   $axios.onResponse(data => {
-    // console.log('onResponse====>>>>', data)
     return data.data
   })
 }

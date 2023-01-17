@@ -29,7 +29,6 @@ export const mutations = {
     })
     state.orderList[0].foods = list;
     const price  = state.orderList[0].foods.reduce((summ, el) => summ+el.add.price*el.count, 0)
-    console.log(price)
     commit('SET_PRICE', price)
   },
   SET_ITEM_ADD_COUNT (state, payload){
@@ -43,11 +42,9 @@ export const mutations = {
     })
     state.orderList[0].foods = list;
     const price  = state.orderList[0].foods.reduce((summ, el) => summ+el.add.price*el.count,0)
-    console.log(price)
     commit('SET_PRICE', price)
   },
   SET_VENDOR_NAME: (state, payload) => {
-    console.log('name =>', payload)
     state.vendorName = payload
   },
   SET_OLD_PRICE: (state, payload) => {
@@ -87,7 +84,6 @@ async  set_order({ commit,state }, payload) {
        await commit('SET_ORDER', [{vendor_id, foods: [{count: 1, add: item}]}])
        await commit('SET_OLD_PRICE', state.orderList[0].foods.reduce((sum, el) => sum+el.add.price*el.count, 0))
       }
-    console.log(changesList)
   },
   remove_order ({commit}, paylaod) {
     commit('REMOVE_ITEM', {id:paylaod, commit})

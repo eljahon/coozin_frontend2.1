@@ -64,7 +64,6 @@ export default {
   },
   mounted() {
     this.showMap = true;
-    // console.log(this.$cookies.get('langlot'))
   },
   methods: {
    async Location(name) {
@@ -74,7 +73,6 @@ export default {
       const data=  await  this.$store.dispatch('yandex/pointSearchLotLang', sendata);
        this.$emit('clickPlace', data)
      } catch (err){
-       console.log(err)
      }
     }
   }

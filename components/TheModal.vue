@@ -197,7 +197,6 @@ export default {
           query: {comment_text: this.comment_text , order_id: this.$route.query.order_id}})
       } else {
         this.comment = !this.comment;
-        // console.log()
         setTimeout(() => {
           this.$refs.input_text.focus()
         },0)
@@ -226,9 +225,7 @@ export default {
         latitude: this.$store.state.location.latitude,
         longitude: this.$store.state.location.longitude
       }
-      console.log(item)
       this.$store.dispatch('cart/removeCartItem', orderRemove)
-      console.log(item)
     },
     async decrement(item) {
       this.isDisbale = !this.isDisbale
@@ -273,7 +270,6 @@ export default {
           await this.back()
         }
       } catch (err) {
-        console.log(err)
       }
     },
     async orderDetail(item, carNumber) {

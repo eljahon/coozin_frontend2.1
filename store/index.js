@@ -66,20 +66,16 @@ export const actions = {
       name: state.monthNames[this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD').split('-')[1]],
     })
     };
-    // console.log('days', days)
     commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {
-    console.log(res);
     try {
       this.$auth.setUserToken(res.token)
       const info = await this.$axios.get('/auth/user')
-      console.log(info, 'info ====>>>')
       this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)
       return info;
     } catch (err) {
-      console.log(err)
     }
   },
   async Login ({commit, dispatch}, payload) {
@@ -99,7 +95,6 @@ export const actions = {
     }
     commit('SET_LOCATION', loc)
     if (this.$cookies.get('lacationName')) {
-      console.log(this.$cookies.get("lacationName"))
       commit('SET_LOCATION_NAME', this.$cookies.get('lacationName'))
     }
 

@@ -60,11 +60,9 @@ export default {
     async getUser() {
       try {
         const userdata = await this.$axios.get('user');
-        console.log(userdata)
         this.form.first_name = userdata.first_name;
         this.form.last_name = userdata.last_name
       } catch (err) {
-        console.log(errr)
       }
     },
     async updateUser() {
@@ -75,7 +73,6 @@ export default {
           this.$router.push({path: this.localePath(this.$route.path)})
         }
       } catch (err) {
-        console.log(err)
       }
     },
   }

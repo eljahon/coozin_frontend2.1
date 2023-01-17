@@ -30,7 +30,6 @@ export default {
   // },
   methods: {
     getSelectName(name) {
-      console.log(name)
     }
   }
 }

@@ -30,6 +30,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~/plugins/axios.js" },
+    {src: '~/plugins/vee-validate.js', ssr: false},
     { src: "~/plugins/tools.js", defer: true },
     { src: '@/plugins/yandex.js'}
   ],

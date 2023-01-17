@@ -77,7 +77,9 @@ export default {
     }
   },
   mounted() {
-    this.getUser()
+    if(this.$auth.state.loggedIn) {
+      this.getUser()
+    }
   },
   methods: {
     getUser() {
@@ -86,7 +88,6 @@ export default {
       })
     },
     handleRoute(item) {
-      console.log(item);
       this.$store.dispatch('burgerOpen', false)
       if (item.name) {
         this.$router.push({ path: this.localePath('/profile'), query: {name: item.name}})

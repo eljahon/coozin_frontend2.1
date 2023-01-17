@@ -31,10 +31,8 @@ export const actions = {
     }
   })
       const fullName = getNames.reduce((summ,el) => summ+el.name ,'')
-      console.log(name)
       return {getNames, fullName};
     }catch (err) {
-      console.log(err);
     }
   },
   async pointSearch ({commit,state}, payload) {
@@ -44,10 +42,8 @@ export const actions = {
       const {response} =await this.$axios.get(state.searchUrl, {
         params: {...param}
       })
-      console.log(response,'===>>')
 
     } catch (err) {
-      console.log(err)
     }
   }
 }

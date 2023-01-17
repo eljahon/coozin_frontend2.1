@@ -14,7 +14,7 @@
     "@nuxtjs/dayjs": "^1.4.1",
     "@nuxtjs/i18n": "^7.3.0",
     "@nuxtjs/toast": "^3.3.0",
-    "v-mask": "^2.3.0",
+    "vee-validate": "^3.4.5",
     "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",

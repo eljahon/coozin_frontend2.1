@@ -13,7 +13,6 @@ export const actions = {
         params: {...payload}
       })
     } catch (err) {
-      console.log(err)
     }
 },
   async postCards ({commit },payload )  {
@@ -22,7 +21,6 @@ export const actions = {
         data: payload
       })
     } catch (err) {
-      console.log(err)
     }
 },
   async putCards ({commit },payload )  {
@@ -31,7 +29,6 @@ export const actions = {
         params: {...payload}
       })
     } catch (err) {
-      console.log(err)
     }
 },
   async removeCards ({commit },payload )  {
@@ -43,7 +40,6 @@ export const actions = {
         commit('GET_CARDS', objects)
       })
     } catch (err) {
-      console.log(err)
     }
 }
 }

@@ -33,9 +33,7 @@ export default {
            }
          });
          // this.foodsList = objects;
-        console.log('data ==>', objects)
       } catch (err) {
-        console.log(err)
       }
     },
   }

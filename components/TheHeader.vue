@@ -180,12 +180,9 @@ export default {
         latitude: value?.coords?.latitude,
         longitude: value?.coords?.longitude
       };
-      console.log(locations)
       const sendata = ""+ locations.latitude + "," +locations.longitude;
-      console.log(sendata);
       this.$store.dispatch('yandex/pointSearchLotLang',sendata)
         .then(res => {
-          console.log(res, '==>>>')
           if(!res.fullName.length) {
             this.$toast.error('kechirasiz biz Toshkent shaxari boylab hizmat korsatamiz')
           }
@@ -215,7 +212,6 @@ export default {
       this.$store.dispatch('set_location', langlot)
       this.$store.dispatch('set_location_name', listPlice.fullName)
       window.location.reload()
-      // console.log("listPlice", listPlice)
     },
 
     // LocationModal () {
@@ -223,7 +219,6 @@ export default {
     // }
   // },
    async checkLogin () {
-     console.log(this.$auth.state)
       if (this.$auth.state.loggedIn) {
         const item = await this.$store.dispatch('cart/getCardList', {limit: 10,latitude: this.$store.state.location.latitude,
           longitude: this.$store.state.location.longitude ,})
@@ -246,12 +241,14 @@ export default {
       }
     },
     handleLang(item) {
-      console.log(item)
       this.$router.push(this.switchLocalePath(item))
     },
     openBurger() {
-      this.$store.state.burger ? this.$store.dispatch('burgerOpen', false) : this.$store.dispatch('burgerOpen', true)
-      console.log('hello')
+      if(this.$auth.state.loggedIn) {
+        this.$store.state.burger ? this.$store.dispatch('burgerOpen', false) : this.$store.dispatch('burgerOpen', true)
+      } else {
+        this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, login: 'login'}})
+      }
     }
   }
 }
