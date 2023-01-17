@@ -30,26 +30,36 @@
     <div v-if="modal" class="modal">
 
       <input
+        id="card_number"
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
          py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
-        v-model="name"
-        placeholder="Enter credit card name"
-        type="text"
-      >
-      <input
-        class="bg-white text-gray-500 border rounded-2xl border-gray-200
-         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
-        v-model.number="number"
-        placeholder="Enter credit card number"
+        v-model="card.card_number"
+        placeholder="0000 0000 0000 0000"
         type="number"
+        min="16"
+        max="16"
+
       >
-      <input
-        class="bg-white text-gray-500 border rounded-2xl border-gray-200
+      <div class="flex gap-2">
+        <input
+          class="bg-white text-gray-500 border rounded-2xl border-gray-200
          py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
-        v-model="expiry"
-        placeholder="Enter credit card expiry"
-        type="number"
-      >
+          id="name"
+          ref="name"
+          v-model="card.name"
+          placeholder="uzCard, Humo"
+          type="text"
+        >
+        <input
+          id="expiry"
+          class="bg-white text-gray-500 border rounded-2xl border-gray-200
+         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
+          v-model="card.expiry"
+          placeholder="Expiry 0325"
+          type='text'
+
+        >
+      </div>
       <button
         @click="addCard"
         class="w-full h-12 rounded-3xl bg-orange-600 text-white font-semibold"
@@ -67,9 +77,12 @@ export default {
     return {
       cards: [],
       modal: false,
-      number: '',
-      expiry: '',
-      name: ''
+      card: {
+        card_number: '',
+        expiry: '',
+        name: '',
+        color: "blue"
+      }
     }
   },
   mounted() {
@@ -82,26 +95,41 @@ export default {
         this.cards = objects
       })
     },
-    addCard()  {
-      const data = {
-        card_number: this.number,
-        expiry: this.expiry,
-        name: this.name
+    checkValueCard() {
+      const data = Object.keys(this.card);
+      for (let i=0; i<data.length; i++) {
+        const elemen = document.getElementById(`${data[i]}`);
+        if (this.card[data[i]] === '') {
+         return  elemen.focus();
+        }
       }
-      this.$axios.post('cards', data)
-        .then(response => {
-          this.getCards()
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      return true
     },
-    deleteCard(id) {
-      this.$axios.delete(`cards/${id}`).then(res => {
-        this.getCards()
-      }).catch(err => {
+   async  addCard()  {
+     try {
+       if (this.checkValueCard()) {
+         const itemCar = await this.$axios.post('cards', this.card);
+         console.log(itemCar)
+         if(itemCar.id) {
+           this.modal = false;
+           this.$toast.success('new card create now')
+           this.getCards()
+         }
+       }
+     }catch (err) {
+       console.log(err)
+     }
+    },
+    async deleteCard(id) {
+      try {
+      const itemdelete = await this.$axios.delete(`cards/${id}`)
+        if(itemdelete.status === 204) {
+          this.$toast.success('card item delete')
+          this.getCards()
+        }
+      } catch (err) {
         console.log(err)
-      })
+      }
     }
   }
 }

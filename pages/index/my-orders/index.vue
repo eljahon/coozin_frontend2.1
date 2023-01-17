@@ -105,6 +105,12 @@
             </button>
           </div>
         </div>
+        <div v-else class="p-6 w-full flex bg-white rounded-2xl items-center justify-center gap-14">
+          <div class="flex flex-col gap-14">
+            <the-icon src="order-empty" class="mx-auto" />
+            <p class="font-medium	md:text-xl text-lg text-gray-800">Выберите свой заказ чтобы посмотреть</p>
+          </div>
+        </div>
         <div
           v-else-if="false"
           class="w-8/12 flex shrink-0 bg-white rounded-2xl justify-center p-12 gap-14"
@@ -403,12 +409,6 @@
             </div>
           </div>
         </div>
-        <div v-else class="p-6 w-full flex bg-white rounded-2xl items-center justify-center gap-14">
-          <div class="flex flex-col gap-14">
-            <the-icon src="order-empty" class="mx-auto" />
-            <p class="font-medium	md:text-xl text-lg text-gray-800">Выберите свой заказ чтобы посмотреть</p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -422,12 +422,19 @@ export default {
       orders: [],
       orderHistory: [],
       orderProgress: [],
-      orderDetail: []
+      orderDetail: [],
+      isCanseled: true
     }
   },
   async fetch() {
     await this.getOrders()
   },
+  computed: {
+    theOrder () {
+      return this.orders
+    }
+  },
+
   methods: {
     async getOrders() {
       await this.$axios.get('orders').then(res => {
@@ -442,7 +449,14 @@ export default {
       console.log(this.orderDetail)
     },
     async cancelOrder () {
-      const data  = await this.$axios.patch(`/order/${this.orderDetail.id}/cancel`)
+      const data  = await this.$axios.patch(`/orders/${this.orderDetail.id}/cancel`);
+      const {objects: {status}} = data;
+      if (status) {
+        this.$toast.success('order canceled')
+        await this.getOrders()
+        this.isCanseled = true;
+        this.orderDetail['status'] = 'status'
+      }
       console.log(data)
     }
   }

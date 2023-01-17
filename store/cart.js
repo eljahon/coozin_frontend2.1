@@ -61,12 +61,12 @@ export const actions = {
    }
    },
    async removeCartItem({commit,state, dispatch}, payload) {
-   const {order_id, id} = payload;
+   const {order_id, id, latitude,longitude} = payload;
    try {
      const data = await this.$axios.delete(`cart/item/${id}`);
      console.log(data)
      this.$toast.success('order item remove corzina ')
-     dispatch('getCardItem', order_id)
+     dispatch('getCardItem', {id:order_id, latitude,longitude})
      return data;
    } catch (err) {
      this.$toast.error(err)
