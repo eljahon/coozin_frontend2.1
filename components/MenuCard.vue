@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
 export default {
   props: ['date', 'month', 'variant'],
   data ()  {

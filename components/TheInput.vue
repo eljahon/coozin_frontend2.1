@@ -32,4 +32,10 @@ input {
   transform: translate(0, -50%);
   left: 12px;
 }
+
+@media screen and (max-width: 400px) {
+  .input-400 {
+    width: 300px;
+  }
+}
 </style>
