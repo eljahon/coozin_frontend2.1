@@ -7,16 +7,16 @@
       <the-icon src="right-arrow-black" />
       <span class="text-sm font-medium text-gray-500 cursor-pointer">Оформление заказа</span>
     </div>
-    <div class="container mx-auto flex gap-9 xl:px-0 xl:flex-nowrap	flex-wrap px-4">
+    <div class="container mx-auto flex gap-9 xl:px-0 xl:flex-nowrap	flex-wrap px-2">
       <div class="bg-white w-full p-6 rounded-2xl">
         <h1 class="font-semibold text-gray-800 text-2xl">Оформление заказа</h1>
         <div class="px-3 pt-5 flex xl:justify-between justify-center gap-4 lg:flex-nowrap flex-wrap">
           <div>
-            <div class="flex items-end gap-2.5">
+            <div class="flex items-end sm:gap-2.5 gap-1.5 justify-between">
               <the-input
                 styles="flex flex-col gap-3 input-styles"
                 label-styles="font-medium text-gray-700"
-                input-styles="w-80"
+                input-styles="sm:w-80 w-64"
                 type="text"
                 icon="location"
                 name="address"
@@ -28,7 +28,7 @@
                 <the-icon src="map" />
               </div>
             </div>
-            <div class="flex flex-col gap-3 input-styles w-96 mt-6">
+            <div class="flex flex-col gap-3 input-styles sm:w-96 w-80 input-400 mt-6">
               <label for="dilevery-time" class="font-medium text-gray-700">Время доставки</label>
               <div class="relative">
                 <select
@@ -52,7 +52,7 @@
             <the-input
               styles="flex flex-col gap-3 w-full"
               label-styles="font-medium text-gray-700"
-              input-styles="w-96"
+              input-styles="sm:w-96 w-80 input-400"
               type="text"
               icon="office"
               name="address"
@@ -60,7 +60,7 @@
               placeholder="улица Матонат, 35"
               :v-model="order.address_comment"
             />
-            <div class="flex flex-col gap-3 input-styles w-96 mt-6">
+            <div class="flex flex-col gap-3 input-styles sm:w-96 w-80 input-400 mt-6">
               <label for="dilevery-time" class="font-medium text-gray-700">Способ оплаты</label>
               <div class="relative">
                 <select
@@ -79,7 +79,7 @@
           </div>
         </div>
         <div class="px-3 pt-5 flex xl:justify-between justify-center gap-4 lg:flex-nowrap flex-wrap">
-          <div class="flex items-center justify-between w-96">
+          <div class="flex items-center justify-between sm:w-96 w-80 input-400">
             <div class="flex items-center justify-center gap-3">
               <h3>Повторный заказ</h3>
               <the-icon src="information-circle" width="20" height="20" />
@@ -94,13 +94,22 @@
             </div>
           </div>
           <div class="max-w-sm overflow-x-scroll scroll-style">
-            <div class="flex items-center gap-3.5">
+            <div class="sm:flex hidden items-center gap-3.5">
               <div v-for="item in $store.state.days_list">
                 <menu-card
                   :date="item"
                   @onDates="setDateSelect"
                 />
-<!--                {{$store.state.days_list}}-->
+              </div>
+            </div>
+            <div class="sm:hidden flex items-center gap-3.5">
+              <div v-for="item in $store.state.days_list">
+                <menu-card
+                  :date="item"
+                  :variant="true"
+                  @onDates="setDateSelect"
+                />
+                <!--                {{$store.state.days_list}}-->
               </div>
             </div>
           </div>
@@ -124,7 +133,7 @@
         <button @click="orderCreate" class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
       </div>
 <!--      my order list -->
-      <div class="bg-white w-80 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
+      <div class="bg-white w-80 input-400 rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
         <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
         <div class="flex flex-col gap-3 overflow-y-scroll scroll-style pl-2 pr-4" style="max-height: 516px;">
           <div v-for="item in $store.state.cart?.cartItem?.items">
@@ -336,4 +345,9 @@ export default {
     box-shadow: 0px 0px 0px 15px rgba(0, 0, 0, 0.322);
   }
 
+  @media screen and (max-width: 400px) {
+    .input-400 {
+      width: 300px !important;
+    }
+  }
 </style>
