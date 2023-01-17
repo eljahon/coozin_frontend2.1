@@ -105,7 +105,7 @@
             </div>
           </div>
         </div>
-        <div class="w-96 xl:m-0 mx-auto my-2">
+        <div class="sm:w-96 w-full xl:m-0 mx-auto my-2">
           <h3 class="text-lg font-semibold text-gray-700">К оплате</h3>
           <div class="flex justify-between">
             <h4 class="text-gray-600">Блюда</h4>
