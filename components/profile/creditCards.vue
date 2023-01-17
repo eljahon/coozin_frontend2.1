@@ -56,7 +56,7 @@
          py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
           v-model="card.expiry"
           placeholder="Expiry 0325"
-          type='text'
+          type='number'
 
         >
       </div>
