@@ -159,7 +159,7 @@ export default {
       order:{
         additional_name: this.$auth.state.user.full_name,
         additional_phone: this.$auth.state.user.phone,
-        address: "",
+        address: this.$store.state.locatinsName,
         address_comment: "",
         comment: this.$route.query.comment_text ?? '',
         delivery_time: null,
@@ -202,6 +202,10 @@ export default {
           if (delivery_time) this.$toast.error(delivery_time[0], {duration: 4000})
           if (address) this.$toast.error(address[0], {duration: 3000})
           if (geolocation) this.$toast.error(geolocation[0], {duration: 3000})
+          if (res.id) {
+            this.$router.push({path: this.localePath('/my-orders')})
+            this.$toast.error('new order create', {duration: 3000})
+          }
         })
         .catch(error=> {
           console.log(error)
