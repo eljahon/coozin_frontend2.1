@@ -16,9 +16,12 @@ export default  {
   head () {
     return {
       bodyAttrs: {
-        class: this.$route.query.foodSaw ? 'overflow-hidden' : ''
+        class: this.$route.query?.foodSaw || this.$store.state.burger ? 'overflow-hidden' : ''
       }
     }
+  },
+  mounted() {
+    // console.log(this.$route)
   },
   methods: {
     showLocations (value) {

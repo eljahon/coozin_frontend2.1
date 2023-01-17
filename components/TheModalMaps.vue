@@ -23,7 +23,6 @@
           <button class="text-white p-2 px-4 rounded-2xl bg-orange-500">OK</button>
         </div>
       </span>
-
      <yandex-maps @clickPlace="locationNames"></yandex-maps>
     </div>
     <div class="modal-background 1"
