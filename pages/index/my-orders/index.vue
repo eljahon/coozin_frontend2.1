@@ -62,6 +62,7 @@
               <p class="font-medium text-gray-800 mt-8 text-center">Заказ ожидает принятия....</p>
             </div>
             <button
+              @click="cancelOrder"
               class="w-80 py-3 bg-blue-100 rounded-3xl cursor-pointer
               outline-none font-semibold text-gray-800 w-none-1140"
             >
@@ -96,6 +97,7 @@
               </div>
             </div>
             <button
+              @click="cancelOrder(orderDetail)"
               class="w-80 py-3 bg-blue-100 rounded-3xl cursor-pointer
               outline-none font-semibold text-gray-800 w-block-1140"
             >
@@ -438,6 +440,10 @@ export default {
     getOrderDetail(item) {
       this.orderDetail = item
       console.log(this.orderDetail)
+    },
+    async cancelOrder () {
+      const data  = await this.$axios.patch(`/order/${this.orderDetail.id}/cancel`)
+      console.log(data)
     }
   }
 }
