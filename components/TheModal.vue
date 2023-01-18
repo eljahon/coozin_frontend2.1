@@ -24,7 +24,7 @@
               <span class="font-semibold text-sm">{{ item.total_price }} сум</span>
             </div>
           </div>
-          <button @click.stop="deleteOrder(item)" class="delete_button"><the-icon class="cursor-pointer" src="trash-gray"/></button>
+          <button @click.stop="deleteOrder(item)" class="delete_button"><the-icon class="cursor-pointer flex flex-shrink-0 w-5" src="trash-gray"/></button>
         </div>
       </div>
     </div>
