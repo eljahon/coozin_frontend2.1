@@ -10,7 +10,7 @@
       </p>
         <div v-if="$route.query.register" class="flex flex-col">
           <ValidationObserver class="w-full" ref="observer" v-slot="{ handleSubmit, invalid }">
-          <form novalidate class="w-96" @submit.prevent="handleSubmit(funcRegister)">
+          <form novalidate class="sm:w-96 w-full" @submit.prevent="handleSubmit(funcRegister)">
             <ValidationProvider
               v-slot='{ errors }'
               name='first_name'
@@ -20,7 +20,7 @@
               <label v-if="errors.length" for="first_name" class="text-red-500">{{$t('first_name')}} <span class="text-xl">*</span></label>
             <input
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
-              py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 mt-4"
+              py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 mt-4"
               v-model="first_name"
               type="text"
               name="first_name"
@@ -40,7 +40,7 @@
               type="text"
               :class="errors.length > 0? 'border-red-400' :''"
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
-              py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 my-4"
+              py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 my-4"
               placeholder="Ваше фамилия"
             >
             </ValidationProvider>
@@ -53,14 +53,14 @@
               <label v-if="errors.length" for="phone" class="text-red-500">{{$t('phone')}} <span class="text-xl">*</span></label>
             <input
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
-               py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 mb-4"
+               py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 mb-4"
               v-model="register.phone"
               type="text"
               :class="errors.length > 0? 'border-red-400' :''"
               placeholder="Введите номер телефона +998XX XXX XX XX"
             >
             </ValidationProvider>
-            <button class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold" type="submit">Продолжить</button>
+            <button class="sm:w-96 w-full h-14 rounded-3xl bg-orange-600 text-white font-semibold" type="submit">Продолжить</button>
           </form>
           </ValidationObserver>
         </div>
@@ -140,5 +140,11 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 16px;
+}
+@media screen and (max-width: 640px) {
+  .register-modal {
+    max-width: 440px;
+    width: 96%;
+  }
 }
 </style>

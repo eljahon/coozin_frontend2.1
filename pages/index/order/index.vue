@@ -178,7 +178,6 @@ export default {
         user_address_id: null,
         promocode: null,
         voucher: null
-
       }
     }
   },

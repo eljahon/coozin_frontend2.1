@@ -18,7 +18,7 @@
             <label for="phone" v-if="errors.length" class="block text-red-500 my-1">{{$t('phone')}}</label>
             <input
               name="phone"
-              class=" block bg-white text-gray-500 border rounded-2xl border-gray-200 py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 my-4 m-auto"
+              class="block bg-white text-gray-500 border rounded-2xl border-gray-200 py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 my-4 m-auto"
               v-model="login.phone"
               placeholder="номер телефона +998 0 000 00 00"
               :state="errors[0] ? false : valid ? true : null"
@@ -28,7 +28,7 @@
           </ValidationProvider>
           <button
             type="submit"
-            class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"
+            class="sm:w-96 w-full h-14 rounded-3xl bg-orange-600 text-white font-semibold"
           >Получить пароль</button>
         </form>
       </ValidationObserver>
@@ -42,14 +42,14 @@
 <!--      <login-otp/>-->
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
-         py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 my-6"
+         py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 my-6"
         v-model="login.password"
         placeholder="Enter OTP"
         type="text"
       >
       <button
         @click="funcLogin"
-        class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold"
+        class="sm:w-96 w-full h-14 rounded-3xl bg-orange-600 text-white font-semibold"
       >Войти</button>
     </div>
     <div @click="$routePush({login: undefined})" class="login-background"></div>
@@ -131,5 +131,11 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 16px;
+}
+
+@media screen and (max-width: 450px) {
+  .login-modal {
+    width: 96%;
+  }
 }
 </style>

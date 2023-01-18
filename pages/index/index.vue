@@ -128,7 +128,7 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto overflow-x-scroll scroll-style">
+    <div class="container mx-auto overflow-x-scroll scroll-style sm:px-0 px-2">
       <div class="flex items-center gap-3.5">
         <div v-for="(item) in blogCard" :key="item.id">
           <blog-card
