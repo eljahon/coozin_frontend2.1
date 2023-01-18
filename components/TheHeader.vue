@@ -201,12 +201,12 @@ export default {
     },
     locations () {
       this.modal = false;
-      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
+      this.$routePush({...this.$route.query,maps: 'maps'})
       // window.navigator.geolocation.getCurrentPosition(this.showLocations)
     },
     openModalYandexMpas () {
       this.modal = false;
-      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
+      this.$routePush({...this.$route.query,maps: 'maps'})
     },
     changePlice(listPlice) {
       this.address = listPlice.fullName;
@@ -252,7 +252,7 @@ export default {
       if(this.$auth.state.loggedIn) {
         this.$store.state.burger ? this.$store.dispatch('burgerOpen', false) : this.$store.dispatch('burgerOpen', true)
       } else {
-        this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, login: 'login'}})
+        this.$routePush({...this.$route.query, login: 'login'})
       }
     }
   }

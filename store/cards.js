@@ -9,17 +9,17 @@ export const mutations = {
 export const actions = {
   async getCards ({commit },payload )  {
     try {
-      const data  = await this.$axios.get('cards', {
+      const { objects }  = await this.$axios.get('cards', {
         params: {...payload}
       })
+      return objects;
     } catch (err) {
     }
 },
   async postCards ({commit },payload )  {
     try {
-      const data  = await this.$axios.post('cards', {
-        data: payload
-      })
+      const data  = await this.$axios.post('cards', {...payload})
+      return data;
     } catch (err) {
     }
 },
@@ -33,13 +33,8 @@ export const actions = {
 },
   async removeCards ({commit },payload )  {
     try {
-      const data  = await this.$axios.delete('cards', {
-        params: {...payload}
-      }).then(res => {
-        const { objects } = res
-        commit('GET_CARDS', objects)
-      })
-    } catch (err) {
-    }
+      const data = await this.$axios.delete(`cards/${payload}`);
+      return data;
+    } catch (err) {}
 }
 }

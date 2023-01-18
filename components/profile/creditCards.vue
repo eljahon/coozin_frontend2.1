@@ -2,7 +2,7 @@
   <div class="sm:p-6 p-2 bg-white rounded-2xl flex flex-col w-full gap-6">
     <div class="flex items-center justify-between">
       <h3 class="font-semibold text-xl text-color text-left">Мои карты</h3>
-      <button @click="modal = true" class="text-white font-semibold p-3 rounded-3xl sm:w-40 w-36 bg-orange-600 active:opacity-80 hover:opacity-80">
+      <button @click="addCardModalOpen" class="text-white font-semibold p-3 rounded-3xl sm:w-40 w-36 bg-orange-600 active:opacity-80 hover:opacity-80">
         Добавить карту
       </button>
     </div>
@@ -25,54 +25,14 @@
         </div>
       </div>
     </div>
-
-
-    <div v-if="modal" class="modal">
-
-      <input
-        id="card_number"
-        class="bg-white text-gray-500 border rounded-2xl border-gray-200
-         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
-        v-model="card.card_number"
-        placeholder="0000 0000 0000 0000"
-        type="number"
-        min="16"
-        max="16"
-
-      >
-      <div class="flex gap-2">
-        <input
-          class="bg-white text-gray-500 border rounded-2xl border-gray-200
-         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
-          id="name"
-          ref="name"
-          v-model="card.name"
-          placeholder="uzCard, Humo"
-          type="text"
-        >
-        <input
-          id="expiry"
-          class="bg-white text-gray-500 border rounded-2xl border-gray-200
-         py-2.5 px-4 text-base h-12 outline-orange-600 w-full bg-gray-100 my-2"
-          v-model="card.expiry"
-          placeholder="Expiry 0325"
-          type='number'
-
-        >
-      </div>
-      <button
-        @click="addCard"
-        class="w-full h-12 rounded-3xl bg-orange-600 text-white font-semibold"
-      >
-        Добавить карту
-      </button>
-    </div>
-    <div @click="modal = false" v-if="modal" class="modal-background 4"></div>
+    <cards-form-modal :fetach="getCards"/>
   </div>
 </template>
 
 <script>
+import cardsFormModal from "@/components/card-modal/cards-form-modal";
 export default {
+  components: {cardsFormModal},
   data() {
     return {
       cards: [],
@@ -89,11 +49,13 @@ export default {
     this.getCards()
   },
   methods: {
-    getCards() {
-      this.$axios.get('cards').then(res => {
-        const { objects } = res
-        this.cards = objects
-      })
+   async getCards() {
+      try{
+        await this.$store.dispatch('cards/getCards')
+          .then(res => {
+            this.cards = res;
+          })
+      } catch (err) {}
     },
     checkValueCard() {
       const data = Object.keys(this.card);
@@ -107,27 +69,37 @@ export default {
     },
    async  addCard()  {
      try {
-       if (this.checkValueCard()) {
-         const itemCar = await this.$axios.post('cards', this.card);
-         if(itemCar.id) {
-           this.modal = false;
-           this.$toast.success('new card create now')
-           this.getCards()
-         }
+         await this.$store.dispatch('cards/postCards', this.card)
+           .then(res=> {
+             if(res.id) {
+               this.addCardModalClose()
+               this.$toast.success('new card create now')
+               this.getCards()
+             }
+           })
+
        }
-     }catch (err) {
-     }
-    },
+     catch (err) {}
+     },
     async deleteCard(id) {
       try {
-      const itemdelete = await this.$axios.delete(`cards/${id}`)
-        if(itemdelete.status === 204) {
-          this.$toast.success('card item delete')
-          this.getCards()
-        }
+        await this.$store.dispatch('cards/removeCards', id)
+          .then(res => {
+            if(res.status === 204) {
+                  this.$toast.success('card item delete')
+                  this.getCards()
+                }
+          })
       } catch (err) {
       }
+    },
+    addCardModalOpen () {
+      this.$routePush({...this.$route.query, cardAdd: 'cardAdd'})
+    },
+    addCardModalClose() {
+      this.$routePush({...this.$route.query, cardAdd: undefined})
     }
+
   }
 }
 </script>

@@ -8,43 +8,93 @@
       <span class="text-sm font-medium text-gray-500 cursor-pointer">Оформление заказа</span>
     </div>
     <div class="container mx-auto flex gap-9 xl:px-0 xl:flex-nowrap	flex-wrap px-2">
-      <div class="bg-white w-full p-6 rounded-2xl">
+      <ValidationObserver class="w-full" ref="observer" v-slot="{ handleSubmit, invalid }">
+      <form novalidate class="bg-white w-full p-6 rounded-2xl" @submit.prevent="handleSubmit(orderCreate)">
         <h1 class="font-semibold text-gray-800 text-2xl">Оформление заказа</h1>
         <div class="px-3 pt-5 flex xl:justify-between justify-center gap-4 lg:flex-nowrap flex-wrap">
           <div>
-            <div class="flex items-end sm:gap-2.5 gap-1.5 justify-between">
-              <the-input
-                styles="flex flex-col gap-3 input-styles"
-                label-styles="font-medium text-gray-700"
-                input-styles="sm:w-80 w-64"
-                type="text"
-                icon="location"
-                name="address"
-                label="Адрес доставки"
-                placeholder="улица Матонат, 35"
-                :value="order.address"
-              />
-              <div class="map-card" @click="openMaps">
-                <the-icon src="map" />
+            <ValidationProvider
+              v-slot='{ errors }'
+              name='address'
+              rules='required'
+              mode='eager'
+            >
+              <div class="flex items-end sm:gap-2.5 gap-1.5 justify-between">
+                <the-input
+                  styles="flex flex-col gap-3 input-styles"
+                  :label-styles="errors.length ? 'font-medium text-red-500' : 'font-medium text-gray-700' "
+                  :input-styles="errors.length ? 'sm:w-80 w-64 border-red-500 border-2' : 'sm:w-80 w-64'"
+                  type="text"
+                  icon="location"
+                  name="address"
+                  :label="'Адрес доставки'"
+                  placeholder="улица Матонат, 35"
+                  :value="order.address"
+                />
+                <div class="map-card" @click="openMaps">
+                  <the-icon src="map" />
+                </div>
               </div>
-            </div>
-            <div class="flex flex-col gap-3 input-styles sm:w-96 w-80 input-400 mt-6">
-              <label for="dilevery-time" class="font-medium text-gray-700">Время доставки</label>
-              <div class="relative">
-                <select
-                  class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
-                  id="dilevery-time"
-                  name="dilevery-time"
-                  style="-webkit-appearance: none;"
-                  v-model="order.delivery_time"
-                >
-                  <option v-for="(item, index) in timeList" :value="item" :key="index">{{item}}</option>
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot='{ errors }'
+              name='delivery_time'
+              rules='required'
+              mode='eager'
+            >
+              <div class="flex flex-col gap-3 input-styles sm:w-96 w-80 input-400 mt-6">
 
-                </select>
-                <img class="absolute position" src="../../../assets/svg/clock-gray.svg" alt="Input icon" >
-                <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
+                <label for="dilevery-time" :class="errors.length ? 'text-red-500' : ''" class="font-medium text-gray-700">Время доставки</label>
+
+                <div class="relative">
+                  <select
+                    class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
+                    :class="errors.length ? 'border-red-500 border-2' : ''"
+                    id="dilevery-time"
+                    name="dilevery-time"
+                    style="-webkit-appearance: none;"
+                    v-model="order.delivery_time"
+                  >
+                    <option v-for="(item, index) in timeList" :value="item" :key="index">{{item}}</option>
+
+                  </select>
+                  <img class="absolute position" src="../../../assets/svg/clock-gray.svg" alt="Input icon" >
+                  <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
+                </div>
+
               </div>
-            </div>
+            </ValidationProvider>
+            <ValidationProvider
+              v-if="isCardOpen"
+              v-slot='{ errors }'
+              name='card_id'
+              rules='required'
+              mode='eager'
+            >
+              <div class="flex flex-col gap-3 input-styles sm:w-96 w-80 input-400 mt-6">
+                <label for="payment_type" :class="errors.length ? 'text-red-500' : ''" class="font-medium text-gray-700">Мои карты</label>
+               <div class="flex gap-2">
+                 <div class="relative w-full">
+                   <select
+                     class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
+                     id="payment_type"
+                     :class="errors.length ? 'border-red-500 border-2' : ''"
+                     name="payment_typee"
+                     v-model="order.card_id"
+                     style="-webkit-appearance: none;"
+                   >
+                     <option v-for="(item, ind) in cardList" :key="ind" :value="item.value">{{item.label}}</option>
+                   </select>
+                   <img class="absolute position" src="../../../assets/svg/cash.svg" alt="Input icon" >
+                   <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
+                 </div>
+                 <div class="map-card" @click="addCardModalOpen">
+                   <the-icon src="plus" />
+                 </div>
+               </div>
+              </div>
+            </ValidationProvider>
+<!--            </form>-->
 
 
           </div>
@@ -60,23 +110,33 @@
               placeholder="улица Матонат, 35"
               :v-model="order.address_comment"
             />
+            <ValidationProvider
+            v-slot='{ errors }'
+            name='payment_type'
+            rules='required'
+            mode='eager'
+          >
             <div class="flex flex-col gap-3 input-styles sm:w-96 w-80 input-400 mt-6">
-              <label for="dilevery-time" class="font-medium text-gray-700">Способ оплаты</label>
+              <label for="payment_type" :class="errors.length ? 'text-red-500' : ''" class="font-medium text-gray-700">Способ оплаты</label>
               <div class="relative">
                 <select
                   class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
-                  id="dilevery-time"
-                  name="dilevery-time"
+                  id="payment_type"
+                  :class="errors.length ? 'border-red-500 border-2' : ''"
+                  name="payment_typee"
                   v-model="order.payment_type"
                   style="-webkit-appearance: none;"
                 >
-                  <option v-for="(item, ind) in cardList" :key="ind" :value="item.value">{{$t(`word.${item.label}`)}}</option>
+                  <option v-for="(item, ind) in paymentType" :key="ind" :value="item.value">{{$t(`word.${item.label}`)}}</option>
                 </select>
                 <img class="absolute position" src="../../../assets/svg/cash.svg" alt="Input icon" >
                 <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
               </div>
             </div>
+            </ValidationProvider>
+
           </div>
+
         </div>
         <div class="px-3 pt-5 flex xl:justify-between justify-center gap-4 lg:flex-nowrap flex-wrap">
           <div class="flex items-center justify-between sm:w-96 w-80 input-400">
@@ -130,8 +190,9 @@
             <h4 v-else class="font-bold text-gray-600">{{Number($store.state.cart.cartItem.total_price)+10000 +"+" }} сум</h4>
           </div>
         </div>
-        <button @click="orderCreate" class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
-      </div>
+        <button type="submit" class="w-full bg-gray-300 h-12 rounded-3xl text-gray-400 font-semibold mt-12 cursor-pointer">Оплатить</button>
+      </form>
+      </ValidationObserver>
 <!--      my order list -->
       <div class="bg-white xl:w-80 w-full rounded-2xl px-2 py-4 flex flex-col gap-3 shrink-0">
         <h2 class="font-semibold text-gray-800 text-2xl mx-2">Ваш заказ</h2>
@@ -151,14 +212,19 @@
       </div>
     </div>
     <the-modal-maps @changePlice="changePlice"></the-modal-maps>
+    <cards-form-modal :fetach="getMyCard"/>
   </div>
 </template>
 
 <script>
+import cardsFormModal from "@/components/card-modal/cards-form-modal";
 export default {
+  components: {
+    cardsFormModal
+  },
   data() {
     return {
-      cardList: [
+      paymentType: [
         {value: 'cash', label: 'cash'},
         {value: 'card', label:'card'},
         {value: 'balance', label:'balance'},
@@ -173,31 +239,47 @@ export default {
         delivery_time: null,
         latitude: null,
         longitude: null,
-        payment_type: "cash",
+        payment_type: "",
         card_id: null,
         user_address_id: null,
         promocode: null,
         voucher: null
 
-      }
+      },
+      cardList: [],
+      isCardOpen: false
     }
   },
   async fetch () {
     await this.getOrderItem()
     await this.getDate()
+  },
+ async mounted() {
     if(this.$store.state.location.longitude) {
       await this.orderTimeDelever()
+    }
+  },
+  watch: {
+    'order.payment_type': function (val) {
+      if (val === 'card') {
+        this.isCardOpen = true;
+        this.getMyCard()
+      }
     }
   },
   methods: {
    async changePlice(item) {
      await this.$store.dispatch('set_location', {latitude:item.getNames[0].latitude,longitude: item.getNames[0].longitude })
       this.order.address = item.fullName;
+     this.$store.dispatch('set_location_name', item.fullName)
      await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
      await this.orderTimeDelever()
     },
+    addCardModalOpen () {
+      this.$routePush({...this.$route.query, cardAdd: 'cardAdd'})
+    },
     openMaps () {
-      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
+      this.$routePush({...this.$route.query,maps: 'maps'})
     },
    async orderCreate () {
       this.order['food'] = this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity}))
@@ -211,13 +293,16 @@ export default {
               this.$router.push({path: this.localePath('/my-orders')})
               this.$toast.success('new order create', {duration: 3000})
           }
-          const {delivery_time, address, geolocation} = res.errors;
-          if (delivery_time) this.$toast.error(delivery_time[0], {duration: 4000})
-          if (address) this.$toast.error(address[0], {duration: 3000})
-          if (geolocation) this.$toast.error(geolocation[0], {duration: 3000})
+          this.checkError (res)
         })
         .catch(error=> {
         })
+    },
+    checkError(res) {
+      const {delivery_time, address, geolocation} = res.errors;
+      if (delivery_time) this.$toast.error(delivery_time[0], {duration: 4000})
+      if (address) this.$toast.error(address[0], {duration: 3000})
+      if (geolocation) this.$toast.error(geolocation[0], {duration: 3000})
     },
     async getDate () {
       return this.$store.dispatch('set_day')
@@ -227,13 +312,19 @@ export default {
     },
    async getMyCard () {
       try {
-        const {objects} = await this.$axios.get('cards');
-        this.cardList = objects.map((el) => {
-          return {
-            label: el.card_number,
-            value: el.id
-          }
-        })
+        try{
+          await this.$store.dispatch('cards/getCards')
+            .then(res => {
+              this.cardList = res.map((el) => {
+                return {
+                  label: el.card_number,
+                  value: el.id
+                }
+              })
+            })
+        } catch (err) {}
+        // const {objects} = await this.$axios.get('cards');
+
       }catch (err) {
       }
     },

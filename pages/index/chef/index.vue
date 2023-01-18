@@ -240,7 +240,7 @@ export default {
   methods: {
     showFood(item) {
       this.foodDetail = item;
-      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: 'foodSaw'}})
+      this.$routePush({...this.$route.query, foodSaw: 'foodSaw'})
     },
     async getItem() {
       try {

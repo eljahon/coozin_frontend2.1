@@ -41,7 +41,7 @@ export default {
       if (this.$auth.state.loggedIn) {
         this.$store.dispatch('cart/newOrderCreate', newItem)
       } else {
-        this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, login: 'login'}})
+        this.$routePush({...this.$route.query, login: 'login'})
         // const vendor_id = Number(this.$route.query.vendor_id)
         // this.$store.dispatch('orderCarzina/set_order', {vendor_id, item})
         // this.$toast.success('new order item corzina add')

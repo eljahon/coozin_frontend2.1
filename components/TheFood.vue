@@ -103,7 +103,7 @@ this.count++
        })
     },
     async closeModal() {
-     return  await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, foodSaw: undefined}})
+     return  await this.$routePush({...this.$route.query, foodSaw: undefined})
     }
   }
 }
