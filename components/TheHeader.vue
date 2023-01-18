@@ -273,7 +273,7 @@ export default {
   background: #ffffff;
   border: 1px solid rgb(229,231,235);
   width: 60%;
-  left: 54%;
+  left: 58%;
   transform: translate(-50%, 0px);
   border-radius: 16px;
   padding: 20px;
