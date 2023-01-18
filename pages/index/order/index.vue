@@ -244,10 +244,14 @@ export default {
         user_address_id: null,
         promocode: null,
         voucher: null
+<<<<<<< HEAD
 
       },
       cardList: [],
       isCardOpen: false
+=======
+      }
+>>>>>>> 495952fefd13059c057c058de76ea97459d4b0dc
     }
   },
   async fetch () {

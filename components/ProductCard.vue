@@ -71,5 +71,9 @@ export default {
     width: 290px;
     height: 190px;
   }
+  .avatar-styles {
+    width: 72px;
+    height: 72px;
+  }
 }
 </style>
