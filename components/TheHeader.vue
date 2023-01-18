@@ -94,15 +94,15 @@
               <the-icon class="icon-bnt" src="shopping-cart"/>
             </header-card>
           </button>
-          <div class="sm:flex hidden" @click="lang = true">
+          <div class="sm:flex hidden" @click="lang = !lang">
             <header-card add-style="text-gray-800	font-medium relative">
               <span class="flex shrink-0">{{ actionLang.name }}</span>
               <div v-if="lang" @mouseleave="lang = false"
-                   class="absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
+                   class="bg-gray-100 absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
                 <span
                   v-for="(item, index) in $i18n.locales.filter(el=> el.code !== $i18n.locale)"
                   :key="index"
-                  class="w-full hover:bg-gray-100 rounded"
+                  class="w-full hover:bg-white rounded"
                   @click="handleLang(item.code)">
                   {{ item.name }}
                 </span>

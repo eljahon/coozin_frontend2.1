@@ -1,9 +1,9 @@
 <template>
   <div class="h-full overflow-y-scroll">
-    <div class="multiple-modal" :class="$route.query.foodSaw === 'multipleOrder' ? 'open' : ''">
+    <div class="multiple-modal scroll-style overflow-y-scroll" :class="$route.query.foodSaw === 'multipleOrder' ? 'open' : ''">
       <div class="flex items-center justify-between">
         <h3 class="text-gray-800 text-xl font-bold">Ваши корзинки</h3>
-        <div class="flex flex-shrink" @click="closeModal">
+        <div class="flex flex-shrink-0" @click="closeModal">
           <the-icon class="cursor-pointer" src="x" />
         </div>
       </div>
@@ -15,12 +15,12 @@
           <div class="flex flex-col gap-1">
             <h3 class="font-bold text-gray-800">Корзинка № {{ index + 1 }}</h3>
             <div class="flex items-center gap-2">
-              <div class="flex flex-shrink"><the-icon src="chef-ligth"/></div>
+              <div class="flex flex-shrink-0"><the-icon src="chef-ligth"/></div>
               <span
                 class="font-medium text-red-500 text-gray-700 text-sm">{{vendorNameFormat(item)}}</span>
             </div>
             <div class="flex items-center gap-2">
-              <div class="flex flex-shrink"><the-icon src="cash"/></div>
+              <div class="flex flex-shrink-0"><the-icon src="cash"/></div>
               <span class="font-semibold text-sm">{{ item.total_price }} сум</span>
             </div>
           </div>
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="multiple-modal" :class="$route.query?.foodSaw === 'detailOrder' ? 'open' : ''">
+    <div class="multiple-modal scroll-style overflow-y-scroll" :class="$route.query?.foodSaw === 'detailOrder' ? 'open' : ''">
       <div class="flex items-center justify-between">
         <div @click.stop="back">
           <the-icon src="arrow-left" class="cursor-pointer"/>
@@ -289,7 +289,7 @@ export default {
       })
     },
     vendorNameFormat (item) {
-      return 'vendorName not card'
+      return 'Vendor'
       // const full_name= item.vendor.about_me.split('.');
       // return full_name[0] + full_name[1]
     }
@@ -312,7 +312,7 @@ export default {
 .multiple-modal {
   width: 400px;
   position: fixed;
-  z-index: 11;
+  z-index: 9;
   display: flex;
   flex-direction: column;
   top: 80px;
@@ -396,6 +396,20 @@ export default {
 }
 .delete_button:hover .delete_img{
   background-color: black;
+}
+
+.scroll-style::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 24px;
+}
+.scroll-style::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.scroll-style::-webkit-scrollbar-thumb {
+  background: #888;
+}
+.scroll-style::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 @media screen and (max-width: 640px) {

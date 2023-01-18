@@ -1,6 +1,6 @@
 <template>
   <div v-if="$route.query.maps">
-    <div class="multiple-modal">
+    <div class="multiple-modal 1">
       <span class="flex flex-col mb-2">
         <div class="flex items-center justify-between mb-3">
           <h2>Укажите адрес доставки</h2>
