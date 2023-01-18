@@ -4,7 +4,7 @@
       <span class="flex flex-col mb-2">
         <div class="flex items-center justify-between mb-3">
           <h2>Укажите адрес доставки</h2>
-          <span @click="$router.push({path: localePath($route.path), query: {...$route.query, maps: undefined}})">
+          <span @click="$routePush({...$route.query,maps: undefined})">
             <the-icon
               class="cursor-pointer"
               src="x"
@@ -18,15 +18,18 @@
           <input
             class="w-full p-2 rounded-2xl bg-white outline-orange-500 border border-gray-200"
             type="text"
+            autocomplete="on"
             placeholder="Выбирайте или найдите свой локация"
+            v-model="search"
           >
-          <button class="text-white p-2 px-4 rounded-2xl bg-orange-500">OK</button>
+          <button @click="$routePush({...$route.query,maps: undefined})
+" class="text-white p-2 px-4 rounded-2xl bg-orange-500">OK</button>
         </div>
       </span>
      <yandex-maps @clickPlace="locationNames"></yandex-maps>
     </div>
     <div class="modal-background 1"
-        @click="$router.push({path: localePath($route.path), query: {...$route.query, maps: undefined}})">
+        @click="$routePush({...$route.query,maps: undefined})">
     </div>
   </div>
 </template>
@@ -35,19 +38,24 @@
 import yandexMaps from "@/components/yandex-maps/yandex-maps";
 export default {
   name: "TheMaps",
+  data () {
+    return {
+      search: ''
+    }
+  },
   components: {
     yandexMaps
   },
   methods: {
     async locationNames(selectPlaceNames) {
-      await this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query, maps: undefined}})
+      const {fullName} = selectPlaceNames;
+      this.search = fullName;
       await  this.$emit('changePlice', selectPlaceNames)
 
     }
   }
 }
 </script>
-
 <style scoped>
 .modal-background {
   position: fixed;

@@ -17,7 +17,7 @@
             <div class="flex items-center gap-2">
               <div class="flex flex-shrink"><the-icon src="chef-ligth"/></div>
               <span
-                class="font-medium text-gray-700 text-sm">{{vendorNameFormat(item)}}</span>
+                class="font-medium text-red-500 text-gray-700 text-sm">{{vendorNameFormat(item)}}</span>
             </div>
             <div class="flex items-center gap-2">
               <div class="flex flex-shrink"><the-icon src="cash"/></div>
@@ -289,8 +289,9 @@ export default {
       })
     },
     vendorNameFormat (item) {
-      const full_name= item.vendor.about_me.split('.');
-      return full_name[0] + full_name[1]
+      return 'vendorName not card'
+      // const full_name= item.vendor.about_me.split('.');
+      // return full_name[0] + full_name[1]
     }
   }
 }

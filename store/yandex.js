@@ -30,7 +30,7 @@ export const actions = {
       longitude: el.GeoObject.Point.pos.split(' ')[0]
     }
   })
-      const fullName = getNames.reduce((summ,el) => summ+el.name ,'')
+      const fullName = getNames.reduce((summ,el) => summ+ " "+el.name ,'')
       return {getNames, fullName};
     }catch (err) {
     }

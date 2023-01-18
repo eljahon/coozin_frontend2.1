@@ -150,44 +150,6 @@ import {mapGetters} from "vuex"
         location: false,
         more: false,
         menuCard: [],
-        categoryCard: [
-          {
-            icon: 'category-1',
-            title: 'Все категории'
-          },
-          {
-            icon: 'category-2',
-            title: 'Первое'
-          },
-          {
-            icon: 'category-3',
-            title: 'Второе'
-          },
-          {
-            icon: 'category-4',
-            title: 'Завтраки'
-          },
-          {
-            icon: 'category-5',
-            title: 'Гарниры'
-          },
-          {
-            icon: 'category-6',
-            title: 'Бизнес ланч'
-          },
-          {
-            icon: 'category-7',
-            title: 'Скидки'
-          },
-          {
-            icon: 'category-8',
-            title: 'Десерты'
-          },
-          {
-            icon: 'category-9',
-            title: 'Выпечка'
-          },
-        ],
         productData: null,
         isPageCount: false,
         page: 2,
@@ -210,12 +172,12 @@ import {mapGetters} from "vuex"
     },
     async fetch() {
       try {
-        await this.getCategories()
-        await this.getVendors(1)
         await this.getCollection()
+        await this.getCategories()
+        await this.getDate()
+        await this.getVendors(1)
         await this.getVendors(2)
         await this.getBlogs()
-        await this.getDate()
       } catch (err) {
       }
     },

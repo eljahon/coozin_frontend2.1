@@ -9,30 +9,60 @@
         <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: 'login', register: undefined}})" class="text-orange-600 cursor-pointer font-semibold">Войти</span>
       </p>
         <div v-if="$route.query.register" class="flex flex-col">
-          <form class="w-96" @submit.prevent="funcRegister">
+          <ValidationObserver class="w-full" ref="observer" v-slot="{ handleSubmit, invalid }">
+          <form novalidate class="w-96" @submit.prevent="handleSubmit(funcRegister)">
+            <ValidationProvider
+              v-slot='{ errors }'
+              name='first_name'
+              rules='required'
+              mode='eager'
+            >
+              <label v-if="errors.length" for="first_name" class="text-red-500">{{$t('first_name')}} <span class="text-xl">*</span></label>
             <input
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
               py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 mt-4"
               v-model="first_name"
               type="text"
+              name="first_name"
               placeholder="Ваше имя"
+              :class="errors.length > 0? 'border-red-400 border-2' :''"
+            />
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot='{ errors }'
+              name='last_name'
+              rules='required'
+              mode='eager'
             >
+              <label v-if="errors.length" for="last_name" class="text-red-500">{{$t('last_name')}} <span class="text-xl">*</span></label>
             <input
               v-model="last_name"
               type="text"
+              :class="errors.length > 0? 'border-red-400' :''"
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
               py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 my-4"
               placeholder="Ваше фамилия"
             >
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot='{ errors }'
+              name='phone'
+              mode='eager'
+              rules="required|phone"
+            >
+              <label v-if="errors.length" for="phone" class="text-red-500">{{$t('phone')}} <span class="text-xl">*</span></label>
             <input
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
                py-2.5 px-4 text-base h-12 outline-orange-600 w-96 bg-gray-100 mb-4"
               v-model="register.phone"
               type="text"
-              placeholder="Введите номер телефона"
+              :class="errors.length > 0? 'border-red-400' :''"
+              placeholder="Введите номер телефона +998XX XXX XX XX"
             >
+            </ValidationProvider>
             <button class="w-96 h-14 rounded-3xl bg-orange-600 text-white font-semibold" type="submit">Продолжить</button>
           </form>
+          </ValidationObserver>
         </div>
     </div>
     <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query, register: undefined}})" class="register-background"></div>
@@ -65,7 +95,12 @@ export default {
        try {
          this.register.full_name = `${ this.first_name } ${ this.last_name }`;
          const token = await this.$axios.post('/auth/register', {...this.register});
-         await this.$store.dispatch('setUser', token)
+         // await this.$store.dispatch('setUser', token)
+         if (token.id) {
+           this.$routePush({register: undefined, login: 'login'})
+           this.$toast.success('you are success register')
+
+         }
        } catch (err) {
        }
       },

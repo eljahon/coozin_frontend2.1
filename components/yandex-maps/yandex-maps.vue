@@ -28,13 +28,6 @@
           >
           </ymap-marker>
         </yandex-map>
-<!--      </no-ssr>-->
-
-      <!--        <l-map :zoom=14 :center="[41.30189519574488,69.28935242760551]" @click="localeLocation">-->
-      <!--          <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>-->
-      <!--          <l-marker :lat-lng="markerIcon"></l-marker>-->
-      <!--        </l-map>-->
-      <!--      </client-only>-->
     </div>
   </div>
 </template>
@@ -68,10 +61,14 @@ export default {
   methods: {
    async Location(name) {
      try {
+       console.log(name)
        this.markerIcon = name._sourceEvent._cache.coords;
        const sendata = name._sourceEvent._cache.coords.join(',')
       const data=  await  this.$store.dispatch('yandex/pointSearchLotLang', sendata);
        this.$emit('clickPlace', data)
+       this.lang =name._sourceEvent._cache.coords[1] ;
+       this.lot = name._sourceEvent._cache.coords[0]
+       // console.log(data,name._sourceEvent._cache.coords)
      } catch (err){
      }
     }

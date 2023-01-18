@@ -155,11 +155,14 @@ export default {
   },
   filters: {
     location: function (item) {
-      if (item.length > 60) {
+      if (item?.length > 60) {
         let result = String(item)
         return result.slice(0, 60) + '...'
       } else {
-        return item
+        // if (item === null) return  'locaion name not';
+        // else {
+          return item ?? 'select location'
+        // }
       }
     }
   },
@@ -197,7 +200,9 @@ export default {
       }
     },
     locations () {
-      window.navigator.geolocation.getCurrentPosition(this.showLocations)
+      this.modal = false;
+      this.$router.push({path: this.localePath(this.$route.path), query: {...this.$route.query,maps: 'maps'}})
+      // window.navigator.geolocation.getCurrentPosition(this.showLocations)
     },
     openModalYandexMpas () {
       this.modal = false;

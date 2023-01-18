@@ -10,6 +10,7 @@
         :id="name"
         :class="inputStyles"
         :readonly="readonly"
+        autocomplete="on"
         v-model="value"
       />
       <img class="absolute position" v-if="icon" :src="require(`../assets/svg/${icon}.svg`)" :alt="icon + 'svg'" >

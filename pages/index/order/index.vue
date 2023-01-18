@@ -186,7 +186,9 @@ export default {
   async fetch () {
     await this.getOrderItem()
     await this.getDate()
-    await this.orderTimeDelever()
+    if(this.$store.state.location.longitude) {
+      await this.orderTimeDelever()
+    }
   },
   methods: {
    async changePlice(item) {
