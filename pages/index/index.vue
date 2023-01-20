@@ -59,10 +59,10 @@
     <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-8 py-4">
       <div class="flex items-center justify-between">
         <h2 id="menu" class="text-3xl font-semibold text-gray-800">
-          <a href="#menu">Меню</a>
+          <a href="#menu">{{ $t('menu') }}</a>
         </h2>
         <div class="flex items-center gap-1">
-          <span class="font-normal text-orange-600 cursor-pointer">Посмотреть больше</span>
+          <span class="font-normal text-orange-600 cursor-pointer">{{ $t('see-more') }}</span>
           <the-icon src="right-arrow" />
         </div>
       </div>
@@ -110,20 +110,18 @@
         </div>
       </div>
     </div>
-<!--      <div  style="width: 384px;" class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer">-->
       <button :disabled="isPageCount" @click="pageCount" class="mx-auto block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
-        <span class="text-sm text-gray-700">Показать больше</span>
-<!--      </div>-->
+        <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
       </button>
 
     <!--  Blog section  -->
     <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">
       <div class="flex items-center justify-between">
         <h2 id="blog" class="text-3xl font-semibold text-gray-800">
-          <a href="#menu">Блог</a>
+          <a href="#menu">{{ $t('blog') }}</a>
         </h2>
         <div class="flex items-center gap-1">
-          <nuxt-link class="font-normal text-orange-600 cursor-pointer" to="/blog">Посмотреть больше</nuxt-link>
+          <nuxt-link class="font-normal text-orange-600 cursor-pointer" to="/blog">{{ $t('see-more') }}</nuxt-link>
           <the-icon src="right-arrow" />
         </div>
       </div>

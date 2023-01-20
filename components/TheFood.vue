@@ -36,9 +36,11 @@
             <h2 class="font-semibold text-gray-700 mt-1">Описание</h2>
             <p class="font-normal text-gray-700 text-sm">{{ item.description }}</p>
             <h2 class="font-semibold text-gray-700 mt-1">Состав</h2>
-            <div v-for="data in item.ingredients" class="flex flex-wrap sm:gap-2 gap-1">
-              <div class="border-2 rounded-2xl px-2 pt-0 pb-1 border-gray-100" v-for="item in data.split(',')">
-                <span class="text-xs text-gray-600">{{ item }}</span>
+            <div class="flex flex-wrap sm:gap-2 gap-1">
+              <div v-for="data in item.ingredients" class="flex flex-wrap sm:gap-2 gap-1">
+                <div class="border-2 rounded-2xl px-2 pt-0 pb-1 border-gray-100" v-for="item in data.split(',')">
+                  <span class="text-xs text-gray-600">{{ item }}</span>
+                </div>
               </div>
             </div>
           </div>

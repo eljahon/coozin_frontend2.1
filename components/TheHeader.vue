@@ -12,7 +12,7 @@
           <div class="sm:block hidden">
             <the-logo />
           </div>
-          <div class="sm:hidden block w-28">
+          <div class="sm:hidden block w-28" :class="search ? 'hidden' : ''">
             <the-logo />
           </div>
         </div>
@@ -22,8 +22,7 @@
               <the-icon :src="search ? 'x' : 'search'"/>
             </header-card>
           </div>
-          <input v-if="search" class="search-input" type="text">
-          <div class="md:flex hidden" @click="modal = true">
+          <div v-if="!search" class="md:flex hidden" @click="modal = true">
             <the-input
               type="text"
               placeholder="Можно узнать где ты?"
@@ -33,53 +32,55 @@
               :value="locationName"
             />
           </div>
-          <div class="relative">
+          <div v-if="!search" class="relative">
             <div v-if="modal" class="absolute position z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <div class="flex justify-between gap-1">
-                <h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3>
+                <h3 class="text-gray-800 font-semibold">{{ $t('you-in') + " " + $store.state.locatinsName | location }}</h3>
                 <span @click="modal=false"><the-icon width="30px" class="mt-1 mr-1 cursor-pointer flex shrink-0" src="x"></the-icon></span>
               </div>
               <div class="flex items-center gap-3 mx-auto">
-                <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
-                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
+                <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">{{ $t('yes-right') }}</button>
+                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">{{ $t('you-wrong') }}</button>
               </div>
             </div>
           </div>
         </div>
-        <ul class="header-nav lg:flex hidden items-center xl:gap-12 gap-4">
+        <input v-if="search" class="search-input lg:flex hidden" type="text">
+        <ul v-if="!search" class="header-nav lg:flex hidden items-center xl:gap-12 gap-4">
           <li>
-            <a href="">Наша история</a>
+            <a href="">{{ $t('our-history') }}</a>
           </li>
           <li>
-            <a href="">Присоединиться</a>
+            <a href="">{{ $t('join') }}</a>
           </li>
           <li>
-            <nuxt-link to="/blog">Блог</nuxt-link>
+            <nuxt-link to="/blog">{{ $t('blog') }}</nuxt-link>
           </li>
         </ul>
         <div class="flex items-center xl:gap-4 gap-3">
-          <div class="lg:hidden">
+          <div v-if="!search" class="lg:hidden">
             <div v-if="modal" class="absolute position z-10 top-16 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
-              <h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3>
-<!--              <p class="font-medium text-gray-700">{{locationName}}</p>-->
+              <h3 class="text-gray-800 font-semibold">{{ $t('you-in') + " " + $store.state.locatinsName | location }}</h3>
               <div class="flex items-center gap-3 mx-auto">
-                <button @click="locations" class="bg-orange-600 p-3 text-white sm:w-40 w-36 rounded-3xl">Да, верно</button>
-                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 sm:w-40 w-36 rounded-3xl">Вы ошиблись</button>
+                <button @click="locations" class="bg-orange-600 p-3 text-white sm:w-40 w-36 rounded-3xl">{{ $t('yes-right') }}</button>
+                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 sm:w-40 w-36 rounded-3xl">{{ $t('you-wrong') }}</button>
               </div>
             </div>
           </div>
-          <div class="lg:hidden">
-            <header-card>
-              <the-icon src="search"/>
-<!--              <input type="text">-->
-            </header-card>
+          <div class="lg:hidden flex sm:gap-4 gap-2">
+            <input v-if="search" class="search-input lg:hidden" type="text">
+            <div @click="search = !search">
+              <header-card>
+                <the-icon :src="search ? 'x' : 'search'"/>
+              </header-card>
+            </div>
           </div>
-          <div @click="modal = true" class="md:hidden sm:flex hidden">
+          <div v-if="!search" @click="modal = true" class="md:hidden sm:flex hidden">
             <header-card>
               <the-icon src="address"/>
             </header-card>
           </div>
-          <div class="lg:hidden md:flex hidden" @click="modal = true">
+          <div v-if="!search" class="lg:hidden md:flex hidden" @click="modal = true">
             <the-input
               type="text"
               placeholder="Можно узнать где ты?"
@@ -89,12 +90,12 @@
               :value="locationName"
             />
           </div>
-          <button class="sm:flex hidden effect" @click="checkLogin" >
+          <button v-if="!search" class="sm:flex hidden effect" @click="checkLogin" >
             <header-card  add-style="bg-orange-50">
               <the-icon class="icon-bnt" src="shopping-cart"/>
             </header-card>
           </button>
-          <div class="sm:flex hidden" @click="lang = !lang">
+          <div v-if="!search" class="sm:flex hidden" @click="lang = !lang">
             <header-card add-style="text-gray-800	font-medium relative">
               <span class="flex shrink-0">{{ actionLang.name }}</span>
               <div v-if="lang" @mouseleave="lang = false"
@@ -109,7 +110,7 @@
               </div>
             </header-card>
           </div>
-          <header-card class="sm:flex hidden">
+          <header-card v-if="!search" class="sm:flex hidden">
             <nuxt-link  v-if="$auth.loggedIn" to="profile">
               <the-icon src="user"/>
             </nuxt-link>
@@ -267,14 +268,15 @@ export default {
 }
 
 .search-input {
-  position: absolute;
+  position: relative;
   z-index: 50;
   height: 48px;
   background: #ffffff;
   border: 1px solid rgb(229,231,235);
-  width: 60%;
-  left: 58%;
-  transform: translate(-50%, 0px);
+  max-width: 800px;
+  width: 100%;
+  /*left: 58%;*/
+  transform: translate(-12px, 0px);
   border-radius: 16px;
   padding: 20px;
   font-size: 18px;
@@ -383,10 +385,66 @@ export default {
   transition: all 0.8s;
   transform: rotate(360deg);
 }
-/*@media screen and (max-width: 768px) {*/
-/*  .position {*/
-/*    left: 20%;*/
-/*    transform: translate(-50%, 0);*/
-/*  }*/
-/*}*/
+@media screen and (max-width: 1300px) {
+  .search-input {
+    max-width: 700px;
+  }
+}
+@media screen and (max-width: 1160px) {
+  .search-input {
+    max-width: 600px;
+  }
+}
+@media screen and (max-width: 1060px) {
+  .search-input {
+    max-width: 500px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .search-input {
+    max-width: 100%;
+    width: 600px;
+    transform: translate(0, 0);
+  }
+}
+@media screen and (max-width: 940px) {
+  .search-input {
+    width: 400px;
+  }
+}
+@media screen and (max-width: 720px) {
+  .search-input {
+    width: 330px;
+  }
+}
+@media screen and (max-width: 640px) {
+  .search-input {
+    width: 450px;
+  }
+}
+@media screen and (max-width: 580px) {
+  .search-input {
+    width: 375px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .search-input {
+    width: 325px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .search-input {
+    width: 275px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .search-input {
+    width: 225px;
+  }
+}
+@media screen and (max-width: 350px) {
+  .search-input {
+    width: 200px;
+  }
+}
 </style>

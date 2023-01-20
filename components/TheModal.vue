@@ -2,7 +2,7 @@
   <div class="h-full overflow-y-scroll">
     <div class="multiple-modal scroll-style overflow-y-scroll" :class="$route.query.foodSaw === 'multipleOrder' ? 'open' : ''">
       <div class="flex items-center justify-between">
-        <h3 class="text-gray-800 text-xl font-bold">Ваши корзинки</h3>
+        <h3 class="text-gray-800 text-xl font-bold">{{ $t('your-baskets') }}</h3>
         <div class="flex flex-shrink-0" @click="closeModal">
           <the-icon class="cursor-pointer" src="x" />
         </div>
@@ -13,7 +13,7 @@
             <the-icon src="big-shopping-cart" class="flex shrink-0 w-14	h-14"/>
           </div>
           <div class="flex flex-col gap-1">
-            <h3 class="font-bold text-gray-800">Корзинка № {{ index + 1 }}</h3>
+            <h3 class="font-bold text-gray-800">{{ $t('basket') }} № {{ index + 1 }}</h3>
             <div class="flex items-center gap-2">
               <div class="flex flex-shrink-0"><the-icon src="chef-ligth"/></div>
               <span
@@ -21,7 +21,7 @@
             </div>
             <div class="flex items-center gap-2">
               <div class="flex flex-shrink-0"><the-icon src="cash"/></div>
-              <span class="font-semibold text-sm">{{ item.total_price }} сум</span>
+              <span class="font-semibold text-sm">{{ item?.total_price }} сум</span>
             </div>
           </div>
           <button @click.stop="deleteOrder(item)" class="delete_button"><the-icon class="cursor-pointer flex flex-shrink-0 w-5" src="trash-gray"/></button>
@@ -33,14 +33,14 @@
         <div @click.stop="back">
           <the-icon src="arrow-left" class="cursor-pointer"/>
         </div>
-        <h3 class="text-gray-800 text-xl font-bold">Корзинка №{{ ' ' + $route.query?.carNumber }}</h3>
+        <h3 class="text-gray-800 text-xl font-bold">{{ $t('basket') }} №{{ ' ' + $route.query?.carNumber }}</h3>
         <button @click.stop="deleteOrder($store.state.cart?.cartItem?.id)">
           <the-icon class="cursor-pointer" src="trash-gray"/>
         </button>
       </div>
       <div class="flex items-center justify-between mt-3">
         <h4 class="font-medium text-sm text-gray-800">
-          Ваш заказ от повара
+          {{ $t('your-order-vendor') }}
           <br>
           <span class="text-orange-600">{{ $store.state.orderCarzina.vendorName }}</span>
         </h4>
@@ -57,7 +57,7 @@
             <div class="flex flex-col justify-between gap-4">
               <div>
                 <h4 class="text-gray-700">{{ item?.food?.name }}</h4>
-                <h4 class="font-bold text-gray-700">{{ item?.food?.price }} сум</h4>
+                <h4 class="font-bold text-gray-700">{{ item?.food?.price }} {{ $t('sum') }}</h4>
 
               </div>
               <div class="flex gap-3 items-center">
@@ -88,7 +88,7 @@
         >
           <div class="flex gap-2 items-center">
             <the-icon src="document"/>
-            <h3 class="text-sm font-medium text-gray-700">Комментарий к заказу</h3>
+            <h3 class="text-sm font-medium text-gray-700">{{ $t('comment-order') }}</h3>
           </div>
           <div class="cursor-pointer" v-if="comment" @click.stop="comment = false">
             <the-icon src="dark-x"/>
@@ -99,7 +99,7 @@
       </div>
       <div class="flex items-center justify-between mt-5">
         <div class="flex items-center gap-2">
-          <h3 class="text-gray-700 font-semibold">Столовые приборы</h3>
+          <h3 class="text-gray-700 font-semibold">{{ $t('cutlery') }}</h3>
           <the-icon src="information-circle"/>
         </div>
         <div class="container-switch">
@@ -119,7 +119,7 @@
           <div class="flex items-center justify-between w-full">
             <div class="flex flex-col justify-between gap-4">
               <div>
-                <h4 class="text-gray-700">Теплый салат</h4>
+                <h4 class="text-gray-700">{{ $t('warm-salad') }}</h4>
                 <h4 class="font-bold text-gray-700">15,000 сум</h4>
               </div>
               <div class="flex gap-3 items-center">

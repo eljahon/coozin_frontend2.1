@@ -4,9 +4,9 @@
       <div @click="$routePush({login: undefined})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
         <the-icon src="x" />
       </div>
-      <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
+      <h2 class="text-2xl font-bold text-center text-gray-700">{{ $t('login-account') }}</h2>
       <p class="text-lg text-center text-gray-700 mt-1">У вас ещё нет аккаунта?
-        <span @click="$routePush({login: undefined, register: 'register'})" class="text-orange-600 cursor-pointer font-semibold	">Регистрация</span>
+        <span @click="$routePush({login: undefined, register: 'register'})" class="text-orange-600 cursor-pointer font-semibold	">{{ $t('registration') }}</span>
       </p>
       <ValidationObserver class="w-full" ref="observer" v-slot="{ passes, invalid }">
         <form @submit.prevent="passes(handalePhone)">
@@ -29,7 +29,7 @@
           <button
             type="submit"
             class="sm:w-96 w-full h-14 rounded-3xl bg-orange-600 text-white font-semibold"
-          >Получить пароль</button>
+          >{{ $t('get-password') }}</button>
         </form>
       </ValidationObserver>
       <!--         <login-phone/>-->
@@ -38,7 +38,7 @@
       <div @click="$routePush({login: undefined})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
         <the-icon src="x" />
       </div>
-      <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
+      <h2 class="text-2xl font-bold text-center text-gray-700">{{ $t('login-account') }}</h2>
 <!--      <login-otp/>-->
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
@@ -122,7 +122,7 @@ export default {
 
 .login-modal {
   position: fixed;
-  z-index: 3;
+  z-index: 5;
   padding: 48px 24px 32px 24px;
   background: #ffffff;
   display: flex;
