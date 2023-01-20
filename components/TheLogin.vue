@@ -122,7 +122,7 @@ export default {
 
 .login-modal {
   position: fixed;
-  z-index: 3;
+  z-index: 5;
   padding: 48px 24px 32px 24px;
   background: #ffffff;
   display: flex;
