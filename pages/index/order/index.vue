@@ -230,7 +230,7 @@ export default {
         {value: 'balance', label:'balance'},
       ],
       timeList: [],
-      order:{
+      order: {
         additional_name: this.$auth.state.user.full_name,
         additional_phone: this.$auth.state.user.phone,
         address: this.$store.state.locatinsName,
@@ -243,15 +243,10 @@ export default {
         card_id: null,
         user_address_id: null,
         promocode: null,
-        voucher: null
-<<<<<<< HEAD
-
+        voucher: null,
       },
       cardList: [],
       isCardOpen: false
-=======
-      }
->>>>>>> 495952fefd13059c057c058de76ea97459d4b0dc
     }
   },
   async fetch () {
