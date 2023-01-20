@@ -4,9 +4,9 @@
       <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
         <the-icon src="x" />
       </div>
-      <h2 class="text-2xl font-bold text-center text-gray-700">Войти в  аккаунт</h2>
-      <p class="text-lg text-center text-gray-700 mt-1">У вас есть аккаунт?
-        <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: 'login', register: undefined}})" class="text-orange-600 cursor-pointer font-semibold">Войти</span>
+      <h2 class="text-2xl font-bold text-center text-gray-700">{{ $t('login-account') }}</h2>
+      <p class="text-lg text-center text-gray-700 mt-1">{{ $t('have-account') }}
+        <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: 'login', register: undefined}})" class="text-orange-600 cursor-pointer font-semibold">{{ $t('login') }}</span>
       </p>
         <div v-if="$route.query.register" class="flex flex-col">
           <ValidationObserver class="w-full" ref="observer" v-slot="{ handleSubmit, invalid }">
@@ -17,7 +17,7 @@
               rules='required'
               mode='eager'
             >
-              <label v-if="errors.length" for="first_name" class="text-red-500">{{$t('first_name')}} <span class="text-xl">*</span></label>
+              <label v-if="errors.length" for="first_name" class="text-red-500">{{$t('first-name')}} <span class="text-xl">*</span></label>
             <input
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
               py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 mt-4"
@@ -34,7 +34,7 @@
               rules='required'
               mode='eager'
             >
-              <label v-if="errors.length" for="last_name" class="text-red-500">{{$t('last_name')}} <span class="text-xl">*</span></label>
+              <label v-if="errors.length" for="last_name" class="text-red-500">{{$t('last-name')}} <span class="text-xl">*</span></label>
             <input
               v-model="last_name"
               type="text"
@@ -60,21 +60,13 @@
               placeholder="Введите номер телефона +998XX XXX XX XX"
             >
             </ValidationProvider>
-            <button class="sm:w-96 w-full h-14 rounded-3xl bg-orange-600 text-white font-semibold" type="submit">Продолжить</button>
+            <button class="sm:w-96 w-full h-14 rounded-3xl bg-orange-600 text-white font-semibold" type="submit">{{ $t('continue') }}</button>
           </form>
           </ValidationObserver>
         </div>
     </div>
     <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query, register: undefined}})" class="register-background"></div>
   </div>
-<!--  <div v-if="$store.state.register">-->
-<!--    <form @submit.prevent="funcRegister">-->
-<!--      <input v-model="first_name" type="text">-->
-<!--      <input v-model="last_name" type="text">-->
-<!--      <input v-model="register.phone" type="text">-->
-<!--      <button type="submit">Register</button>-->
-<!--    </form>-->
-<!--  </div>-->
 </template>
 
 <script>

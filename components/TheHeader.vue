@@ -35,12 +35,12 @@
           <div v-if="!search" class="relative">
             <div v-if="modal" class="absolute position z-10 top-12 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
               <div class="flex justify-between gap-1">
-                <h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3>
+                <h3 class="text-gray-800 font-semibold">{{ $t('you-in') + " " + $store.state.locatinsName | location }}</h3>
                 <span @click="modal=false"><the-icon width="30px" class="mt-1 mr-1 cursor-pointer flex shrink-0" src="x"></the-icon></span>
               </div>
               <div class="flex items-center gap-3 mx-auto">
-                <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">Да, верно</button>
-                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">Вы ошиблись</button>
+                <button @click="locations" class="bg-orange-600 p-3 text-white w-40 rounded-3xl">{{ $t('yes-right') }}</button>
+                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 w-40 rounded-3xl">{{ $t('you-wrong') }}</button>
               </div>
             </div>
           </div>
@@ -48,23 +48,22 @@
         <input v-if="search" class="search-input lg:flex hidden" type="text">
         <ul v-if="!search" class="header-nav lg:flex hidden items-center xl:gap-12 gap-4">
           <li>
-            <a href="">Наша история</a>
+            <a href="">{{ $t('our-history') }}</a>
           </li>
           <li>
-            <a href="">Присоединиться</a>
+            <a href="">{{ $t('join') }}</a>
           </li>
           <li>
-            <nuxt-link to="/blog">Блог</nuxt-link>
+            <nuxt-link to="/blog">{{ $t('blog') }}</nuxt-link>
           </li>
         </ul>
         <div class="flex items-center xl:gap-4 gap-3">
           <div v-if="!search" class="lg:hidden">
             <div v-if="modal" class="absolute position z-10 top-16 bg-white p-3 rounded-2xl border border-gray-300 flex flex-col gap-3">
-              <h3 class="text-gray-800 font-semibold">Вы в {{ $store.state.locatinsName | location }}</h3>
-<!--              <p class="font-medium text-gray-700">{{locationName}}</p>-->
+              <h3 class="text-gray-800 font-semibold">{{ $t('you-in') + " " + $store.state.locatinsName | location }}</h3>
               <div class="flex items-center gap-3 mx-auto">
-                <button @click="locations" class="bg-orange-600 p-3 text-white sm:w-40 w-36 rounded-3xl">Да, верно</button>
-                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 sm:w-40 w-36 rounded-3xl">Вы ошиблись</button>
+                <button @click="locations" class="bg-orange-600 p-3 text-white sm:w-40 w-36 rounded-3xl">{{ $t('yes-right') }}</button>
+                <button @click="openModalYandexMpas" class="bg-gray-300 p-3 text-gray-600 sm:w-40 w-36 rounded-3xl">{{ $t('you-wrong') }}</button>
               </div>
             </div>
           </div>
