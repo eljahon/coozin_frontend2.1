@@ -17,7 +17,7 @@
             <div class="flex items-center gap-2">
               <div class="flex flex-shrink-0"><the-icon src="chef-ligth"/></div>
               <span
-                class="font-medium text-red-500 text-gray-700 text-sm">{{vendorNameFormat(item)}}</span>
+                class="font-medium text-red-500 text-sm">{{item.vendor.user.full_name}}</span>
             </div>
             <div class="flex items-center gap-2">
               <div class="flex flex-shrink-0"><the-icon src="cash"/></div>
@@ -42,7 +42,7 @@
         <h4 class="font-medium text-sm text-gray-800">
           {{ $t('your-order-vendor') }}
           <br>
-          <span class="text-orange-600">{{ $store.state.orderCarzina.vendorName }}</span>
+          <span class="text-orange-600">{{$store.state.cart.cartItem?.vendor.user.full_name}}</span>
         </h4>
         <div class="w-14 h-14 flex-shrink flex rounded-full overflow-hidden border-2 border-orange-100">
           <img class="w-full object-cover" src="https://i.pravatar.cc/140" alt="Avatar Chef">
@@ -169,11 +169,15 @@ export default {
       await this.getCartItem()
     }
   },
-  computed: {
-    // fullPrice() {
-    //   return this.$store.state.orderCarzina.orderList[0].foods.reduce((sum, el) => sum + el.add.price, 0)
-    // }
-  },
+// filters: {
+//   fullName: function (val) {
+//     // console.log(val)
+//     if (!val) {
+//       return ''
+//     }
+//     return  val
+//   }
+// },
   methods: {
     formatPrice(item) {
     const data = item?.delivery_price ?
@@ -288,11 +292,6 @@ export default {
         query: {...this.$route.query, foodSaw: 'multipleOrder', carNumber: undefined}
       })
     },
-    vendorNameFormat (item) {
-      return 'Vendor'
-      // const full_name= item.vendor.about_me.split('.');
-      // return full_name[0] + full_name[1]
-    }
   }
 }
 </script>

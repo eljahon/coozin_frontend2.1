@@ -34,9 +34,6 @@ export default  {
     locations () {
      window.navigator.geolocation.getCurrentPosition(this.showLocations)
     },
-    LocationModal () {
-      this.isModal = !this.isModal
-    }
   },
 }
 </script>
