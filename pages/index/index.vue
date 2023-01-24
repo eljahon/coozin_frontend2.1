@@ -234,15 +234,11 @@ import {mapGetters} from "vuex"
       async onDatesFilter (item) {
         this.setQuery(item)
       },
-      setQuery (item) {
-        this.$routePush({...this.$route.query, ...item})
-
-      },
       async getDate () {
         return this.$store.dispatch('set_day')
       },
       categoriesFilter (item) {
-        this.setQuery(item)
+        this.$routePush({...this.$route.query, ...item})
       },
      async pageCount () {
         this.isPageCount = true;

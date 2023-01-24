@@ -271,13 +271,9 @@ export default {
   },
   methods: {
    async changePlice(item) {
-      this.order.address = item.fullName;
-<<<<<<< HEAD
-     await this.$store.dispatch('set_location_name', item.fullName)
-=======
+     this.order.address = item.fullName;
      this.order.latitude =item.getNames[0].latitude;
      this.order.longitude = item.getNames[0].longitude;
->>>>>>> e13063c740faabd2895cfd7a2176d013154bdb5e
      await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
      await this.orderTimeDelever()
      this.isAdders = false;
@@ -290,23 +286,6 @@ export default {
       // this.$store.dispatch('yandex/mapModalOpen', true)
     },
    async orderCreate () {
-<<<<<<< HEAD
-      this.order['food'] = this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity}))
-      const order = {
-        ...this.order,
-        ...this.$store.state.location
-      };
-  const data = await this.$axios.post('orders', {...order})
-        .then(res => {
-          if (res.status) {
-              this.$router.push({path: this.localePath('/my-orders')})
-              this.$toast.success('new order create', {duration: 3000})
-          }
-          this.checkError (res)
-        })
-        .catch(error => {
-        })
-=======
      try {
        this.order['food'] = this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity}))
        const data = await this.$axios.post('orders', {...this.order})
@@ -317,7 +296,6 @@ export default {
          this.checkError(data)
        }
      } catch (err) {}
->>>>>>> e13063c740faabd2895cfd7a2176d013154bdb5e
     },
     checkError(res) {
       const {delivery_time, address, geolocation} = res.errors;

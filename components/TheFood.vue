@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$route.query.foodSaw === 'foodSaw'" class="food" @click="closeModal">
+  <div v-if="$route.query.foodSaw === 'foodSaw'" class="food">
     <div class="food-modal">
       <div class="flex md:flex-nowrap flex-wrap  md:p-4 p-3 rounded-t-2xl overflow-hidden md:gap-5 gap-3 food-modal__item">
         <div class="flex flex-col md:gap-3 gap-2">
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <div class="food-background" @click="() => $router.push({path: localePath($route.path), query: {...$route.query, foodSaw: undefined}})"></div>
+    <div class="food-background" @click="$routePush({...$route.query, foodSaw: undefined})"></div>
   </div>
 </template>
 

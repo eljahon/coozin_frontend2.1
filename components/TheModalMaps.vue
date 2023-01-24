@@ -32,8 +32,12 @@
 
           </div>
 
-          <button @click="closedMap
-" class="text-white p-2 px-4 rounded-2xl bg-orange-500">OK</button>
+          <button
+            @click="closedMap"
+            class="text-white p-2 px-4 rounded-2xl bg-orange-500"
+          >
+            OK
+          </button>
         </div>
       </span>
       <yandex-maps v-if="isMapRender" @clickPlace="locationNames" :marker-icon="markerIcon"></yandex-maps>
@@ -53,16 +57,6 @@ export default {
   directives: {
     debounce,
   },
-  // watch: {
-  //  search: debounce(function (val) {
-  //    // console.log(val)
-  //    if(val) {
-  //      this.getSearchName()
-  //    } else {
-  //      this.searchList = []
-  //    }
-  //  }, 1000)
-  // },
   data() {
     return {
       search: '',
@@ -95,8 +89,6 @@ export default {
       const data = await this.$store.dispatch('yandex/pointSearchLotLang', sendata);
       console.log(data)
       this.search = data.fullName
-      // this.$store.dispatch('set_location', locations)
-      // this.$cookies.set('langlot', locations)
     },
     locations() {
       window.navigator.geolocation.getCurrentPosition(this.showLocations)

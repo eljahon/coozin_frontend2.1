@@ -50,7 +50,7 @@
           class="search-input lg:flex hidden"
           type="text"
           placeholder="Search foods"
-          v-model="searchFoods"
+          @input="goToSearch"
         >
         <ul v-if="!search" class="header-nav lg:flex hidden items-center xl:gap-12 gap-4">
           <li>
@@ -79,7 +79,7 @@
               class="search-input lg:hidden"
               type="text"
               placeholder="Search foods"
-              v-model="searchFoods"
+              @input="goToSearch"
             >
             <div @click="search = !search">
               <header-card>
@@ -150,7 +150,7 @@
 <script>
 import HeaderCard from "~/components/header/header-card";
 import BurgerMenu from "~/components/header/burger-menu";
-import {list} from "postcss";
+import debounce from 'lodash.debounce'
 
 export default {
   data() {
@@ -167,6 +167,9 @@ export default {
   components: {
     'header-card': HeaderCard,
     'burger-menu': BurgerMenu
+  },
+  directives: {
+    debounce,
   },
   filters: {
     location: function (item) {
@@ -262,9 +265,21 @@ export default {
         this.$routePush({...this.$route.query, login: 'login'})
       }
     },
-    goToSearch() {
-      // this.searchFoods.length ? this)
-    }
+    goToSearch: debounce(async function (val) {
+        try {
+          if (val.target.value.length) {
+            this.$router.push({
+              path: this.localePath('/search'),
+              query: {
+                search_query: val.target.value
+              }
+            })
+          } else {
+            this.$router.back(-1)
+          }
+        } catch (err) {
+        }
+      }, 1000),
   }
 }
 </script>
