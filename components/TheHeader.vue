@@ -3,7 +3,7 @@
     <header class="header">
       <nav class="container mx-auto sm:py-4 py-3 xl:px-0 sm:px-4 px-2 flex items-center justify-between">
         <div class="flex items-center gap-5">
-          <div @click="openBurger" id="nav-icon3" class="lg:hidden block" :class="{'open':menu_burger}">
+          <div @click="openBurger" id="nav-icon3" class="lg:hidden block" :class="{'open': menu_burger}">
             <span></span>
             <span></span>
             <span></span>
@@ -45,7 +45,13 @@
             </div>
           </div>
         </div>
-        <input v-if="search" class="search-input lg:flex hidden" type="text">
+        <input
+          v-if="search"
+          class="search-input lg:flex hidden"
+          type="text"
+          placeholder="Search foods"
+          v-model="searchFoods"
+        >
         <ul v-if="!search" class="header-nav lg:flex hidden items-center xl:gap-12 gap-4">
           <li>
             <a href="">{{ $t('our-history') }}</a>
@@ -68,7 +74,13 @@
             </div>
           </div>
           <div class="lg:hidden flex sm:gap-4 gap-2">
-            <input v-if="search" class="search-input lg:hidden" type="text">
+            <input
+              v-if="search"
+              class="search-input lg:hidden"
+              type="text"
+              placeholder="Search foods"
+              v-model="searchFoods"
+            >
             <div @click="search = !search">
               <header-card>
                 <the-icon :src="search ? 'x' : 'search'"/>
@@ -130,7 +142,7 @@
 
     <!--  Order Modal  -->
     <the-modal />
-    <the-modal-maps @changePlice="changePlice"/>
+    <the-modal-maps @changePlice="changePlace"/>
     <burger-menu />
   </div>
 </template>
@@ -147,7 +159,8 @@ export default {
       modal: false,
       burger: false,
       address: null,
-      search: false
+      search: false,
+      searchFoods: ''
     }
   },
   components: {
@@ -160,10 +173,7 @@ export default {
         let result = String(item)
         return result.slice(0, 60) + '...'
       } else {
-        // if (item === null) return  'locaion name not';
-        // else {
-          return item ?? 'select location'
-        // }
+        return item ?? 'select location'
       }
     }
   },
@@ -209,7 +219,7 @@ export default {
       this.modal = false;
       this.$routePush({...this.$route.query,maps: 'maps'})
     },
-    changePlice(listPlice) {
+    changePlace(listPlice) {
       this.address = listPlice.fullName;
       const langlot= {
         latitude: listPlice?.getNames[0]?.latitude,
@@ -219,12 +229,7 @@ export default {
       this.$store.dispatch('set_location_name', listPlice.fullName)
       window.location.reload()
     },
-
-    // LocationModal () {
-    //   this.isModal = !this.isModal
-    // }
-  // },
-   async checkLogin () {
+    async checkLogin () {
       if (this.$auth.state.loggedIn) {
         const item = await this.$store.dispatch('cart/getCardList', {limit: 10,latitude: this.$store.state.location.latitude,
           longitude: this.$store.state.location.longitude ,})
@@ -255,6 +260,9 @@ export default {
       } else {
         this.$routePush({...this.$route.query, login: 'login'})
       }
+    },
+    goToSearch() {
+      // this.searchFoods.length ? this)
     }
   }
 }

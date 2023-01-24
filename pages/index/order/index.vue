@@ -212,7 +212,7 @@
       </div>
     </div>
     <the-modal-maps @changePlice="changePlice"></the-modal-maps>
-    <cards-form-modal :fetach="getMyCard"/>
+    <cards-form-modal :fetach="getMyCard" />
   </div>
 </template>
 
@@ -270,7 +270,7 @@ export default {
    async changePlice(item) {
      await this.$store.dispatch('set_location', {latitude:item.getNames[0].latitude,longitude: item.getNames[0].longitude })
       this.order.address = item.fullName;
-     this.$store.dispatch('set_location_name', item.fullName)
+     await this.$store.dispatch('set_location_name', item.fullName)
      await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
      await this.orderTimeDelever()
     },
@@ -294,7 +294,7 @@ export default {
           }
           this.checkError (res)
         })
-        .catch(error=> {
+        .catch(error => {
         })
     },
     checkError(res) {
@@ -323,10 +323,10 @@ export default {
             })
         } catch (err) {}
         // const {objects} = await this.$axios.get('cards');
-
-      }catch (err) {
+      } catch (err) {
+        console.log(err)
       }
-    },
+   },
     async getOrderItem (longitude,latitude) {
       await this.$store.dispatch('cart/getCardItem',
         this.lotLang(longitude, latitude))
