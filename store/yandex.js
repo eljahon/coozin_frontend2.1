@@ -10,9 +10,15 @@ export const state = ()=> ({
     ll: '69.241320,41.292906',
     spn: '6.5,6.5',
     rspn: 1
-  }
+  },
+  isOpen: false
 });
-export const mutations = {};
+export const mutations = {
+  SET_MODAL_MAP: (state, paload) => {
+    // console.log(paload)
+    state.isOpen = paload
+  }
+};
 export const actions = {
   async pointSearchLotLang ({commit,state}, payload) {
     let param = {...state.params};
@@ -38,13 +44,24 @@ export const actions = {
   async pointSearch ({commit,state}, payload) {
     try {
       let param = {...state.params};
-      param['text'] = payload
-      const {response} =await this.$axios.get(state.searchUrl, {
+      param['text'] = payload;
+      param.apikey = '5dc6f955-f361-4201-933e-74abe41f8294';
+      delete param.sco;
+      const {features} =await this.$axios.get(state.searchUrl, {
         params: {...param}
       })
-
+      const formatLocation = features.map((el) => {
+        return {
+          name: el.properties.description ,
+          location: el.geometry.coordinates
+        }
+      })
+return formatLocation
     } catch (err) {
     }
+  },
+  mapModalOpen({commit}, payload) {
+    commit('SET_MODAL_MAP', payload)
   }
 }
 export const getters = {}

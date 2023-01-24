@@ -49,9 +49,10 @@
                 <div class="relative">
                   <select
                     class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
-                    :class="errors.length ? 'border-red-500 border-2' : ''"
+                    :class="{'border-red-500 border-2': errors.length, 'bg-gray-200': isAdders}"
                     id="dilevery-time"
                     name="dilevery-time"
+                    :disabled="isAdders"
                     style="-webkit-appearance: none;"
                     v-model="order.delivery_time"
                   >
@@ -122,12 +123,13 @@
                 <select
                   class="bg-white w-full text-gray-500 border rounded-2xl border-gray-200 py-2.5 pr-2 pl-11 text-base h-12 outline-orange-600"
                   id="payment_type"
-                  :class="errors.length ? 'border-red-500 border-2' : ''"
+                  :class="{'border-red-500 border-2': errors.length, 'bg-gray-200': isAdders}"
                   name="payment_typee"
+                  :disabled="isAdders"
                   v-model="order.payment_type"
                   style="-webkit-appearance: none;"
                 >
-                  <option v-for="(item, ind) in paymentType" :key="ind" :value="item.value">{{$t(`word.${item.label}`)}}</option>
+                  <option v-for="(item, ind) in paymentType" :key="ind" :value="item.value">{{$t(item.label)}}</option>
                 </select>
                 <img class="absolute position" src="../../../assets/svg/cash.svg" alt="Input icon" >
                 <img class="absolute position-rigth" src="../../../assets/svg/arrow-bottom.svg" alt="Arrow icon">
@@ -229,11 +231,12 @@ export default {
         {value: 'card', label:'card'},
         {value: 'balance', label:'balance'},
       ],
+      isAdders: true,
       timeList: [],
       order: {
         additional_name: this.$auth.state.user.full_name,
         additional_phone: this.$auth.state.user.phone,
-        address: this.$store.state.locatinsName,
+        address: '',
         address_comment: "",
         comment: this.$route.query.comment_text ?? '',
         delivery_time: null,
@@ -268,19 +271,26 @@ export default {
   },
   methods: {
    async changePlice(item) {
-     await this.$store.dispatch('set_location', {latitude:item.getNames[0].latitude,longitude: item.getNames[0].longitude })
       this.order.address = item.fullName;
+<<<<<<< HEAD
      await this.$store.dispatch('set_location_name', item.fullName)
+=======
+     this.order.latitude =item.getNames[0].latitude;
+     this.order.longitude = item.getNames[0].longitude;
+>>>>>>> e13063c740faabd2895cfd7a2176d013154bdb5e
      await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
      await this.orderTimeDelever()
+     this.isAdders = false;
     },
     addCardModalOpen () {
       this.$routePush({...this.$route.query, cardAdd: 'cardAdd'})
     },
     openMaps () {
       this.$routePush({...this.$route.query,maps: 'maps'})
+      // this.$store.dispatch('yandex/mapModalOpen', true)
     },
    async orderCreate () {
+<<<<<<< HEAD
       this.order['food'] = this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity}))
       const order = {
         ...this.order,
@@ -296,6 +306,18 @@ export default {
         })
         .catch(error => {
         })
+=======
+     try {
+       this.order['food'] = this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity}))
+       const data = await this.$axios.post('orders', {...this.order})
+       if (data.id) {
+             this.$router.push({path: this.localePath('/my-orders')})
+             this.$toast.success('new order create', {duration: 3000})
+       } else {
+         this.checkError(data)
+       }
+     } catch (err) {}
+>>>>>>> e13063c740faabd2895cfd7a2176d013154bdb5e
     },
     checkError(res) {
       const {delivery_time, address, geolocation} = res.errors;
@@ -307,7 +329,9 @@ export default {
       return this.$store.dispatch('set_day')
     },
     setDateSelect (item) {
-      this.order.delivery_time = item.date
+      console.log(item.day)
+      this.orderTimeDelever(item.day)
+      // this.order.delivery_time = item.date
     },
    async getMyCard () {
       try {
@@ -336,11 +360,14 @@ export default {
         longitude: longitude ?? this.$store.state.location.longitude,
         latitude: latitude ?? this.$store.state.location.latitude}
     },
-    async orderTimeDelever () {
+    async orderTimeDelever (date) {
       let data = {
         food: this.$store.state.cart?.cartItem?.items?.map(el => ({id: el.food.id, count: el.quantity})),
+        latitude: this.order.latitude,
+        longitude: this.order.longitude,
+        date_calc: date
       }
-      const getData = await this.$store.dispatch('orderCarzina/order_deleveriy_time', {...data,...this.$store.state.location})
+      const getData = await this.$store.dispatch('orderCarzina/order_deleveriy_time', {...data})
       this.timeGenert(getData.preparation)
       this.order.delivery_time = getData.preparation;
     },

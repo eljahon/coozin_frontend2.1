@@ -57,6 +57,17 @@
         </div>
       </div>
     </div>
+    <div class="container mx-auto overflow-x-scroll scroll-style my-3 xl:px-0 sm:px-4 px-2">
+      <div class="flex items-center sm:gap-4 gap-2 w-full">
+        <category-card
+          v-for="item in categories"
+          :key="item.id"
+          :title="item.name"
+          :id="item.id"
+          @clickCategories="categoriesFilter"
+        />
+      </div>
+    </div>
     <div v-if="!switchOn">
       <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-3 sm:my-7 my-4 lg:py-0 pt-4">
         <div class="flex items-center gap-4 w-full">
@@ -70,6 +81,8 @@
             />
           </div>
         </div>
+        <br>
+        <yandex-maps :marker-icon="[vendor.latitude, vendor.longitude]"/>
       </div>
 <!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
 <!--        <div class="flex items-center gap-4 w-full">-->
@@ -108,50 +121,17 @@
 </template>;
 
 <script>
+import yandexMaps from "~/components/yandex-maps/yandex-maps";
 export default {
+  components: {
+    yandexMaps
+  },
  data() {
    return {
      switchOn: false,
      more: false,
      foodModal: false,
-     categoryCard: [
-       {
-         icon: 'category-1',
-         title: 'Все категории'
-       },
-       {
-         icon: 'category-2',
-         title: 'Первое'
-       },
-       {
-         icon: 'category-3',
-         title: 'Второе'
-       },
-       {
-         icon: 'category-4',
-         title: 'Завтраки'
-       },
-       {
-         icon: 'category-5',
-         title: 'Гарниры'
-       },
-       {
-         icon: 'category-6',
-         title: 'Бизнес ланч'
-       },
-       {
-         icon: 'category-7',
-         title: 'Скидки'
-       },
-       {
-         icon: 'category-8',
-         title: 'Десерты'
-       },
-       {
-         icon: 'category-9',
-         title: 'Выпечка'
-       },
-     ],
+     categories: null,
      foodDetail: {},
      productData: [
        {
@@ -236,29 +216,53 @@ export default {
  },
   async fetch () {
     await this.getItem()
+    await this.getCategories()
   },
   methods: {
     showFood(item) {
       this.foodDetail = item;
       this.$routePush({...this.$route.query, foodSaw: 'foodSaw'})
     },
+    async getFood (id) {
+     const {objects} = await this.$axios.get('foods', {
+       params: {
+         limit: 10,
+         vendor_id: this.$route.query.vendor_id,
+         category_id: id ?? undefined
+       }
+     });
+      this.foods = objects;
+      return objects;
+    },
     async getItem() {
       try {
         await this.$axios.get(`vendors/${this.$route.query.vendor_id}`).then(res => {
           this.vendor = res;
-          this.$store.dispatch('orderCarzina/set_vendor_name', res.user.full_name)
         })
-        await this.$axios.get('foods', {
-          params: {
-            limit: 10,
-            vendor_id: this.$route.query.vendor_id
-          }
-        }).then(res => {
-          const { objects } = res
-          this.foods = objects
-        })
+        await this.getFood()
+
       } catch (err) {
       }
+    },
+    async getCategories(){
+      try {
+       const {objects} =  await this.$axios.get('categories');
+          this.categories = objects;
+          this.categories.unshift({name: "Все", id: 'all'})
+      } catch (err) {
+      }
+    },
+   async categoriesFilter (item) {
+     console.log(item)
+     if(item.category_id === 'all') {
+       // await this.$routePush({...this.$route.query, category_id: undefined});
+       await this.getFood()
+     }
+     else {
+       // await this.$routePush({...this.$route.query, category_id: item.category_id});
+       await this.getFood(item.category_id)
+     }
+
     }
   },
   computed: {

@@ -160,7 +160,8 @@ export default {
       burger: false,
       address: null,
       search: false,
-      searchFoods: ''
+      searchFoods: '',
+      langlot: null
     }
   },
   components: {
@@ -206,9 +207,9 @@ export default {
         })
       this.$store.dispatch('set_location', locations)
       this.modal = false;
-      if(this.$route.path === '/') {
-        window.location.reload()
-      }
+      // if(this.$route.path === '/') {
+      //   window.location.reload()
+      // }
     },
     locations () {
       this.modal = false;
@@ -221,13 +222,13 @@ export default {
     },
     changePlace(listPlice) {
       this.address = listPlice.fullName;
-      const langlot= {
+      this.langlot= {
         latitude: listPlice?.getNames[0]?.latitude,
         longitude: listPlice?.getNames[0]?.longitude
       }
-      this.$store.dispatch('set_location', langlot)
-      this.$store.dispatch('set_location_name', listPlice.fullName)
-      window.location.reload()
+      // this.$store.dispatch('set_location', langlot)
+      // this.$store.dispatch('set_location_name', listPlice.fullName)
+      // window.location.reload()
     },
     async checkLogin () {
       if (this.$auth.state.loggedIn) {

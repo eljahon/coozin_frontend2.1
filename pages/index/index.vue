@@ -155,6 +155,7 @@ import {mapGetters} from "vuex"
           1: null,
           2: null
       },
+        locations: null,
         blogCard: [],
         categories: [],
         vendors: [],
@@ -164,8 +165,14 @@ import {mapGetters} from "vuex"
       }
     },
     watch: {
-      '$route.query': function () {
-        this.getVendors()
+      '$route.query': async  function (val) {
+        const today= this.$dayjs(new Date()).format('YYYY-MM-DD')
+        if (val.day === today) {
+          this.$routePush({...this.$route.query, day: undefined})
+          await  this.getVendors(1)
+          await  this.getVendors(2)
+        }
+        await this.getVendors(1)
       }
     },
     async fetch() {
@@ -197,13 +204,13 @@ import {mapGetters} from "vuex"
       },
       async getVendors(page) {
         try {
-        const {objects, meta} = await this.$axios.get('vendors', {
+          // this.list = {};
+          const {objects, meta} = await this.$axios.get('vendors', {
             params: {
               limit: 10,
               page: page,
-              latitude: this.$store.state?.location?.latitude ?? undefined,
-              longitude: this.$store.state?.location?.longitude ?? undefined,
-              // day: this.$dayjs(new Date()).format('YYYY-MM-DD'),
+              ...this.locations,
+              day: this.$route.query.day ?? undefined,
               ...this.$route.query
             }
           })
@@ -228,13 +235,7 @@ import {mapGetters} from "vuex"
         this.setQuery(item)
       },
       setQuery (item) {
-        this.$router.push({
-          path: this.localePath('/'),
-          query: {
-            ...this.$route.query,
-            ...item
-          }
-        })
+        this.$routePush({...this.$route.query, ...item})
 
       },
       async getDate () {
@@ -260,6 +261,13 @@ import {mapGetters} from "vuex"
     },
     mounted() {
       this.location = true;
+      this.$bridge.$on('vendor_fetch', async (message) => {
+        console.log('vendor_fetch', message)
+        this.locations = message;
+        await this.getVendors(1)
+        await this.getVendors(2)
+
+      })
     }
   }
 </script>
