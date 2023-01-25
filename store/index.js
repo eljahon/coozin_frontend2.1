@@ -20,7 +20,7 @@ export const state = () => ({
   },
   days_list: [],
   location: null,
-  locatinsName: null
+  locatinsName: null,
 });
 export const mutations = {
   SET_USER: (state, payload) => {

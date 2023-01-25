@@ -38,7 +38,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  width: 328px;
+  width: 298px;
   height: 216px;
   background: #FFFFFF;
   border: 1px solid #E5E7EB;

@@ -1,22 +1,25 @@
 <template>
   <div>
-    <div class="container mx-auto overflow-x-scroll scroll-style my-3 xl:px-0 sm:px-4 px-2 bg-gray-200 py-3">
-      <div class="flex items-center sm:gap-4 gap-2 w-full">
-        <div v-for="(item, idx) in $store.state.foods.foods" :key="idx" @click="showFood(item)">
-          <chef-product-card
-            :src="item.src"
-            :title="item.name"
-            :price="item.price"
-            :delay="item.preparation_time"
-            :item="item"
-          />
+    <Loader :active="$fetchState.pending" />
+    <div class="bg-gray-100">
+      <div class="container mx-auto my-3 xl:px-0 sm:px-4 px-2 py-3">
+        <div class="flex flex-wrap items-center sm:gap-4 gap-2 w-full">
+          <div v-for="(item, idx) in $store.state.foods.foods" :key="idx" @click="showFood(item)">
+            <chef-product-card
+              :src="item.src"
+              :title="item.name"
+              :price="item.price"
+              :delay="item.preparation_time"
+              :item="item"
+            />
+          </div>
         </div>
+        <button :disabled="isPageCount" @click="pageCount" class="mx-auto block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
+          <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
+        </button>
       </div>
-      <button :disabled="isPageCount" @click="pageCount" class="mx-auto block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
-        <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
-      </button>
+      <the-food :item="foodDetail" ></the-food>
     </div>
-    <the-food :item="foodDetail" ></the-food>
   </div>
 </template>
 
@@ -55,6 +58,9 @@ export default {
       await this.page++
       this.isPageCount = false;
     }
+  },
+  watch: {
+    '$route.query': '$fetch'
   }
 }
 </script>
