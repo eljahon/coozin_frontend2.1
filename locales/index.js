@@ -1,6 +1,6 @@
-import en from './en.json';
-import ru from './ru.json';
-import uz from './uz.json';
+// import en from './en.json';
+// import ru from './ru.json';
+// import uz from './uz.json';
 export const i18n = {
   locales: [
     {
@@ -22,6 +22,6 @@ export const i18n = {
   defaultLocale: "uz",
   vueI18n: {
     fallbackLocale: "en",
-    messages: {en,ru,uz},
+    messages: {},
   },
 };

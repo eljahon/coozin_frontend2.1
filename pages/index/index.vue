@@ -109,33 +109,33 @@
         </div>
       </div>
 
-      <button :disabled="isPageCount" @click="pageCount" class="mx-auto mt-3 block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">
-        <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
-      </button>
+<!--      <button :disabled="isPageCount" @click="pageCount" class="mx-auto mt-3 block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">-->
+<!--        <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>-->
+<!--      </button>-->
 
-      <!--  Blog section  -->
-      <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">
-        <div class="flex items-center justify-between">
-          <h2 id="blog" class="text-3xl font-semibold text-gray-800">
-            <a href="#menu">{{ $t('blog') }}</a>
-          </h2>
-          <div class="flex items-center gap-1">
-            <nuxt-link class="font-normal text-orange-600 cursor-pointer" to="/blog">{{ $t('see-more') }}</nuxt-link>
-            <the-icon src="right-arrow" />
-          </div>
-        </div>
-      </div>
-      <div class="container mx-auto overflow-x-scroll scroll-style sm:px-0 px-2">
-        <div class="flex items-center gap-3.5">
-          <div v-for="item in blogCard" :key="item.id">
-            <blog-card
-              :src="item?.media[0]?.url"
-              :title="item.title"
-              :avatar="item.vendor.avatar"
-            />
-          </div>
-        </div>
-      </div>
+<!--      &lt;!&ndash;  Blog section  &ndash;&gt;-->
+<!--      <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">-->
+<!--        <div class="flex items-center justify-between">-->
+<!--          <h2 id="blog" class="text-3xl font-semibold text-gray-800">-->
+<!--            <a href="#menu">{{ $t('blog') }}</a>-->
+<!--          </h2>-->
+<!--          <div class="flex items-center gap-1">-->
+<!--            <nuxt-link class="font-normal text-orange-600 cursor-pointer" to="/blog">{{ $t('see-more') }}</nuxt-link>-->
+<!--            <the-icon src="right-arrow" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="container mx-auto overflow-x-scroll scroll-style sm:px-0 px-2">-->
+<!--        <div class="flex items-center gap-3.5">-->
+<!--          <div v-for="item in blogCard" :key="item.id">-->
+<!--            <blog-card-->
+<!--              :src="item?.media[0]?.url"-->
+<!--              :title="item.title"-->
+<!--              :avatar="item.vendor.avatar"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <Loader :active="$store.state.loader" />
     </div>
@@ -167,56 +167,64 @@ import {mapGetters} from "vuex"
         limit: 8
       }
     },
-    watch: {
-      '$route.query': async  function (val) {
-        const today= this.$dayjs(new Date()).format('YYYY-MM-DD')
-        if (val.day === today) {
-          this.$routePush({...this.$route.query, day: undefined})
-          await this.getVendors(1)
-          await this.getVendors(2)
-        }
-        await this.getVendors(1)
-      }
-    },
+    // watch: {
+    //   '$route.query': async  function (val) {
+    //     const today= this.$dayjs(new Date()).format('YYYY-MM-DD')
+    //     if (val.day === today) {
+    //       this.$routePush({...this.$route.query, day: undefined})
+    //       await this.getVendors(1)
+    //       await this.getVendors(2)
+    //     }
+    //     await this.getVendors(1)
+    //   }
+    // },
     async fetch() {
       try {
         await this.getCollection()
         await this.getCategories()
         await this.getDate()
         await this.getVendors()
-        await this.getBlogs()
+        // await this.getBlogs()
       } catch (err) {
       }
     },
     methods: {
       async getCategories(){
         try {
-       const {objects} = await this.$axios.get('categories')
-          this.categories = objects;
-          this.categories.unshift({id: 'all', name: 'All'})
+       const {results} = await this.$axios.get('categories', {
+         params: {
+           locale: this.$i18n.locale
+         }
+       })
+          this.categories = results
         } catch (err) {
         }
       },
       async getCollection() {
         try {
           this.pending = true
-          const { objects } = await this.$axios.get('collections')
-          this.collections = objects
+          const {results} = await this.$axios.get('collections', {
+            locale: this.$i18n.locale
+          })
+          this.collections = results
+          // console.log(results, '====>>>>')
         } catch (err) {}
       },
     async  getVendors() {
-      const {objects} = await this.$axios.get('vendors', {
+      const {results} = await this.$axios.get('vendors', {
           params: {
-              limit: this.limit,
+            populate: "*",
+           locale: this.$i18n.locale,
+            pagination: {
               page: 1,
-              ...this.locations,
-              day: this.$route.query.day ?? undefined,
-              ...this.$route.query
+              pageSize: 8
+            }
+
             }
         });
-      this.vendorData = objects
-
-      return objects
+      this.vendorData = results
+      console.log(results, '====>>')
+      // return objects
       },
       async getBlogs() {
         try {
@@ -226,8 +234,8 @@ import {mapGetters} from "vuex"
         }
       },
       async onDatesFilter (item) {
-        this.$routePush({...this.$route.query, day: item.day})
-        this.getVendors()
+        // this.$routePush({...this.$route.query, day: item.day})
+        // this.getVendors()
       },
       async getDate () {
         return this.$store.dispatch('set_day').then(res => this.pending = false)
@@ -241,12 +249,12 @@ import {mapGetters} from "vuex"
           this.getVendors()
         }
       },
-     async pageCount () {
-        this.isPageCount = true;
-        this.limit += 4
-       await this.getVendors()
-       this.isPageCount = false;
-      }
+     // async pageCount () {
+     //    this.isPageCount = true;
+     //    this.limit += 4
+     //   await this.getVendors()
+     //   this.isPageCount = false;
+     //  }
     },
     computed: {
       ...mapGetters(['get_days_list']),

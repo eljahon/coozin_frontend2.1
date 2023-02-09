@@ -109,11 +109,11 @@
           </button>
           <div v-if="!search" class="sm:flex hidden" @click="lang = !lang">
             <header-card add-style="text-gray-800	font-medium relative">
-              <span class="flex shrink-0">{{ actionLang.name }}</span>
+              <span class="flex shrink-">{{ actionLang.name }}</span>
               <div v-if="lang" @mouseleave="lang = false"
                    class="bg-gray-100 absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
                 <span
-                  v-for="(item, index) in $i18n.locales.filter(el=> el.code !== $i18n.locale)"
+                  v-for="(item, index) in langList.filter(el=> el.keyword !== $i18n.locale)"
                   :key="index"
                   class="w-full hover:bg-white rounded"
                   @click="handleLang(item.code)">
@@ -161,6 +161,7 @@ export default {
       address: null,
       search: false,
       searchFoods: '',
+      langList: [],
       langlot: null
     }
   },
@@ -189,10 +190,18 @@ export default {
       return this.$store.state.burger
     },
     actionLang() {
-      return this.$i18n.locales.find((el) => el.code === this.$i18n.locale)
+      return this.langList.find((el) => el.keyword === this.$i18n.locale)
     }
   },
+  async fetch() {
+    await this.getLocales()
+  },
   methods: {
+   async getLocales () {
+      const {results} = await this.$axios.get('languages');
+     console.log(results)
+     this.langList = results
+    },
     showLocations (value) {
       const locations  = {
         latitude: value?.coords?.latitude,
