@@ -109,14 +109,14 @@
           </button>
           <div v-if="!search" class="sm:flex hidden" @click="lang = !lang">
             <header-card add-style="text-gray-800	font-medium relative">
-              <span class="flex shrink-">{{ actionLang.name }}</span>
+              <span v-if="actionLang && actionLang.name" class="flex shrink-">{{ actionLang.name }}</span>
               <div v-if="lang" @mouseleave="lang = false"
                    class="bg-gray-100 absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
-                <span
+                <span v-if="langList.length"
                   v-for="(item, index) in langList.filter(el=> el.keyword !== $i18n.locale)"
                   :key="index"
                   class="w-full hover:bg-white rounded"
-                  @click="handleLang(item.code)">
+                  @click="handleLang(item)">
                   {{ item.name }}
                 </span>
               </div>
@@ -264,8 +264,14 @@ export default {
         })
       }
     },
-    handleLang(item) {
-      this.$router.push(this.switchLocalePath(item))
+  async  handleLang(item) {
+      // console.log(item.keyword);
+try {
+  // await this.$router.push(this.switchLocalePath(item.keyword))
+  await this.$getLangKeyValues(item)
+} catch(err) {
+  console.log(err);
+}
     },
     openBurger() {
       if(this.$auth.state.loggedIn) {
