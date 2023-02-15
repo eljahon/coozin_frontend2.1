@@ -113,7 +113,7 @@
               <div v-if="lang" @mouseleave="lang = false"
                    class="bg-gray-100 absolute w-40 bg-white cursor-pointer rounded-2xl p-2 top-16 flex flex-col text-center gap-1">
                 <span v-if="langList.length"
-                  v-for="(item, index) in langList.filter(el=> el.keyword !== $i18n.locale)"
+                  v-for="(item, index) in langList.filter(el=> el.keyword !== $i18n.locale && el.keyword !== 'en')"
                   :key="index"
                   class="w-full hover:bg-white rounded"
                   @click="handleLang(item)">
@@ -274,11 +274,7 @@ try {
 }
     },
     openBurger() {
-      if(this.$auth.state.loggedIn) {
-        this.$store.state.burger ? this.$store.dispatch('burgerOpen', false) : this.$store.dispatch('burgerOpen', true)
-      } else {
-        this.$routePush({...this.$route.query, login: 'login'})
-      }
+      this.$store.state.burger ? this.$store.dispatch('burgerOpen', false) : this.$store.dispatch('burgerOpen', true)
     },
     goToSearch: debounce(async function (val) {
         try {
