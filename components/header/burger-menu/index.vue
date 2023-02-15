@@ -1,6 +1,26 @@
 <template>
   <div>
-    <div class="burger p-4" :class="{'open':$store.state.burger}">
+    <div v-if="this.$auth.state.loggedIn" class="burger p-4" :class="{'open':$store.state.burger}">
+      <div class="bg-white rounded-2xl flex flex-col gap-2 w-full mb-4">
+        <h3 class="text-xl font-semibold text-gray-800">{{ user.full_name }}</h3>
+        <h6 class="text-xs text-color-700 font-medium">Coozin кошелёк:</h6>
+        <div class="flex gap-2">
+          <the-icon src="coin" />
+          <h4 class="text-xl text-color-700 font-semibold">{{ user.balance }} сум</h4>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl flex flex-col gap-6 w-full">
+        <div v-for="(item, idx) in profile" :key="idx">
+          <div @click="handleRoute(item)">
+            <div class="flex gap-4 cursor-pointer">
+              <the-icon :src="item.icon" />
+              <h4 class="text-color-700 font-normal">{{ item.title }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="burger p-4" :class="{'open':$store.state.burger}">
       <div class="bg-white rounded-2xl flex flex-col gap-2 w-full mb-4">
         <h3 class="text-xl font-semibold text-gray-800">{{ user.full_name }}</h3>
         <h6 class="text-xs text-color-700 font-medium">Coozin кошелёк:</h6>
