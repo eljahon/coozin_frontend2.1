@@ -43,7 +43,7 @@
       <yandex-maps v-if="isMapRender" @clickPlace="locationNames" :marker-icon="markerIcon"></yandex-maps>
     </div>
     <div class="modal-background 1"
-         @click="$routePush({...$route.query,maps: undefined})">
+         @click="$routePush({...$route.query, maps: undefined})">
     </div>
   </div>
 </template>
