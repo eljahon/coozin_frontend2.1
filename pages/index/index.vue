@@ -100,8 +100,8 @@
             :id="item.id"
             :src="item.src"
             :title="item?.user?.full_name"
-            :product-img="item.productImg"
-            :avatar="item?.avatar?.small_size_url"
+            :product-img="item?.background"
+            :avatar="item?.user?.avatar"
             :rate="item?.ratings_avg"
             :deliveryPrice="item?.delivery_price"
             :count="idx + 1"
@@ -213,15 +213,23 @@ import {mapGetters} from "vuex"
     async  getVendors() {
       const {results} = await this.$axios.get('vendors', {
           params: {
-            populate: "*",
+            populate: "passport, patent, background, user, user.avatar, *",
            locale: this.$i18n.locale,
             pagination: {
               page: 1,
               pageSize: 8
-            }
+            },
+            // filters: {
+            //   user: {
+            //     avatar: {
+            //       $ne: 'null'
+            //     }
+            //   }
+            // }
 
             }
         });
+      console.log(results, 'vender list')
       this.vendorData = results
       console.log(results, '====>>')
       // return objects
