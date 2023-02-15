@@ -36,6 +36,7 @@ export default {
     { src: '@/plugins/routerPusher.js'},
     {src: '~/plugins/bridge.js'},
     {src: '~/plugins/langGetKeyValues.js'},
+    {src: '~/plugins/others.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

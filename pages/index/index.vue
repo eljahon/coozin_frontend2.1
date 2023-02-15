@@ -98,12 +98,12 @@
             v-for="(item, idx) in vendorData"
             :key="idx"
             :id="item.id"
-            :src="item.src"
-            :title="item?.user?.full_name"
+            :src="'backgraund'"
+            :title="item?.user?.first_name + ' ' + item?.user?.last_name"
             :product-img="item?.background"
-            :avatar="item?.user?.avatar"
-            :rate="item?.ratings_avg"
-            :deliveryPrice="item?.delivery_price"
+            :avatar="item?.user?.avatar?.path"
+            :rate="item?.ratings_avg ?? 4.3"
+            :deliveryPrice="item?.delivery_price ?? 10000 +'+'"
             :count="idx + 1"
           />
         </div>

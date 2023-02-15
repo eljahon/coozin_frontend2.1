@@ -2,7 +2,7 @@
   <nuxt-link :to="{path: localePath('/chef'), query: {vendor_id:id}}">
     <div class="card-width rounded-xl cursor-pointer">
       <div style="height: 148px" class="w-full rounded-xl overflow-hidden fit-cover">
-        <img v-if="src" class="w-full" :src="require(`../assets/img/${src}.jpg`)" :alt="src + 'jpg'">
+        <img v-if="src" class="w-full" :src="bgImg" :alt="bgImg+ 'jpg'">
       </div>
       <div class="flex flex-col gap-1 py-2 px-3 relative">
         <h3>{{ title }}</h3>
@@ -17,10 +17,10 @@
           </div>
         </div>
         <div v-if="avatar !== null && avatar !== undefined" class="avatar-styles">
-          <img :src="avatar" :alt="'jpg'">
+          <img :src="this.$img+avatar" :alt="'jpg'">
         </div>
         <div v-else class="avatar-styles">
-          <img :src="'https://i.pravatar.cc/102'" :alt="'imges not found' + 'jpg'">
+          <img :src="img" :alt="'imges not found' + 'jpg'">
         </div>
       </div>
     </div>
@@ -28,8 +28,16 @@
 </template>
 
 <script>
+import img from '~/assets/img/vendor.png'
+import bgImg from '~/assets/img/backgraund.png'
 export default {
-  props: ['src', 'title', 'productImg', 'avatar', 'rate', 'deliveryPrice', 'id']
+  props: ['src', 'title', 'productImg', 'avatar', 'rate', 'deliveryPrice', 'id'],
+  data () {
+    return {
+      img: img,
+      bgImg:bgImg
+    }
+  }
 }
 </script>
 
