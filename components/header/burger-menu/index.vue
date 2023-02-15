@@ -158,7 +158,7 @@ export default {
 .burger {
   position: fixed;
   z-index: 12;
-  top: 80px;
+  top: 82px;
   bottom: 0;
   left: -350px;
   width: 350px;
