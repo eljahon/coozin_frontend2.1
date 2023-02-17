@@ -87,7 +87,7 @@ export default {
         },
         {
           icon: 'logout',
-          title: 'Выйти', 
+          title: 'Выйти',
           name: 'logout'
         },
       ],
@@ -144,7 +144,7 @@ export default {
     //     // }
     //   }
     // },
-    goToHome(route) {
+    goToPage(route) {
       this.$store.dispatch('burgerOpen', false)
       this.$router.push({
         path: this.localePath(route)

@@ -265,9 +265,7 @@ export default {
       }
     },
   async  handleLang(item) {
-      // console.log(item.keyword);
 try {
-  // await this.$router.push(this.switchLocalePath(item.keyword))
   await this.$getLangKeyValues(item)
 } catch(err) {
   console.log(err);

@@ -109,9 +109,12 @@
         </div>
       </div>
 
-<!--      <button :disabled="isPageCount" @click="pageCount" class="mx-auto mt-3 block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72">-->
-<!--        <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>-->
-<!--      </button>-->
+      <button :disabled="isPageCount" @click="pageCount"
+              class="mx-auto mt-3 block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72"
+              :class="{'px-8 py-3bg-gray-300 text-white rounded focus:outline-none':isPageCount}"
+      >
+        <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
+      </button>
 
 <!--      &lt;!&ndash;  Blog section  &ndash;&gt;-->
 <!--      <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">-->
@@ -154,17 +157,18 @@ import {mapGetters} from "vuex"
         vendorData: null,
         isPageCount: false,
         page: 2,
-      list: {
-          1: null,
-          2: null
-      },
         locations: null,
         blogCard: [],
         categories: [],
         vendors: [],
         collections: [],
         renderCount: 0,
-        limit: 8
+        limit: 8,
+        total: 0,
+        pagination: {
+          page: 1,
+          pageSize: 8
+        },
       }
     },
     // watch: {
@@ -191,12 +195,13 @@ import {mapGetters} from "vuex"
     methods: {
       async getCategories(){
         try {
-       const {results} = await this.$axios.get('categories', {
+       const {results, pagination} = await this.$axios.get('categories', {
          params: {
            locale: this.$i18n.locale
          }
        })
           this.categories = results
+
         } catch (err) {
         }
       },
@@ -207,32 +212,18 @@ import {mapGetters} from "vuex"
             locale: this.$i18n.locale
           })
           this.collections = results
-          // console.log(results, '====>>>>')
         } catch (err) {}
       },
     async  getVendors() {
-      const {results} = await this.$axios.get('vendors', {
+      const {results, pagination} = await this.$axios.get('vendors', {
           params: {
             populate: "passport, patent, background, user, user.avatar, *",
            locale: this.$i18n.locale,
-            pagination: {
-              page: 1,
-              pageSize: 8
-            },
-            // filters: {
-            //   user: {
-            //     avatar: {
-            //       $ne: 'null'
-            //     }
-            //   }
-            // }
-
+            pagination: this.pagination
             }
         });
-      console.log(results, 'vender list')
       this.vendorData = results
-      console.log(results, '====>>')
-      // return objects
+     this.total =pagination.total;
       },
       async getBlogs() {
         try {
@@ -257,12 +248,16 @@ import {mapGetters} from "vuex"
           this.getVendors()
         }
       },
-     // async pageCount () {
-     //    this.isPageCount = true;
-     //    this.limit += 4
-     //   await this.getVendors()
-     //   this.isPageCount = false;
-     //  }
+     async pageCount () {
+        if(this.pagination.pageSize < this.total) {
+          this.isPageCount = true;
+          this.pagination.pageSize+=4
+          await this.getVendors()
+          this.isPageCount = false;
+        } else {
+          this.isPageCount = true
+        }
+      }
     },
     computed: {
       ...mapGetters(['get_days_list']),
