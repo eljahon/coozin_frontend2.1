@@ -221,7 +221,7 @@ import {mapGetters} from "vuex"
     // },
     async fetch() {
       try {
-        await this.getCollection()
+        // await this.getCollection()
         await this.getCategories()
         await this.getDate()
         await this.getVendors()
@@ -245,7 +245,7 @@ import {mapGetters} from "vuex"
       async getCollection() {
         try {
           this.pending = true
-          const {results} = await this.$axios.get('collections', {
+          const {results} = await this.$axios.get('service-collections', {
             locale: this.$i18n.locale
           })
           this.collections = results

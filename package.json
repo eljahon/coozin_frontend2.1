@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt --port 3000",
+    "dev": "nuxt --dotenv --port 3000",
+    "prod":"nuxt --dotenv .env.production",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"

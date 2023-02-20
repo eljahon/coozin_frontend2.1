@@ -22,6 +22,8 @@ export const i18n = {
   defaultLocale: "uz",
   vueI18n: {
     fallbackLocale: "en",
-    messages: {},
+    messages: {
+      "uz": {}
+    },
   },
 };
