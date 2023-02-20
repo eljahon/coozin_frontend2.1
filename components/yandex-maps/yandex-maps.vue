@@ -57,7 +57,9 @@ export default {
     }
   },
   mounted() {
-    this.showMap = true;
+    setTimeout(() =>{
+      this.showMap = true;
+    } , 0)
   },
   methods: {
    async Location(name) {

@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     async locationNames(selectPlaceNames) {
-      this.markerIcon = [selectPlaceNames.getNames[0].latitude, selectPlaceNames.getNames[0].longitude]
+      this.markerIcon = [selectPlaceNames.getNames[0]?.latitude, selectPlaceNames.getNames[0]?.longitude]
       const {fullName} = selectPlaceNames;
       this.search = fullName;
       await this.$emit('changePlice', selectPlaceNames)

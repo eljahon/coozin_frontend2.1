@@ -155,8 +155,8 @@ export default {
       priceCount: 0,
       isDisbale: false,
       lang: {
-        longitude:this.$store.state.location.longitude,
-        latitude: this.$store.state.location.latitude
+        longitude:this.$store?.state?.location?.longitude,
+        latitude: this.$store?.state?.location?.latitude
       }
     }
   },
@@ -188,8 +188,8 @@ export default {
     async getCartList() {
       return await this.$store.dispatch('cart/getCardList', {
         limit: 100,
-        longitude: this.$store.state.location.longitude ?? undefined,
-        latitude: this.$store.state.location.latitude?? undefined
+        longitude: this.$store?.state?.location?.longitude ?? undefined,
+        latitude: this.$store?.state?.location?.latitude?? undefined
       })
     },
     async getCartItem() {
@@ -226,8 +226,8 @@ export default {
       const orderRemove = {
         order_id: this.$route.query.order_id,
         id: item,
-        latitude: this.$store.state.location.latitude,
-        longitude: this.$store.state.location.longitude
+        latitude: this.$store?.state?.location?.latitude,
+        longitude: this.$store?.state?.location?.longitude
       }
       this.$store.dispatch('cart/removeCartItem', orderRemove)
     },
@@ -277,7 +277,7 @@ export default {
       }
     },
     async orderDetail(item, carNumber) {
-      await this.$store.dispatch('cart/getCardItem', {id: item, longitude: this.$store.state.location.longitude, latitude: this.$store.state.location.latitude})
+      await this.$store.dispatch('cart/getCardItem', {id: item, longitude: this.$store?.state?.location?.longitude, latitude: this.$store?.state?.location?.latitude})
       await this.$router.push({
         path: this.localePath(this.$route.path),
         query: {...this.$route.query, foodSaw: 'detailOrder', order_id: item, carNumber: carNumber}

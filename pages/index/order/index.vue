@@ -257,7 +257,7 @@ export default {
     await this.getDate()
   },
  async mounted() {
-    if(this.$store.state.location.longitude) {
+    if(this.$store?.state?.location?.longitude) {
       await this.orderTimeDelever()
     }
   },
@@ -272,8 +272,8 @@ export default {
   methods: {
    async changePlice(item) {
      this.order.address = item.fullName;
-     this.order.latitude =item.getNames[0].latitude;
-     this.order.longitude = item.getNames[0].longitude;
+     this.order.latitude =item.getNames[0]?.latitude;
+     this.order.longitude = item.getNames[0]?.longitude;
      await this.getOrderItem(item?.getNames[0]?.longitude,item?.getNames[0]?.latitude);
      await this.orderTimeDelever()
      this.isAdders = false;
@@ -335,8 +335,8 @@ export default {
     },
     lotLang(longitude,latitude) {
     return   {id: this.$route.query.order_id,
-        longitude: longitude ?? this.$store.state.location.longitude,
-        latitude: latitude ?? this.$store.state.location.latitude}
+        longitude: longitude ?? this.$store?.state?.location?.longitude,
+        latitude: latitude ?? this.$store?.state?.location?.latitude}
     },
     async orderTimeDelever (date) {
       let data = {
