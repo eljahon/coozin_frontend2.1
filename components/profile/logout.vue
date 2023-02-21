@@ -16,8 +16,7 @@
 export default {
   methods: {
     async logout() {
-    await this.$axios.post('/auth/logout');
-      await this.$auth.logout()
+    await this.$auth.logout()
       this.$cookies.remove('userInfo')
       this.$cookies.remove('langlot')
       this.$toast.error('You are now logged out')

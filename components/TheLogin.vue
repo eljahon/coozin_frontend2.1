@@ -43,12 +43,12 @@
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
          py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 my-6"
-        v-model="login.password"
+        v-model="login.otp"
         placeholder="Enter OTP"
         type="text"
       >
       <button
-        @click="funcLogin"
+        @click="submitLogin"
         class="sm:w-96 w-full h-14 rounded-3xl bg-orange-600 text-white font-semibold"
       >Войти</button>
     </div>
@@ -65,12 +65,12 @@ export default {
     return {
       login: {
         phone: '',
-        password: ''
+        otp: ''
       }
     }
   },
   methods: {
-    async funcLogin() {
+    async submitLogin() {
       try {
         await this.$auth.loginWith('local', { data: this.login }).then(async (res) => {
           await this.$toast.info('Login in ....', {
@@ -94,6 +94,9 @@ export default {
     },
     handalePhone() {
       this.$routePush({login: 'otp'})
+      this.$axios.post('/users-permissions/send_otp', {
+        phone: this.login.phone
+      })
     },
     toRegister() {
       this.$store.dispatch('loginModal', false)

@@ -75,19 +75,14 @@ export default {
     strategies: {
       local: {
         token: {
-          property: 'token',
-          maxAge: 30 * 24 * 60 * 60,
-          global: true,
+          property: 'jwt',
           type: 'Bearer'
         },
-        // user: {
-        //   property: 'user',
-        //   autoFetch: true
-        // },
+        user:false,
         endpoints: {
-          login: { url: '/auth/login', method: 'post' },
+          login: { url: '/users-permissions/login_otp', method: 'post' },
           refresh: { url: '/auth/token/refresh', method: 'post' },
-          user: { url: '/auth/user', method: 'get' },
+          user: { url: '/users/me', method: 'get' },
           logout: false,
           // tokenRequired: true,
           // tokenType: 'Bearer',
@@ -98,12 +93,12 @@ export default {
           // },
           google: { client_id: 'your gcloud oauth app client id' }
         },
-        redirect: {
-          login: '/',
-          logout: '/',
-          user: '/profile',
-          callback: '/'
-        }
+        // redirect: {
+        //   login: '/',
+        //   logout: '/',
+        //   user: '/profile',
+        //   callback: '/'
+        // }
       }
     }
   },

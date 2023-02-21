@@ -103,7 +103,7 @@ export default {
       }
     },
     getUser() {
-      this.$axios.get('user').then(res => {
+      this.$axios.get('users/me').then(res => {
         this.user = res
       })
     }

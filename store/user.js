@@ -11,7 +11,7 @@ export const mutations = {
 export const actions = {
   async getUser ({ commit, state },payload )  {
     try {
-      const data  = await this.$axios.get('user', {
+      const data  = await this.$axios.get('users/me', {
         params: { ...payload }
       }).then(res => {
         commit('SET_USER', res)

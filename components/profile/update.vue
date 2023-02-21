@@ -59,7 +59,7 @@ export default {
   methods: {
     async getUser() {
       try {
-        const userdata = await this.$axios.get('user');
+        const userdata = await this.$axios.get('users/me');
         this.form.first_name = userdata.first_name;
         this.form.last_name = userdata.last_name
       } catch (err) {
