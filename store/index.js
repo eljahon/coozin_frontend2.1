@@ -44,7 +44,7 @@ export const mutations = {
   SET_LOCATION_NAME: (state, paylaod) => {
     state.locatinsName = paylaod;
   },
-  SET_LOCATION: (state, payload) => {
+   fSET_LOCATION: (state, payload) => {
     state.location = payload
   },
   BURGER_OPEN: (state, payload) => {
@@ -70,8 +70,8 @@ export const actions = {
   },
   async setUser ({commit}, res) {
     try {
-      this.$auth.setUserToken(res.token)
-      const info = await this.$axios.get('/auth/user')
+      this.$auth.setUserToken(res.jwt)
+      const info = await this.$axios.get('/users/me')
       this.$auth.setUser(info)
       this.$cookies.set('userInfo', info)
       return info;
@@ -85,19 +85,19 @@ export const actions = {
     commit('SET_LOCATION', payload)
     this.$cookies.set('langlot', payload)
   },
+
   async nuxtServerInit({ commit }) {
     const userInfo = this.$cookies.get('userInfo')
     this.$auth.setUser(userInfo)
-    commit('SET_CURRENT_USER', userInfo);
+    commit('SET_CURRENT_USER', userInfo)
     const loc = {
       latitude: this.$cookies.get('langlot')?.latitude,
-      longitude: this?.$cookies.get('langlot')?.longitude ,
+      longitude: this?.$cookies.get('langlot')?.longitude,
     }
     commit('SET_LOCATION', loc)
     if (this.$cookies.get('lacationName')) {
       commit('SET_LOCATION_NAME', this.$cookies.get('lacationName'))
     }
-
   },
   loginModal ({ commit }, payload) {
     commit('LOGIN_MODAL', payload)

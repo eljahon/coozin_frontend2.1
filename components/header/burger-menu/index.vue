@@ -126,11 +126,6 @@ export default {
     // }
   },
   methods: {
-    // getUser() {
-    //   this.$axios.get('user').then(res => {
-    //     this.user = res
-    //   })
-    // },
     // handleRoute(item) {
     //   this.$store.dispatch('burgerOpen', false)
     //   if (item.name) {
