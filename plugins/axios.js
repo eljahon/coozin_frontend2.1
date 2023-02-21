@@ -22,12 +22,10 @@ export default function ({ $axios, redirect, $auth, app }) {
       return
     }
     if (code === 401) {
-      // app.$auth.logout()
-      // localStorage.removeItem('user_info')
-      // localStorage.removeItem('local')
-      // redirect(localePath('/login'))
+      app.$auth.logout()
     }
     if (code === 403) {
+      app.$auth.logout()
       // Vue.prototype.$snotify.error("Not Authorized: Sorry, you can't access this!")
       return
     }

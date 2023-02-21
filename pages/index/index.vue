@@ -222,10 +222,10 @@ import {mapGetters} from "vuex"
     async fetch() {
       try {
         // await this.getCollection()
-        await this.getCategories()
-        await this.getDate()
-        await this.getVendors()
-        // await this.getBlogs()
+        // await this.getCategories()
+        // await this.getDate()
+        // await this.getVendors()
+        // await this.getReels()
       } catch (err) {
       }
     },
@@ -262,7 +262,7 @@ import {mapGetters} from "vuex"
       this.vendorData = results
      this.total =pagination.total;
       },
-      async getBlogs() {
+      async getReels() {
         try {
           const { objects } =  await this.$axios.get('reels');
           this.blogCard = objects
@@ -299,8 +299,11 @@ import {mapGetters} from "vuex"
     computed: {
       ...mapGetters(['get_days_list']),
     },
-    mounted() {
+   async  mounted() {
       this.location = true;
+      await this.getCategories()
+      await this.getDate()
+      await this.getVendors()
       this.$bridge.$on('vendor_fetch', async (message) => {
         this.locations = message;
         await this.getVendors()

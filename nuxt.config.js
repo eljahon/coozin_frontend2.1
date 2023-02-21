@@ -35,7 +35,7 @@ export default {
     { src: "~/plugins/tools.js", defer: true },
     { src: '@/plugins/routerPusher.js'},
     {src: '~/plugins/bridge.js'},
-    // {src: '~/plugins/langGetKeyValues.js'},
+    {src: '~/plugins/langGetKeyValues.js'},
     {src: '~/plugins/others.js'}
   ],
 

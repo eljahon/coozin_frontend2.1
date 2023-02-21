@@ -56,16 +56,16 @@ export const actions = {
     commit("SET_USER", payload);
   },
   set_day({commit,state}, payload) {
-    const day  = this.$dayjs(new Date()).format('YYYY-MM-DD').split('-')
-    // const month = payload
     let days = [];
     for (let i=0; i<7; i++) {
     days.push({
-      date: this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD'),
+      date: this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD d'),
       seeDate: this.$dayjs(new Date ()).add(i, 'day').format('DD'),
       name: state.monthNames[this.$dayjs(new Date ()).add(i, 'day').format('YYYY-MM-DD').split('-')[1]],
+     weekday: Number(this.$dayjs(new Date ()).add(i, 'day').format('d'))+1
     })
     };
+    console.log("days", days)
     commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {

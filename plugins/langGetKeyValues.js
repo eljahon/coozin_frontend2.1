@@ -19,14 +19,12 @@ export default function ({app, $axios, i18n},inject) {
           }
         }
       })
-      const messageList = results.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {})
-      i18n.mergeLocaleMessage( locale?.keyword ??i18n.locale, {...messageList})
+      i18n.mergeLocaleMessage( locale?.keyword ??i18n.locale, {...results.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {})})
       i18n.setLocale(locale?.keyword)
       i18n.defaultLocale = locale?.keyword ?? i18n.locale;
-      app.router.push(app.switchLocalePath(locale?.keyword ?? i18n.locale))
-      return messageList;
+     await app.router.push(app.switchLocalePath(locale?.keyword ?? i18n.locale))
     } catch (err) {
-         throw err;
+         return err;
     }
   }
   getLangKeyValues()
