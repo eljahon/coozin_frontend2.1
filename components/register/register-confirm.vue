@@ -33,6 +33,9 @@ export default {
             this.$axios.post('/users-permissions/register_confirm_otp', {
                 phone: this.phone,
                 otp: this.otp
+            }).then(res => {
+                this.$routePush({register: undefined})
+                this.$store.dispatch('setUser', res)
             })
         }
     }

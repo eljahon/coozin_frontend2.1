@@ -1,17 +1,20 @@
 <template>
-  <div v-if="$route.query.foodSaw === 'foodSaw'" class="food">
+  <div class="food">
     <div class="food-modal">
       <div class="flex md:flex-nowrap flex-wrap  md:p-4 p-3 rounded-t-2xl overflow-hidden md:gap-5 gap-3 food-modal__item">
         <div class="flex flex-col md:gap-3 gap-2">
           <div class="img">
-            <img class="w-full object-cover" src="@/assets/img/img-1.jpg" alt="Phone">
+            <img v-if="item?.media[0]?.aws_path" class="w-full h-full object-cover" :src="$img+item.media[0].aws_path"  alt="Phone">
+            <img v-else class="w-full h-full object-cover" src="@/assets/img/img-1.jpg" alt="Phone">
           </div>
           <div class="flex items-center gap-3">
             <div class="avatar">
-              <img class="w-full object-cover" src="https://i.pravatar.cc/101" alt="Avatar">
+              <img v-if="user?.user?.avatar?.aws_path" class="w-full object-cover" :src="$img+user.user.avatar.aws_path" alt="Avatar">
+              <img v-else class="w-full object-cover" :src="img" alt="Avatar">
             </div>
             <div class="flex flex-col gap-2">
-              <h3 class="font-medium text-gray-700 md:text-xl text-lg">{{ item?.vendor?.user?.full_name }}</h3>
+              <h3 v-if="user &&user?.user&&user?.user?.first_name" class="font-medium text-gray-700 md:text-xl text-lg">{{ user?.user?.first_name+user?.user?.last_name }}</h3>
+              <h3 v-else class="font-medium text-gray-700 md:text-xl text-lg">{{ 'No user name' }}</h3>
               <div class="flex gap-3">
                 <div class="flex items-center bg-gray-100 gap-1 py-1 px-2 overflow-hidden rounded-full">
                   <img width="16" height="16" src="@/assets/svg/rate.svg" alt="Rate icon">
@@ -19,7 +22,7 @@
                 </div>
                 <div class="flex items-center bg-gray-100 gap-1 py-1 px-2 overflow-hidden rounded-full">
                   <img width="16" height="16" src="../assets/svg/car.svg" alt="Car icon">
-                  <span class="text-xs text-gray-800 font-medium">{{item?.delivery_price ? item?.delivery_price : '10000'}} сум</span>
+                  <span class="text-xs text-gray-800 font-medium">{{item?.delivery_price ? item?.delivery_price : '10000+'}} сум</span>
                 </div>
               </div>
             </div>
@@ -48,14 +51,14 @@
             <div class="flex gap-6 items-center">
               <div @click.stop="increment"> <the-icon  class="cursor-pointer w-8" src="minus" /></div>
 
-              <span class="text-gray-700 font-semibold">{{count}}</span>
+              <span class="text-gray-700 font-semibold">{{count ? count: item.min_amount}}</span>
               <div @click.stop="decrement">
                 <the-icon  class="cursor-pointer w-8" src="plus" />
               </div>
             </div>
             <button
               @click.stop="addCazinaOrder"
-              class="bg-orange-600 py-2.5 text-center sm:w-56 w-40 text-white rounded-3xl"
+              class="bg-orange-600 py-2.5  text-center sm:w-56 w-40 text-white rounded-3xl"
             >
               В корзинку
             </button>
@@ -63,16 +66,18 @@
         </div>
       </div>
     </div>
-    <div class="food-background" @click="$routePush({...$route.query, foodSaw: undefined})"></div>
+    <div class="food-background" @click="isSee"></div>
   </div>
 </template>
 
 <script>
+import img from '~/assets/img/vendor.png'
 export default {
-  props: ['item'],
+  props: ['item', "user", 'isSee'],
   data() {
     return {
-      count: 1,
+      count: 0,
+      img: img,
       disbaledClass: false,
       login: {
         phone: '',

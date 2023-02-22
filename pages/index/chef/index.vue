@@ -4,7 +4,10 @@
       <div class="banner">
         <div class="banner__item flex items-center sm:gap-4 gap-2 pl-7">
           <div class="avatar-styles">
-            <img class="w-full fit-cover" :src="vendor.avatar ? vendor.avatar : 'https://i.pravatar.cc/190'"
+            <img v-if="itemVendor?.user && itemVendor?.user?.avatar && itemVendor?.user?.avatar?.aws_path"
+                 class="w-full fit-cover" :src="imageSee(itemVendor.user.avatar.aws_path)"
+                 alt="Avatar Chef">
+            <img class="w-full fit-cover" :src="img"
                  alt="Avatar Chef">
           </div>
           <div class="flex flex-col md:gap-8 sm:gap-4 gap-2 w-full">
@@ -13,10 +16,10 @@
                 <the-icon class="md:block hidden" src="rate" width="20" height="20"/>
                 <the-icon class="md:hidden block" src="rate" width="16" height="16"/>
                 <span class="text-gray-800 md:text-xl sm:text-lg text-base">{{
-                    vendor.ratings_avg ? vendor.ratings_avg : '0'
+                    itemVendor?.ratings_avg ? itemVendor.ratings_avg : '0'
                   }}</span>
               </div>
-              <div v-if="vendor.subscribe"
+              <div v-if="itemVendor?.subscribe"
                    class="flex items-center justify-center gap-2 md:py-2 md:px-5 px-3 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef" width="16" height="16"/>
                 <span
@@ -31,8 +34,11 @@
             <div
               class="flex lg:flex-row flex-col lg:gap-0 lg:items-center lg:justify-between xl:px-0 lg:gap-0 sm:gap-6 gap-4">
               <div class="flex items-center sm:gap-5 gap-2">
-                <h2 class="md:text-2xl sm:text-xl text-sm text-gray-800 font-semibold	items-center">
-                  {{ vendor?.user?.full_name ? vendor.user.full_name : 'No name' }}</h2>
+                <h2 v-if="itemVendor && itemVendor?.user && itemVendor?.user?.first_name"
+                    class="md:text-2xl sm:text-xl text-sm text-gray-800 font-semibold	items-center">
+                  {{ itemVendor.user.first_name + " " + itemVendor.user.last_name }}</h2>
+                <h2 v-else class="md:text-2xl sm:text-xl text-sm text-gray-800 font-semibold	items-center">
+                  {{ 'No name' }}</h2>
                 <the-icon class="md:block hidden" src="information-circle"/>
                 <the-icon class="md:hidden block" width="22" src="information-circle"/>
                 <the-icon class="cursor-pointer md:block hidden" src="share"/>
@@ -81,7 +87,7 @@
         <div class="flex flex-wrap justify-center items-center sm:gap-4 gap-2 w-full">
           <div v-for="(item, idx) in foods" :key="idx" @click="showFood(item)">
             <chef-product-card
-              :src="item.src"
+              :src="item.media[0]?.aws_path"
               :title="item.name"
               :price="item.price"
               :delay="item.preparation_time"
@@ -96,7 +102,8 @@
           <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
         </button>
         <br>
-        <yandex-maps/>
+        <yandex-maps v-if="coor[0] !== null " :marker-icon="coor"/>
+        <yandex-maps v-else/>
       </div>
 
       <!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
@@ -131,25 +138,28 @@
     <!--    >-->
     <!--      <span class="text-sm text-gray-700">Показать больше</span>-->
     <!--    </div>-->
-    <the-food :item="foodDetail"></the-food>
+    <the-food v-if="isFood" :item="foodDetail" :user="itemVendor" :isSee="isShowFood"></the-food>
   </div>
 </template>;
 
 <script>
 import yandexMaps from "~/components/yandex-maps/yandex-maps";
-
+import img from '~/assets/img/vendor.png'
 export default {
   components: {
     yandexMaps
   },
   data() {
     return {
+      img: img,
+      isFood: false,
       switchOn: false,
       more: false,
       foodModal: false,
       categories: null,
       total: null,
       foodDetail: {},
+      coor: [],
       productData: [
         {
           src: 'img-1',
@@ -215,7 +225,7 @@ export default {
       isPageCount: false,
       pagination: {
         page: 1,
-        pageSize:12,
+        pageSize: 12,
       },
       blogCard: [
         'img-1',
@@ -232,7 +242,7 @@ export default {
         'img-2',
         'img-3',
       ],
-      vendor: [],
+      itemVendor: null,
       foods: []
     }
   },
@@ -242,11 +252,14 @@ export default {
   },
   methods: {
     showFood(item) {
+     this.isShowFood()
       this.foodDetail = item;
-      this.$routePush({...this.$route.query, foodSaw: 'foodSaw'})
+    },
+    isShowFood () {
+      this.isFood = !this.isFood
     },
     async getFood(id) {
-      const {results} = await this.$axios.get('products', {
+      const {results, pagination} = await this.$axios.get('products', {
         params: {
           // limit: 10,
           populate: '*',
@@ -263,29 +276,34 @@ export default {
         }
       });
       this.foods = results;
+      this.total = pagination.total;
       return results;
     },
     async getItem() {
       try {
-        await this.$axios.get(`vendors/${this.$route.query.vendor_id}`, {
+        const data = await this.$axios.get(`vendors/${this.$route.query.vendor_id}`, {
           params: {
             populate: "passport, patent, background, user, user.avatar, *",
             locale: this.$i18n.locale,
           }
-        }).then(res => {
-          console.log('====>>')
-          // this.vendor = res;
         })
+        this.itemVendor = data;
+        // console.log(this.Itemvendor,'====>>>>')
+        this.coor = [data.location.lat, data.location.long]
+
         await this.getFood()
 
       } catch (err) {
       }
     },
+    imageSee(item) {
+      return this.$img + item
+    },
     async getCategories() {
       try {
-        const {objects} = await this.$axios.get('categories');
-        this.categories = objects;
-        this.categories.unshift({name: "Все", id: 'all'})
+        const {results} = await this.$axios.get('categories');
+        this.categories = results;
+        this.categories.unshift({name: this.$t('all'), id: 'all'})
       } catch (err) {
       }
     },
@@ -300,17 +318,18 @@ export default {
       }
 
     },
-    async pageCount () {
-     try {
-       if(this.pagination.pageSize < this.total) {
-         this.isPageCount = true;
-         this.pagination.pageSize+=4
-         await this.getFood()
-         this.isPageCount = false;
-       } else {
-         this.isPageCount = true
-       }
-     } catch (err) {}
+    async pageCount() {
+      try {
+        if (this.pagination.pageSize < this.total) {
+          this.isPageCount = true;
+          this.pagination.pageSize += 4
+          await this.getFood()
+          this.isPageCount = false;
+        } else {
+          this.isPageCount = true
+        }
+      } catch (err) {
+      }
     }
   },
   computed: {
