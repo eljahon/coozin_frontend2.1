@@ -51,14 +51,14 @@
             <div class="flex gap-6 items-center">
               <div @click.stop="increment"> <the-icon  class="cursor-pointer w-8" src="minus" /></div>
 
-              <span class="text-gray-700 font-semibold">{{count}}</span>
+              <span class="text-gray-700 font-semibold">{{count ? count: item.min_amount}}</span>
               <div @click.stop="decrement">
                 <the-icon  class="cursor-pointer w-8" src="plus" />
               </div>
             </div>
             <button
               @click.stop="addCazinaOrder"
-              class="bg-orange-600 py-2.5 text-center sm:w-56 w-40 text-white rounded-3xl"
+              class="bg-orange-600 py-2.5  text-center sm:w-56 w-40 text-white rounded-3xl"
             >
               В корзинку
             </button>
