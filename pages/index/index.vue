@@ -138,7 +138,7 @@
             :src="'backgraund'"
             :title="item?.user?.first_name + ' ' + item?.user?.last_name"
             :product-img="item?.background"
-            :avatar="item?.user?.avatar?.path"
+            :avatar="item?.user?.avatar?.aws_path"
             :rate="item?.ratings_avg ?? 4.3"
             :deliveryPrice="item?.delivery_price ?? 10000 +'+'"
             :count="idx + 1"
@@ -238,7 +238,8 @@ import {mapGetters} from "vuex"
            locale: this.$i18n.locale
          }
        })
-          this.categories = results
+          this.categories = results;
+       this.categories.unshift(this.$i18n.locale === 'uz' ? {name: 'Hammasi', id: 'all'} : {name: 'Все', id: 'all'})
 
         } catch (err) {
         }
@@ -257,7 +258,14 @@ import {mapGetters} from "vuex"
           params: {
             populate: "passport, patent, background, user, user.avatar, *",
            locale: this.$i18n.locale,
-            pagination: this.pagination
+            pagination: this.pagination,
+            filters: {
+              categories: {
+                id: {
+                  $eq: this.$route.query.category_id ?? undefined
+                }
+              }
+            }
             }
         });
       this.vendorData = results
@@ -283,8 +291,8 @@ import {mapGetters} from "vuex"
           this.$routePush({...this.$route.query,category_id: undefined})
         } else {
           this.$routePush({...this.$route.query, ...item})
-          this.getVendors()
         }
+        this.getVendors()
       },
      async pageCount () {
         if(this.pagination.pageSize < this.total) {
