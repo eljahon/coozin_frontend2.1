@@ -87,7 +87,6 @@ export default {
       this.markerIcon = [locations.latitude, locations.longitude]
       const sendata = this.markerIcon.join(',')
       const data = await this.$store.dispatch('yandex/pointSearchLotLang', sendata);
-      console.log(data)
       this.search = data.fullName
     },
     locations() {

@@ -4,27 +4,35 @@
       <div class="banner">
         <div class="banner__item flex items-center sm:gap-4 gap-2 pl-7">
           <div class="avatar-styles">
-            <img class="w-full fit-cover" :src="vendor.avatar ? vendor.avatar : 'https://i.pravatar.cc/190'" alt="Avatar Chef">
+            <img class="w-full fit-cover" :src="vendor.avatar ? vendor.avatar : 'https://i.pravatar.cc/190'"
+                 alt="Avatar Chef">
           </div>
           <div class="flex flex-col md:gap-8 sm:gap-4 gap-2 w-full">
             <div class="flex sm:gap-4 gap-3">
               <div class="flex items-center gap-2 md:px-4 px-3 bg-white rounded-full">
                 <the-icon class="md:block hidden" src="rate" width="20" height="20"/>
                 <the-icon class="md:hidden block" src="rate" width="16" height="16"/>
-                <span class="text-gray-800 md:text-xl sm:text-lg text-base">{{ vendor.ratings_avg ? vendor.ratings_avg : '0' }}</span>
+                <span class="text-gray-800 md:text-xl sm:text-lg text-base">{{
+                    vendor.ratings_avg ? vendor.ratings_avg : '0'
+                  }}</span>
               </div>
-              <div v-if="vendor.subscribe" class="flex items-center justify-center gap-2 md:py-2 md:px-5 px-3 bg-white rounded-full cursor-pointer">
+              <div v-if="vendor.subscribe"
+                   class="flex items-center justify-center gap-2 md:py-2 md:px-5 px-3 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef" width="16" height="16"/>
-                <span class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">Вы подписаны</span>
+                <span
+                  class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">Вы подписаны</span>
               </div>
-              <div v-else class="flex items-center justify-center gap-2 md:py-2 py-1 px-5 bg-white rounded-full cursor-pointer">
+              <div v-else
+                   class="flex items-center justify-center gap-2 md:py-2 py-1 px-5 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef-hat" width="16" height="16"/>
                 <span class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">Подписаться</span>
               </div>
             </div>
-            <div class="flex lg:flex-row flex-col lg:gap-0 lg:items-center lg:justify-between xl:px-0 lg:gap-0 sm:gap-6 gap-4">
+            <div
+              class="flex lg:flex-row flex-col lg:gap-0 lg:items-center lg:justify-between xl:px-0 lg:gap-0 sm:gap-6 gap-4">
               <div class="flex items-center sm:gap-5 gap-2">
-                <h2 class="md:text-2xl sm:text-xl text-sm text-gray-800 font-semibold	items-center">{{ vendor?.user?.full_name ? vendor.user.full_name : 'No name'}}</h2>
+                <h2 class="md:text-2xl sm:text-xl text-sm text-gray-800 font-semibold	items-center">
+                  {{ vendor?.user?.full_name ? vendor.user.full_name : 'No name' }}</h2>
                 <the-icon class="md:block hidden" src="information-circle"/>
                 <the-icon class="md:hidden block" width="22" src="information-circle"/>
                 <the-icon class="cursor-pointer md:block hidden" src="share"/>
@@ -69,8 +77,8 @@
       </div>
     </div>
     <div v-if="!switchOn">
-      <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-3 sm:my-7 my-4 lg:py-0 pt-4">
-        <div class="flex items-center gap-4 w-full">
+      <div class="container mx-auto xl:px-0 sm:px-4 px-2">
+        <div class="flex flex-wrap justify-center items-center sm:gap-4 gap-2 w-full">
           <div v-for="(item, idx) in foods" :key="idx" @click="showFood(item)">
             <chef-product-card
               :src="item.src"
@@ -81,140 +89,154 @@
             />
           </div>
         </div>
+        <button :disabled="isPageCount" @click="pageCount"
+                class="mx-auto mt-3 block py-2 bg-white rounded-lg text-center cursor-pointer sm:w-96 w-72"
+                :class="{'px-8 py-3bg-gray-300 text-white rounded focus:outline-none':isPageCount}"
+        >
+          <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
+        </button>
         <br>
-        <yandex-maps :marker-icon="[vendor.latitude, vendor.longitude]"/>
+        <yandex-maps/>
       </div>
-<!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
-<!--        <div class="flex items-center gap-4 w-full">-->
-<!--          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title"-->
-<!--                             :price="item.price" :delay="item.delay"/>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">-->
-<!--        <div class="flex items-center gap-4 w-full">-->
-<!--          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title"-->
-<!--                             :price="item.price" :delay="item.delay"/>-->
-<!--        </div>-->
-<!--      </div>-->
+
+      <!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
+      <!--        <div class="flex items-center gap-4 w-full">-->
+      <!--          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title"-->
+      <!--                             :price="item.price" :delay="item.delay"/>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div v-if="more" class="container mx-auto overflow-x-scroll scroll-style my-7">-->
+      <!--        <div class="flex items-center gap-4 w-full">-->
+      <!--          <chef-product-card v-for="(item, idx) in productData" :key="idx" :src="item.src" :title="item.title"-->
+      <!--                             :price="item.price" :delay="item.delay"/>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
-<!--    <div v-if="switchOn">-->
-<!--      <div class="container mx-auto flex flex-wrap items-center justify-center gap-3 mb-7">-->
-<!--        <div v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0">-->
-<!--          <div v-for="(item, idx) in vendor.reels[0].media" :key="item.id ? item.id : idx">-->
-<!--            <div class="blog-img">-->
-<!--              <img class="w-full object-cover" :src="item.url" :alt="item.title">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0 && !more"-->
-<!--      @click="more = true"-->
-<!--      style="width: 384px;"-->
-<!--      class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer"-->
-<!--    >-->
-<!--      <span class="text-sm text-gray-700">Показать больше</span>-->
-<!--    </div>-->
-    <the-food :item="foodDetail" ></the-food>
+    <!--    <div v-if="switchOn">-->
+    <!--      <div class="container mx-auto flex flex-wrap items-center justify-center gap-3 mb-7">-->
+    <!--        <div v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0">-->
+    <!--          <div v-for="(item, idx) in vendor.reels[0].media" :key="item.id ? item.id : idx">-->
+    <!--            <div class="blog-img">-->
+    <!--              <img class="w-full object-cover" :src="item.url" :alt="item.title">-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    <div-->
+    <!--      v-if="vendor?.reels[0]?.length > 0 && vendor.reels[0]?.media[0]?.length > 0 && !more"-->
+    <!--      @click="more = true"-->
+    <!--      style="width: 384px;"-->
+    <!--      class="mx-auto py-2 bg-white rounded-lg text-center cursor-pointer"-->
+    <!--    >-->
+    <!--      <span class="text-sm text-gray-700">Показать больше</span>-->
+    <!--    </div>-->
+    <the-food :item="foodDetail"></the-food>
   </div>
 </template>;
 
 <script>
 import yandexMaps from "~/components/yandex-maps/yandex-maps";
+
 export default {
   components: {
     yandexMaps
   },
- data() {
-   return {
-     switchOn: false,
-     more: false,
-     foodModal: false,
-     categories: null,
-     foodDetail: {},
-     productData: [
-       {
-         src: 'img-1',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-2',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-3',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-4',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-5',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-1',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-1',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-1',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-1',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-       {
-         src: 'img-1',
-         title: 'Имя Фамилия',
-         price: '12000',
-         delay: 40
-       },
-     ],
-     blogCard: [
-       'img-1',
-       'img-2',
-       'img-3',
-       'img-4',
-       'img-5',
-       'img-1',
-       'img-2',
-       'img-3',
-       'img-4',
-       'img-5',
-       'img-1',
-       'img-2',
-       'img-3',
-     ],
-     vendor: [],
-     foods: []
-   }
- },
-  async fetch () {
+  data() {
+    return {
+      switchOn: false,
+      more: false,
+      foodModal: false,
+      categories: null,
+      total: null,
+      foodDetail: {},
+      productData: [
+        {
+          src: 'img-1',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-2',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-3',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-4',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-5',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-1',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-1',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-1',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-1',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+        {
+          src: 'img-1',
+          title: 'Имя Фамилия',
+          price: '12000',
+          delay: 40
+        },
+      ],
+      isPageCount: false,
+      pagination: {
+        page: 1,
+        pageSize:12,
+      },
+      blogCard: [
+        'img-1',
+        'img-2',
+        'img-3',
+        'img-4',
+        'img-5',
+        'img-1',
+        'img-2',
+        'img-3',
+        'img-4',
+        'img-5',
+        'img-1',
+        'img-2',
+        'img-3',
+      ],
+      vendor: [],
+      foods: []
+    }
+  },
+  async fetch() {
     await this.getItem()
     await this.getCategories()
   },
@@ -223,46 +245,72 @@ export default {
       this.foodDetail = item;
       this.$routePush({...this.$route.query, foodSaw: 'foodSaw'})
     },
-    async getFood (id) {
-     const {objects} = await this.$axios.get('foods', {
-       params: {
-         limit: 10,
-         vendor_id: this.$route.query.vendor_id,
-         category_id: id ?? undefined
-       }
-     });
-      this.foods = objects;
-      return objects;
+    async getFood(id) {
+      const {results} = await this.$axios.get('products', {
+        params: {
+          // limit: 10,
+          populate: '*',
+          pagination: this.pagination,
+          filters: {
+            vendor: {
+              id: {
+                $eq: this.$route.query.vendor_id
+              }
+            }
+          }
+          // vendor_id: this.$route.query.vendor_id,
+          // category_id: id ?? undefined
+        }
+      });
+      this.foods = results;
+      return results;
     },
     async getItem() {
       try {
-        await this.$axios.get(`vendors/${this.$route.query.vendor_id}`).then(res => {
-          this.vendor = res;
+        await this.$axios.get(`vendors/${this.$route.query.vendor_id}`, {
+          params: {
+            populate: "passport, patent, background, user, user.avatar, *",
+            locale: this.$i18n.locale,
+          }
+        }).then(res => {
+          console.log('====>>')
+          // this.vendor = res;
         })
         await this.getFood()
 
       } catch (err) {
       }
     },
-    async getCategories(){
+    async getCategories() {
       try {
-       const {objects} =  await this.$axios.get('categories');
-          this.categories = objects;
-          this.categories.unshift({name: "Все", id: 'all'})
+        const {objects} = await this.$axios.get('categories');
+        this.categories = objects;
+        this.categories.unshift({name: "Все", id: 'all'})
       } catch (err) {
       }
     },
-   async categoriesFilter (item) {
-     console.log(item)
-     if(item.category_id === 'all') {
-       // await this.$routePush({...this.$route.query, category_id: undefined});
-       await this.getFood()
-     }
-     else {
-       // await this.$routePush({...this.$route.query, category_id: item.category_id});
-       await this.getFood(item.category_id)
-     }
+    async categoriesFilter(item) {
+      console.log(item)
+      if (item.category_id === 'all') {
+        // await this.$routePush({...this.$route.query, category_id: undefined});
+        await this.getFood()
+      } else {
+        // await this.$routePush({...this.$route.query, category_id: item.category_id});
+        await this.getFood(item.category_id)
+      }
 
+    },
+    async pageCount () {
+     try {
+       if(this.pagination.pageSize < this.total) {
+         this.isPageCount = true;
+         this.pagination.pageSize+=4
+         await this.getFood()
+         this.isPageCount = false;
+       } else {
+         this.isPageCount = true
+       }
+     } catch (err) {}
     }
   },
   computed: {
@@ -373,9 +421,11 @@ export default {
   border-radius: 8px;
   overflow: hidden;
 }
+
 .switch-rwd {
   display: none;
 }
+
 @media screen and (max-width: 1024px) {
   .banner .banner__item {
     transform: translate(0, 140px);
@@ -392,51 +442,63 @@ export default {
   .product-card {
     height: 260px;
   }
+
   .banner .banner__item {
     transform: translate(0, 170px);
   }
+
   .avatar-styles {
     width: 120px;
     height: 120px;
   }
+
   .switch {
     width: 350px;
   }
 }
+
 @media screen and (max-width: 540px) {
   .switch-additinal {
     display: none;
   }
+
   .banner .banner__item {
     transform: translate(0, 150px);
   }
+
   .switch-rwd {
     display: flex;
     width: 90%;
     margin: 0 auto;
   }
+
   .banner {
     margin-bottom: 80px;
   }
 }
+
 @media screen and (max-width: 450px) {
   .avatar-styles {
     width: 95px;
     height: 95px;
   }
+
   .banner .banner__item {
     transform: translate(0, 160px);
     padding: 0 12px;
   }
 }
+
 @media screen and (max-width: 400px) {
   .avatar-styles {
     width: 85px;
     height: 85px;
   }
+
   .banner {
     margin-bottom: 55px;
   }
+
   .banner .banner__item {
     transform: translate(0, 167px);
     padding: 0 12px;

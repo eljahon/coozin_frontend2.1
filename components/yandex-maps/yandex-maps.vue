@@ -1,6 +1,6 @@
 <template>
   <div>
-    <client-only>
+<!--    <client-only>-->
 
     <div id="map-wrap" style="height:80vh" class="w-full h-full">
 <!--      <no-ssr>-->
@@ -22,7 +22,7 @@
           </ymap-marker>
         </yandex-map>
     </div>
-    </client-only>
+<!--    </client-only>-->
   </div>
 </template>
 

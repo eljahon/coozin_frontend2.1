@@ -65,7 +65,6 @@ export const actions = {
      weekday: Number(this.$dayjs(new Date ()).add(i, 'day').format('d'))+1
     })
     };
-    console.log("days", days)
     commit('SET_DAY', days)
   },
   async setUser ({commit}, res) {
