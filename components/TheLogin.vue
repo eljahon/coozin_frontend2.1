@@ -39,7 +39,6 @@
         <the-icon src="x" />
       </div>
       <h2 class="text-2xl font-bold text-center text-gray-700">{{ $t('login-account') }}</h2>
-<!--      <login-otp/>-->
       <input
         class="bg-white text-gray-500 border rounded-2xl border-gray-200
          py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 my-6"
@@ -79,8 +78,8 @@ export default {
           })
           await this.$store.dispatch('Login', res)
             .then(async (response) => {
-             await this.$routePush({login: undefined})
-             await this.$toast.success('success Login')
+              await this.$routePush({login: undefined})
+              await this.$toast.success('success Login')
               await this.$store.dispatch('cart/getCardList')
 
             })
