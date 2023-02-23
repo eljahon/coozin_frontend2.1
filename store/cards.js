@@ -9,10 +9,10 @@ export const mutations = {
 export const actions = {
   async getCards ({commit },payload )  {
     try {
-      const { objects }  = await this.$axios.get('cards', {
+      const { results }  = await this.$axios.get('cards', {
         params: {...payload}
       })
-      return objects;
+      return results;
     } catch (err) {
     }
 },

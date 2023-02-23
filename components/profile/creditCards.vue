@@ -53,6 +53,7 @@ export default {
       try{
         await this.$store.dispatch('cards/getCards')
           .then(res => {
+            console.log(res)
             this.cards = res;
           })
       } catch (err) {}

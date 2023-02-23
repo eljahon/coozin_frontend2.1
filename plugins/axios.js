@@ -15,10 +15,9 @@ export default function ({ $axios, redirect, $auth, app }) {
     }
   })
   $axios.onError((error) => {
+    console.log(error.response)
     const code = parseInt(error.response.status)
     if (code === 400) {
-      // console.log(error.response)
-      // Vue.prototype.$snotify.error(error.response.data.error.details.length > 0 ? error.response.data.error.details[0].messages[0].message : error.response.data.error.message)
       return
     }
     if (code === 401) {
@@ -26,29 +25,11 @@ export default function ({ $axios, redirect, $auth, app }) {
     }
     if (code === 403) {
       app.$auth.logout()
-      // Vue.prototype.$snotify.error("Not Authorized: Sorry, you can't access this!")
       return
-    }
-    if (error.response && error.response.status === 404) {
-      // Vue.prototype.$snotify.error(
-      //   "Not Found: We couldn't find what you're looking for. Please refresh and try again, or contact the support team."
-      // )
-      return
-    }
-    if (error.response && error.response.status === 422) {
-      // Vue.prototype.$snotify.error('Validation Error')
-      return
-    }
-    if (error.response && error.response.status === 500) {
-      // Vue.prototype.$snotify.error('Server Error: Please contact the support team.')
-      return
-    }
-    if (error.message === 'Network Error') {
-      // Vue.prototype.$snotify.error('Network Error: Check your network')
     }
   })
     $axios.onResponse(data => {
-    return data.data
+    return data
   })
 }
 

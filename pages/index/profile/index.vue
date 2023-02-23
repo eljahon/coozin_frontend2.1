@@ -86,7 +86,7 @@ export default {
     }
   },
   mounted() {
-    this.getUser()
+    // this.getUser()
   },
   methods: {
     handleRoute(item) {
@@ -102,11 +102,11 @@ export default {
         }
       }
     },
-    getUser() {
-      this.$axios.get('users/me').then(res => {
-        this.user = res
-      })
-    }
+    // getUser() {
+    //   this.$axios.get('users/me').then(res => {
+    //     this.user = res
+    //   })
+    // }
   }
 }
 </script>

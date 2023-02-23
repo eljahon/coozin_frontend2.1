@@ -102,8 +102,8 @@
           <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
         </button>
         <br>
-        <yandex-maps v-if="coor[0] !== null " :marker-icon="coor"/>
-        <yandex-maps v-else/>
+<!--        <yandex-maps v-if="coor[0] !== null " :marker-icon="coor"/>-->
+        <yandex-maps />
       </div>
 
       <!--      <div class="container mx-auto overflow-x-scroll scroll-style my-7">-->
@@ -138,7 +138,13 @@
     <!--    >-->
     <!--      <span class="text-sm text-gray-700">Показать больше</span>-->
     <!--    </div>-->
-    <the-food v-if="isFood" :item="foodDetail" :user="itemVendor" :isSee="isShowFood"></the-food>
+    <the-food
+      v-if="isFood"
+      :item="foodDetail"
+      :user="itemVendor"
+      :isSee="isShowFood">
+
+    </the-food>
   </div>
 </template>;
 
@@ -242,13 +248,17 @@ export default {
         'img-2',
         'img-3',
       ],
-      itemVendor: null,
+      itemVendor: {},
       foods: []
     }
   },
   async fetch() {
-    await this.getItem()
-    await this.getCategories()
+   try {
+     await this.getItem()
+     // await this.getCategories()
+   } catch (err) {
+
+   }
   },
   methods: {
     showFood(item) {
@@ -259,7 +269,7 @@ export default {
       this.isFood = !this.isFood
     },
     async getFood(id) {
-      const {results, pagination} = await this.$axios.get('products', {
+      const {data:{results, pagination}} = await this.$axios.get('products', {
         params: {
           // limit: 10,
           populate: '*',
@@ -281,19 +291,20 @@ export default {
     },
     async getItem() {
       try {
-        const data = await this.$axios.get(`vendors/${this.$route.query.vendor_id}`, {
+        const {data} = await this.$axios.get(`vendors/${this.$route.query.vendor_id}`, {
           params: {
             populate: "passport, patent, background, user, user.avatar, *",
             locale: this.$i18n.locale,
           }
         })
         this.itemVendor = data;
-        // console.log(this.Itemvendor,'====>>>>')
+        console.log(this.Itemvendor,'====>>>>')
         this.coor = [data.location.lat, data.location.long]
 
         await this.getFood()
 
       } catch (err) {
+        return err
       }
     },
     imageSee(item) {

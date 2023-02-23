@@ -60,7 +60,6 @@
 import LoginPhone from "~/components/login/login-phone";
 export default {
   components: {LoginPhone},
-  props: ['hide'],
   data() {
     return {
       login: {
@@ -72,20 +71,10 @@ export default {
   methods: {
     async submitLogin() {
       try {
-        await this.$auth.loginWith('local', { data: this.login }).then(async (res) => {
-          await this.$toast.info('Login in ....', {
-            duration: 2000,
-            position: 'bottom-right',
-          })
-          await this.$store.dispatch('Login', res)
-            .then(async (response) => {
-             await this.$routePush({login: undefined})
-             await this.$toast.success('success Login')
-              await this.$store.dispatch('cart/getCardList')
-
-            })
-        })
+       const {data:{jwt}}= await this.$auth.loginWith('local', { data: this.login })
+        this.$auth.setUserToken(jwt)
       } catch (e) {
+        console.log(e)
         this.$toast.error(e, {
           duration: 2000,
           position: 'bottom-right',

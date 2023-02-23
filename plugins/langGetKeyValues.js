@@ -1,7 +1,7 @@
 export default function ({app, $axios, i18n},inject) {
   async  function getLangKeyValues(locale) {
     try {
-      const {results} = await $axios.get('language-items', {
+      const {data: {results, pagination}} = await $axios.get('language-items', {
         params: {
           populate: "*",
           sort: ['key'],

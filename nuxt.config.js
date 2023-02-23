@@ -21,13 +21,13 @@ export default {
       }
     ],
   },
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     "@/assets/css/main.css",
     "@assets/css/tailwind.css"
   ],
-// target: 'static',
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  axios: {
+    baseUrl: 'https://testbackend.coozin.uz/api/'
+  },
   plugins: [
     { src: "~/plugins/axios.js" },
     { src: '@/plugins/yandex.js', ssr: false},
@@ -38,17 +38,12 @@ export default {
     {src: '~/plugins/langGetKeyValues.js'},
     {src: '~/plugins/others.js'}
   ],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
   loading: false,
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     "@nuxtjs/dotenv",
       '@nuxt/postcss8'
   ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     "@nuxtjs/i18n",
     "@nuxtjs/axios",
@@ -56,7 +51,7 @@ export default {
     "@nuxtjs/auth-next",
     '@nuxtjs/toast',
     'cookie-universal-nuxt',
-    ['cookie-universal-nuxt', { alias: 'cookiz' }],
+    ['cookie-universal-nuxt', { alias: 'cookiz' }]
   ],
   toast: {
     duration: 3000,
@@ -78,27 +73,16 @@ export default {
           property: 'jwt',
           type: 'Bearer'
         },
-        user:false,
-        endpoints: {
-          login: { url: '/users-permissions/login_otp', method: 'post' },
-          refresh: { url: '/auth/token/refresh', method: 'post' },
-          user: { url: '/users/me', method: 'get' },
-          logout: false,
-          // tokenRequired: true,
-          // tokenType: 'Bearer',
-          // facebook: {
-          //   client_id: 'your facebook app id',
-          //   userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email',
-          //   scope: ['public_profile', 'email']
-          // },
-          google: { client_id: 'your gcloud oauth app client id' }
+        user:{
+          property: '',
+          autoFetch:false
+
         },
-        // redirect: {
-        //   login: '/',
-        //   logout: '/',
-        //   user: '/profile',
-        //   callback: '/'
-        // }
+        endpoints: {
+          login: { url: '/users-permissions/login_otp', method: 'post', propertyName: 'jwt' },
+          user: { url: '/users/me', method: 'get', propertyName: false  },
+          logout: false
+        }
       }
     }
   },

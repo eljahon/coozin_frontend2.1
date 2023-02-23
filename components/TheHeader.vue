@@ -135,7 +135,7 @@
     </header>
 
     <!--  Login  -->
-    <the-login :hide="$store.state.login"/>
+    <the-login/>
 
     <!--  Register  -->
     <the-register :hide="$store.state.register"/>
@@ -151,6 +151,7 @@
 import HeaderCard from "~/components/header/header-card";
 import BurgerMenu from "~/components/header/burger-menu";
 import debounce from 'lodash.debounce'
+import Login from "@/layouts/login";
 
 export default {
   data() {
@@ -198,7 +199,8 @@ export default {
   },
   methods: {
    async getLocales () {
-      const {results} = await this.$axios.get('languages');
+      const {data: {results, pagination}} = await this.$axios.get('languages');
+     console.log(results)
      this.langList = results
     },
     showLocations (value) {

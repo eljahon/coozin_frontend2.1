@@ -67,37 +67,38 @@ export const actions = {
     };
     commit('SET_DAY', days)
   },
-  async setUser ({commit}, res) {
-    try {
-      this.$auth.setUserToken(res.jwt)
-      const info = await this.$axios.get('/users/me')
-      this.$auth.setUser(info)
-      this.$cookies.set('userInfo', info)
-      return info;
-    } catch (err) {
-    }
-  },
-  async Login ({commit, dispatch}, payload) {
-   return await dispatch('setUser', payload)
-  },
+  // async setUser ({commit}, res) {
+  //   try {
+  //     this.$auth.setUserToken(res.jwt)
+  //     // const info = await this.$axios.get('/users/me')
+  //     // this.$auth.setUser(info)
+  //     // this.$cookies.set('userInfo', info)
+  //     // return info;
+  //     console.log(this.$auth)
+  //   } catch (err) {
+  //   }
+  // },
+  // async Login ({commit, dispatch}, payload) {
+  //  return await dispatch('setUser', payload)
+  // },
   set_location ({commit}, payload) {
     commit('SET_LOCATION', payload)
     this.$cookies.set('langlot', payload)
   },
 
-  async nuxtServerInit({ commit }) {
-    const userInfo = this.$cookies.get('userInfo')
-    this.$auth.setUser(userInfo)
-    commit('SET_CURRENT_USER', userInfo)
-    const loc = {
-      latitude: this.$cookies.get('langlot')?.latitude,
-      longitude: this?.$cookies.get('langlot')?.longitude,
-    }
-    commit('SET_LOCATION', loc)
-    if (this.$cookies.get('lacationName')) {
-      commit('SET_LOCATION_NAME', this.$cookies.get('lacationName'))
-    }
-  },
+  // async nuxtServerInit({ commit }) {
+  //   // const userInfo = this.$cookies.get('userInfo')
+  //   // this.$auth.setUser(userInfo)
+  //   // commit('SET_CURRENT_USER', userInfo)
+  //   // const loc = {
+  //   //   latitude: this.$cookies.get('langlot')?.latitude,
+  //   //   longitude: this?.$cookies.get('langlot')?.longitude,
+  //   // }
+  //   commit('SET_LOCATION', loc)
+  //   if (this.$cookies.get('lacationName')) {
+  //     commit('SET_LOCATION_NAME', this.$cookies.get('lacationName'))
+  //   }
+  // },
   loginModal ({ commit }, payload) {
     commit('LOGIN_MODAL', payload)
   },

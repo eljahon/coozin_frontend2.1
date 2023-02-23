@@ -232,7 +232,7 @@ import {mapGetters} from "vuex"
     methods: {
       async getCategories(){
         try {
-       const {results, pagination} = await this.$axios.get('categories', {
+       const {data: {results, pagination}} = await this.$axios.get('categories', {
          params: {
            populate: '*',
            locale: this.$i18n.locale
@@ -247,14 +247,14 @@ import {mapGetters} from "vuex"
       async getCollection() {
         try {
           this.pending = true
-          const {results} = await this.$axios.get('service-collections', {
+          const {data: {results, pagination}} = await this.$axios.get('service-collections', {
             locale: this.$i18n.locale
           })
           this.collections = results
         } catch (err) {}
       },
     async  getVendors() {
-      const {results, pagination} = await this.$axios.get('vendors', {
+      const {data: {results, pagination}} = await this.$axios.get('vendors', {
           params: {
             populate: "passport, patent, background, user, user.avatar, *",
            locale: this.$i18n.locale,
@@ -273,8 +273,8 @@ import {mapGetters} from "vuex"
       },
       async getReels() {
         try {
-          const { objects } =  await this.$axios.get('reels');
-          this.blogCard = objects
+          const {data: {results, pagination}} =  await this.$axios.get('reels');
+          this.blogCard = results
         } catch (e) {
         }
       },
