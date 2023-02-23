@@ -1,14 +1,14 @@
 <template>
   <div v-if="$route.query.register">
     <div class="register-modal">
-      <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
+      <div @click="$router.push({path: localePath($route.path), query: {...$route.query,login: undefined, register: undefined}})" class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center relative x-position cursor-pointer">
         <the-icon src="x" />
       </div>
       <h2 class="text-2xl font-bold text-center text-gray-700">{{ $t('login-account') }}</h2>
       <p class="text-lg text-center text-gray-700 mt-1">{{ $t('have-account') }}
-        <span @click="() => $router.push({path: localePath($route.path), query: {...$route.query,login: 'login', register: undefined}})" class="text-orange-600 cursor-pointer font-semibold">{{ $t('login') }}</span>
+        <span @click="$router.push({path: localePath($route.path), query: {...$route.query,login: 'login', register: undefined}})" class="text-orange-600 cursor-pointer font-semibold">{{ $t('login') }}</span>
       </p>
-        <div v-if="$route.query.register" class="flex flex-col">
+        <div v-if="$route.query.register == 'register'" class="flex flex-col">
           <ValidationObserver class="w-full" ref="observer" v-slot="{ handleSubmit, invalid }">
           <form novalidate class="sm:w-96 w-full" @submit.prevent="handleSubmit(funcRegister)">
             <ValidationProvider
@@ -21,11 +21,11 @@
             <input
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
               py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 mt-4"
-              v-model="first_name"
+              v-model="register.first_name"
               type="text"
               name="first_name"
               placeholder="Ваше имя"
-              :class="errors.length > 0? 'border-red-400 border-2' :''"
+              :class="errors.length > 0 ? 'border-red-400 border-2' : ''"
             />
             </ValidationProvider>
             <ValidationProvider
@@ -36,7 +36,7 @@
             >
               <label v-if="errors.length" for="last_name" class="text-red-500">{{$t('last-name')}} <span class="text-xl">*</span></label>
             <input
-              v-model="last_name"
+              v-model="register.last_name"
               type="text"
               :class="errors.length > 0? 'border-red-400' :''"
               class="bg-white text-gray-500 border rounded-2xl border-gray-200
@@ -64,20 +64,25 @@
           </form>
           </ValidationObserver>
         </div>
+        <register-confirm :phone="register.phone"></register-confirm>
     </div>
-    <div @click="() => $router.push({path: localePath($route.path), query: {...$route.query, register: undefined}})" class="register-background"></div>
+    <div @click="$router.push({path: localePath($route.path), query: {...$route.query, register: undefined}})" class="register-background"></div>
   </div>
 </template>
 
 <script>
+import registerConfirm from './register/register-confirm.vue'
+
 export default {
   props: ['hide'],
+  components: {
+    'register-confirm': registerConfirm
+  },
   data() {
     return {
-      first_name: '',
-      last_name: '',
       register: {
-        full_name: '',
+        first_name: '',
+        last_name: '',
         phone: ''
       }
     }
@@ -85,13 +90,10 @@ export default {
   methods: {
     async funcRegister() {
        try {
-         this.register.full_name = `${ this.first_name } ${ this.last_name }`;
-         const token = await this.$axios.post('/auth/register', {...this.register});
-         // await this.$store.dispatch('setUser', token)
-         if (token.id) {
-           this.$routePush({register: undefined, login: 'login'})
-           this.$toast.success('you are success register')
-
+         let data = await this.$axios.post('/users-permissions/register_otp', this.register);
+         if (data.status) {
+           this.$routePush({...this.$route.query, register: 'otp'})
+           this.$toast.success('You are success register')
          }
        } catch (err) {
        }

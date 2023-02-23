@@ -73,6 +73,9 @@ export default {
       try {
        const {data:{jwt}}= await this.$auth.loginWith('local', { data: this.login })
         this.$auth.setUserToken(jwt)
+        await this.$routePush({login: undefined})
+        await this.$toast.success('success Login')
+        await this.$store.dispatch('cart/getCardList')
       } catch (e) {
         console.log(e)
         this.$toast.error(e, {
