@@ -5,32 +5,32 @@
         <the-icon src="home" />
       </nuxt-link>
       <the-icon src="right-arrow-black" />
-      <span class="text-sm font-medium text-gray-500 cursor-pointer">Профиль</span>
+      <span class="text-sm font-medium text-gray-500 cursor-pointer">{{$t('profile')}}</span>
     </div>
 
     <div class="container mx-auto flex gap-5 xl:px-0 sm:px-4 px-2">
       <div class="w-80 lg:flex hidden flex-col gap-5 shrink-0">
         <div class="p-6 bg-white rounded-2xl flex flex-col gap-2 w-full">
-          <h3 class="text-xl font-semibold text-gray-800">{{ user.full_name }}</h3>
+          <h3 v-if="user && user.first_name" class="text-xl font-semibold text-gray-800">{{ user.first_name+" "+user.last_name }}</h3>
           <h6 class="text-xs text-color-700 font-medium">Coozin кошелёк:</h6>
           <div class="flex gap-2">
             <the-icon src="coin" />
-            <h4 class="text-xl text-color-700 font-semibold">{{ user.balance }} сум</h4>
+            <h4 class="text-xl text-color-700 font-semibold">{{ user.balance }} {{$t('sum')}}</h4>
           </div>
         </div>
         <div class="p-6 bg-white rounded-2xl flex flex-col gap-6 w-full">
-          <div v-for="(item, idx) in profile" :key="idx">
-            <nuxt-link :to="handleRoute(item)">
+          <div v-for="(item, idx) in profile" :key="idx" class="p-1.5 rounded-2xl" :class="{'bg-orange-50 text-orange-400': item.name === $route.query.name}">
+            <nuxt-link :to="handleRoute(item)" >
               <div class="flex gap-4 cursor-pointer">
                 <the-icon :src="item.icon" />
-                <h4 class="text-color-700 font-normal">{{ item.title }}</h4>
+                <h4 class="text-color-700 font-normal">{{ $t(item.title) }}</h4>
               </div>
             </nuxt-link>
           </div>
         </div>
       </div>
 
-      <render />
+      <render class="w-full h-full" />
     </div>
   </div>
 </template>
@@ -47,47 +47,48 @@ export default {
       profile: [
         {
           icon: 'pencil',
-          title: 'Редактировать',
+          title: 'editing_profile',
           name: 'update'
         },
         {
           icon: 'clipboard',
-          title: 'Мои заказы',
+          title: 'my-orders',
           name: 'my-orders',
           link: '/my-orders'
         },
         {
           icon: 'heart',
-          title: 'Мои подписки',
+          title: 'my-subscriptions',
           name: 'subscriptions'
         },
         {
           icon: 'credit-card',
-          title: 'Мои карты',
+          title: 'my-cards',
           name: 'credit-cards'
         },
         {
           icon: 'share',
-          title: 'Поделиться',
+          title: 'share',
           name: 'share'
         },
         {
           icon: 'chat',
-          title: 'Чат',
+          title: 'chat',
           name: 'chat'
         },
         {
           icon: 'logout',
-          title: 'Выйти',
+          title: 'sign.out',
           name: 'logout'
         },
       ],
-      user: []
     }
   },
-  mounted() {
-    // this.getUser()
-  },
+computed:{
+    user () {
+      return this.$auth.user
+    }
+},
   methods: {
     handleRoute(item) {
       if (item.link) {

@@ -101,22 +101,22 @@
             <a href="#menu">{{ $t('menu') }}</a>
           </h2>
           <div class="flex items-center gap-1">
-            <span class="font-normal text-orange-600 cursor-pointer">{{ $t('see-more') }}</span>
-            <the-icon src="right-arrow" />
+<!--            <span class="font-normal text-orange-600 cursor-pointer">{{ $t('see-more') }}</span>-->
+<!--            <the-icon src="right-arrow" />-->
           </div>
         </div>
       </div>
-      <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-2">
-        <div class="flex items-center sm:gap-3.5 gap-2">
-          <div v-for="item in $store.state.days_list">
-            <menu-card
-              :date="item"
-              :month="item.month"
-              @onDates="onDatesFilter"
-            />
-          </div>
-        </div>
-      </div>
+<!--      <div class="container mx-auto overflow-x-scroll scroll-style xl:px-0 sm:px-4 px-2">-->
+<!--        <div class="flex items-center sm:gap-3.5 gap-2">-->
+<!--          <div v-for="item in $store.state.days_list">-->
+<!--            <menu-card-->
+<!--              :date="item"-->
+<!--              :month="item.month"-->
+<!--              @onDates="onDatesFilter"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="container mx-auto overflow-x-scroll scroll-style my-3 xl:px-0 sm:px-4 px-2">
         <div class="flex items-center sm:gap-4 gap-2 w-full">
           <category-card
@@ -185,6 +185,7 @@
 <script>
 import {mapGetters} from "vuex"
   export default {
+  auth: false,
     data() {
       return {
         location: false,
@@ -254,7 +255,7 @@ import {mapGetters} from "vuex"
         } catch (err) {}
       },
     async  getVendors() {
-      const {data: {results, pagination}} = await this.$axios.get('vendors', {
+      const {data: {results, pagination}} = await this.$axios.get('vendors/all', {
           params: {
             populate: "passport, patent, background, user, user.avatar, *",
            locale: this.$i18n.locale,

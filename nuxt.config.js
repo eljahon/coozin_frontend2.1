@@ -71,12 +71,12 @@ export default {
       local: {
         token: {
           property: 'jwt',
-          type: 'Bearer'
+          type: 'Bearer',
+          maxAge: 60 * 60 * 24 * 30
         },
         user:{
           property: '',
           autoFetch:false
-
         },
         endpoints: {
           login: { url: '/users-permissions/login_otp', method: 'post', propertyName: 'jwt' },
@@ -89,7 +89,7 @@ export default {
   i18n: i18n,
   router: {
     // mode: 'hash',
-    // middleware: ['auth'],
+    middleware: ['auth'],
     prefetchLinks: false
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build

@@ -5,9 +5,9 @@
         <the-icon src="home" />
       </nuxt-link>
       <the-icon src="right-arrow-black" />
-      <span class="text-sm font-medium text-gray-500 cursor-pointer">Профиль</span>
+      <span class="text-sm font-medium text-gray-500 cursor-pointer" @click="()=> $router.go(-1)">{{$t('profile')}}</span>
       <the-icon src="right-arrow-black" />
-      <span class="text-sm font-medium text-gray-500 cursor-pointer">Мои заказы</span>
+      <span class="text-sm font-medium text-gray-500 cursor-pointer">{{$t('my-orders')}}</span>
     </div>
     <div class="container mx-auto">
       <div class="container mx-auto flex gap-5 xl:px-0 sm:px-4 px-2 md:flex-nowrap flex-wrap">
@@ -15,10 +15,10 @@
           <div class="switch" @click="switchOn = !switchOn">
             <div class="switch-item delay-300" :class="{ 'switch-right': switchOn, 'switch-left': !switchOn }"></div>
             <div>
-              <span :class="{'text-orange-600': !switchOn, 'text-gray-500': switchOn}">Активные</span>
+              <span :class="{'text-orange-600': !switchOn, 'text-gray-500': switchOn}">{{$t('active')}}</span>
             </div>
             <div>
-              <span :class="{'text-orange-600': switchOn, 'text-gray-500': !switchOn}">История</span>
+              <span :class="{'text-orange-600': switchOn, 'text-gray-500': !switchOn}">{{$t('orders_history')}}</span>
             </div>
           </div>
           <div v-if="!switchOn" class="flex flex-col px-4 gap-3 mt-5 md:h-96 h-48 scroll-style	overflow-y-scroll">
@@ -437,12 +437,21 @@ export default {
 
   methods: {
     async getOrders() {
-      await this.$axios.get('orders').then(res => {
-        const { objects } = res
-        this.orderProgress = objects.filter(res => res.status === "pending")
-        this.orderHistory = objects.filter(res => res.status === "cancelled" || res.status === "finished")
-        this.orders = objects
+    const {data} = await this.$axios.get('orders', {
+        params: {
+          populate: '*',
+          filters: {
+            user: {
+              id: {
+                $eq: this.$auth.user.id
+              }
+            }
+          }
+        }
       })
+        this.orderProgress = data.filter(res => res.status === "pending")
+        this.orderHistory = data.filter(res => res.status === "cancelled" || res.status === "finished")
+        this.orders = data
     },
     getOrderDetail(item) {
       this.orderDetail = item

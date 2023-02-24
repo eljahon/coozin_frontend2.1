@@ -1,44 +1,62 @@
 <template>
   <div class="p-6 bg-white rounded-2xl flex flex-col w-full">
-    <h3 class="font-semibold text-xl text-color text-left ">Редактировать профиль</h3>
+    <h3 class="font-semibold text-xl text-color text-left ">{{$t('editing_profile')}}</h3>
     <div class="flex shrink-0	 w-36 h-36 rounded-full overflow-hidden border-4 border-gray-300 mt-8 mx-auto">
-      <img class="w-full fit-cover" src="https://i.pravatar.cc/140" alt="Avatar image">
+      <img v-if="user && user.avatar && user.avatar.aws_path" class="w-full fit-cover" :src="$img+user.avatar.aws_path" alt="Avatar image">
+      <img v-else class="w-full fit-cover" src="https://i.pravatar.cc/140" alt="Avatar image">
     </div>
     <div class="flex items-center justify-center gap-3 mt-6">
       <the-icon class="cursor-pointer" src="update"/>
       <the-icon class="cursor-pointer" src="trash"/>
     </div>
-
-    <form class="lg:mt-8 my-8 flex justify-center h-full gap-5 w-full flex-wrap">
-      <div class="relative">
-        <label class="absolute text-xs	font-normal	text-gray-500 left-3 top-2" for="firstname">Имя</label>
+    <ValidationObserver class="w-full" ref="observer" v-slot="{ passes, invalid }">
+    <form @submit.pre.prevent="passes(updateUser)" class="lg:mt-8 my-8 flex justify-center h-full gap-5 w-full flex-wrap">
+      <ValidationProvider
+        v-slot="{ valid, errors }"
+        rules="required"
+        name="first_name"
+        class="relative"
+      >
+<!--      <div class="relative">-->
+        <label class="absolute text-xs	font-normal	text-gray-500 left-3 top-2" for="first_name" :class="errors.length ? 'text-red-500' : ''">{{$t('first_name')}} <span v-if="errors.length" class="text-xl">*</span></label>
         <input
           class="input-width w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg	"
           type="text"
-          id="firstname"
+          id="first_name"
+          :state="errors[0] ? false : valid ? true : null"
+          :class="errors.length > 0 ? 'border-red-700': ''"
           v-model="form.first_name"
         >
-      </div>
-      <div class="relative">
-        <label class="absolute text-xs	font-normal	text-gray-500 left-3 top-2" for="lastname">Фамилия</label>
+<!--      </div>-->
+      </ValidationProvider>
+      <ValidationProvider
+        v-slot="{ valid, errors }"
+        rules="required"
+        name="last_name"
+        class="relative"
+      >
+<!--      <div class="relative">-->
+        <label class="absolute text-xs	font-normal	text-gray-500 left-3 top-2" for="last_name">{{$t('last_name')}}</label>
         <input
           class="input-width  w-full border border-gray-200	text-gray-700 outline-orange-500 px-3 pt-5 pb-2 h-14 rounded-lg"
           type="text"
           id="lastname"
           v-model="form.last_name"
         >
+<!--      </div>-->
+      </ValidationProvider>
+      <div class="flex items-center lg:justify-end justify-center gap-5">
+        <button
+          class="text-orange-600 font-semibold p-3 rounded-3xl w-40 bg-white border border-orange-600 active:opacity-80 hover:opacity-80">
+          {{$t('cancel')}}
+        </button>
+        <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80"
+        type="submit">{{$t('save')}}
+        </button>
       </div>
     </form>
+    </ValidationObserver>
 
-    <div class="flex items-center lg:justify-end justify-center gap-5">
-      <button
-        class="text-orange-600 font-semibold p-3 rounded-3xl w-40 bg-white border border-orange-600 active:opacity-80 hover:opacity-80">
-        Отменить
-      </button>
-      <button class="text-white font-semibold p-3 rounded-3xl w-40 bg-orange-600 active:opacity-80 hover:opacity-80"
-              @click="updateUser">Сохранить
-      </button>
-    </div>
   </div>
 </template>
 
@@ -47,30 +65,26 @@ export default {
   data() {
     return {
       form: {
-        first_name: '',
-        last_name: ''
+        first_name: this.$auth.user.first_name,
+        last_name:  this.$auth.user.last_name
       },
-      user: []
     }
   },
-  mounted() {
-    this.getUser()
+  computed: {
+    user () {
+      return this.$auth.user
+    }
   },
   methods: {
-    async getUser() {
-      try {
-        const userdata = await this.$axios.get('users/me');
-        this.form.first_name = userdata.first_name;
-        this.form.last_name = userdata.last_name
-      } catch (err) {
-      }
-    },
+
     async updateUser() {
       try {
-        const userupdate = await this.$axios.post('user', {...this.form});
-        if (userupdate.id) {
-          this.$toast.success('user data upadate')
-          this.$router.push({path: this.localePath(this.$route.path)})
+        const {data} = await this.$axios.put(`users/${this.user.id}`, {...this.form});
+        if (data.id) {
+          const myData =  await this.$axios.get('users/me')
+          this.$toast.success(this.$t('user_upadate'))
+          this.$auth.setUser(myData.data)
+          // this.$router.push({path: this.localePath(this.$route.path)})
         }
       } catch (err) {
       }

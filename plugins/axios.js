@@ -24,7 +24,7 @@ export default function ({ $axios, redirect, $auth, app }) {
       app.$auth.logout()
     }
     if (code === 403) {
-      app.$auth.logout()
+      // app.$auth.logout()
       return
     }
   })

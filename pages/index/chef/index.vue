@@ -152,6 +152,7 @@
 import yandexMaps from "~/components/yandex-maps/yandex-maps";
 import img from '~/assets/img/vendor.png'
 export default {
+  auth:false,
   components: {
     yandexMaps
   },

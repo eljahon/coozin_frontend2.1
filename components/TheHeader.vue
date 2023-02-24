@@ -25,7 +25,7 @@
           <div v-if="!search" class="md:flex hidden" @click="modal = true">
             <the-input
               type="text"
-              placeholder="Можно узнать где ты?"
+              :placeholder="$t('my_place')"
               icon="address"
               :readonly="true"
               inputStyles="cursor-pointer"

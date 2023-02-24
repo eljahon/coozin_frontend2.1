@@ -1,9 +1,9 @@
 <template>
   <div class="sm:p-6 p-2 bg-white rounded-2xl flex flex-col w-full gap-6">
     <div class="flex items-center justify-between">
-      <h3 class="font-semibold text-xl text-color text-left">Мои карты</h3>
+      <h3 class="font-semibold text-xl text-color text-left">{{$t('my-cards')}}</h3>
       <button @click="addCardModalOpen" class="text-white font-semibold p-3 rounded-3xl sm:w-40 w-36 bg-orange-600 active:opacity-80 hover:opacity-80">
-        Добавить карту
+        {{$t('add-card')}}
       </button>
     </div>
 

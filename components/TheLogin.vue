@@ -12,7 +12,7 @@
         <form @submit.prevent="passes(handalePhone)">
           <ValidationProvider
             v-slot="{ valid, errors }"
-            rules="required|phone"
+            rules="required"
             name="Username"
           >
             <label for="phone" v-if="errors.length" class="block text-red-500 my-1">{{$t('phone')}}</label>
@@ -20,7 +20,7 @@
               name="phone"
               class="block bg-white text-gray-500 border rounded-2xl border-gray-200 py-2.5 px-4 text-base h-12 outline-orange-600 sm:w-96 w-full bg-gray-100 my-4 m-auto"
               v-model="login.phone"
-              placeholder="номер телефона +998 0 000 00 00"
+              placeholder="номер телефона +9989 XXX XX XX"
               :state="errors[0] ? false : valid ? true : null"
               :class="errors.length > 0 ? 'border-red-700': ''"
               type="text"
