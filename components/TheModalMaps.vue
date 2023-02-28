@@ -1,3 +1,4 @@
+
 <template>
   <div v-if="$route.query.maps">
     <div class="multiple-modal 1">
@@ -26,6 +27,15 @@
               v-model="search"
             >
              <ul class="fixed z-10 bg-white p-4" v-if="searchList.length">
+              <button @click="close" class="float-right mt-2 mr-1">
+                <the-icon
+
+                  class="cursor-pointer "
+                  src="x"
+                  width="10"
+                  height="10"
+                />
+              </button> <br>
             <li class="hover:bg-orange-500 hover:text-white hover:rounded p-3" v-for="(item, index) in searchList"
                 :key="index" @click="searchNameSelect(item)">{{ item.name }}</li>
             </ul>
@@ -111,6 +121,9 @@ export default {
         this.$bridge.$emit('vendor_fetch', {latitude: this.markerIcon[0], longitude: this.markerIcon[1]})
       }
       this.$routePush({...this.$route.query, maps: undefined})
+    },
+    close () {
+      this.searchList = []
     }
   },
   mounted() {

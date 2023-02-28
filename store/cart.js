@@ -20,9 +20,9 @@ export const actions = {
    const {limit} = payload;
   try {
     if (!limit) payload['limit'] = 10;
-    const {objects} = await this.$axios.get('cart', {...payload})
-    commit('SET_CART_LIST', objects)
-    return objects;
+    const {data} = await this.$axios.get('carts', {...payload})
+    commit('SET_CART_LIST', data.results)
+    return data.results;
   } catch (err) {
     return err;
   }
@@ -30,28 +30,28 @@ export const actions = {
    async getCardItem({commit}, payload) {
      const {id,latitude,longitude} = payload;
   try {
-    const data = await this.$axios.get(`cart/${id}`, {params: {longitude, latitude}})
-    commit('SET_CART_ITEM', data)
-    return data;
+    const {data} = await this.$axios.get(`carts/${id}`, {params: {longitude, latitude}})
+    commit('SET_CART_ITEM', data.results)
+    return data.results;
   } catch (err) {
     return err;
   }
  },
    async newOrderCreate ({commit,state, dispatch}, payload) {
     try {
-      const data = await this.$axios.post('cart', {...payload})
+      const {data} = await this.$axios.post('carts', {...payload})
         await dispatch('getCardList',{limit: 10})
       this.$toast.success('new order item corzina add')
-      return data;
+      return data.results;
     } catch (err) {
       this.$toast.error(err)
     }
   },
    async removeCart({commit,state, dispatch}, payload) {
    try {
-     const data = await this.$axios.delete(`cart/${payload}`);
+     const {data} = await this.$axios.delete(`carts/${payload}`);
      this.$toast.success('order remove corzina ')
-     return data;
+     return data.results;
    } catch (err) {
      this.$toast.error(err)
    }
@@ -59,10 +59,10 @@ export const actions = {
    async removeCartItem({commit,state, dispatch}, payload) {
    const {order_id, id, latitude,longitude} = payload;
    try {
-     const data = await this.$axios.delete(`cart/item/${id}`);
+     const {data} = await this.$axios.delete(`carts/item/${id}`);
      this.$toast.success('order item remove corzina ')
      dispatch('getCardItem', {id:order_id, latitude,longitude})
-     return data;
+     return data.results;
    } catch (err) {
      this.$toast.error(err)
    }

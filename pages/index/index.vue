@@ -139,7 +139,7 @@
             :title="item?.user?.first_name + ' ' + item?.user?.last_name"
             :product-img="item?.background"
             :avatar="item?.user?.avatar?.aws_path"
-            :rate="item?.ratings_avg ?? 4.3"
+            :rate="item?.rating ?? 4.3"
             :deliveryPrice="item?.delivery_price ?? 10000 +'+'"
             :count="idx + 1"
           />
@@ -153,31 +153,31 @@
         <span class="text-sm text-gray-700">{{ $t('see-more') }}</span>
       </button>
 
-<!--      &lt;!&ndash;  Blog section  &ndash;&gt;-->
-<!--      <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">-->
-<!--        <div class="flex items-center justify-between">-->
-<!--          <h2 id="blog" class="text-3xl font-semibold text-gray-800">-->
-<!--            <a href="#menu">{{ $t('blog') }}</a>-->
-<!--          </h2>-->
-<!--          <div class="flex items-center gap-1">-->
-<!--            <nuxt-link class="font-normal text-orange-600 cursor-pointer" to="/blog">{{ $t('see-more') }}</nuxt-link>-->
-<!--            <the-icon src="right-arrow" />-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="container mx-auto overflow-x-scroll scroll-style sm:px-0 px-2">-->
-<!--        <div class="flex items-center gap-3.5">-->
-<!--          <div v-for="item in blogCard" :key="item.id">-->
-<!--            <blog-card-->
-<!--              :src="item?.media[0]?.url"-->
-<!--              :title="item.title"-->
-<!--              :avatar="item.vendor.avatar"-->
-<!--            />-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--  Blog section  -->
+      <div class="container mx-auto xl:px-0 sm:px-4 px-2 sm:py-6 py-5">
+        <div class="flex items-center justify-between">
+          <h2 id="blog" class="text-3xl font-semibold text-gray-800">
+            <a href="#menu">{{ $t('blog') }}</a>
+          </h2>
+          <div class="flex items-center gap-1">
+            <nuxt-link class="font-normal text-orange-600 cursor-pointer" to="/blog">{{ $t('see-more') }}</nuxt-link>
+            <the-icon src="right-arrow" />
+          </div>
+        </div>
+      </div>
+      <div class="container mx-auto overflow-x-scroll scroll-style sm:px-0 px-2">
+        <div class="flex items-center gap-3.5">
+          <div v-for="item in blogCard" :key="item.id">
+            <blog-card
+              :title="`${item?.vendor?.user?.first_name}' ' ${item?.vendor?.user?.last_name}`"
+              :avatar="item?.vendor?.user.avatar?.aws_path"
+              :src="item.image.aws_path"
+            />
+          </div>
+        </div>
+      </div>
 
-      <Loader :active="$store.state.loader" />
+<!--      <Loader :active="$store.state.loader" />-->
     </div>
   </div>
 </template>
@@ -265,7 +265,8 @@ import {mapGetters} from "vuex"
                 id: {
                   $eq: this.$route.query.category_id ?? undefined
                 }
-              }
+              },
+              verified: {$eq: true}
             }
             }
         });
@@ -274,7 +275,12 @@ import {mapGetters} from "vuex"
       },
       async getReels() {
         try {
-          const {data: {results, pagination}} =  await this.$axios.get('reels');
+          const {data: {results, pagination}} =  await this.$axios.get('reels', {
+            params: {
+              populate: 'image, vendor, background, vendor.user, vendor.background, vendor.user.avatar',
+              locale: this.$i18n.locale
+            }
+          });
           this.blogCard = results
         } catch (e) {
         }
@@ -287,7 +293,6 @@ import {mapGetters} from "vuex"
         return this.$store.dispatch('set_day').then(res => this.pending = false)
       },
       categoriesFilter (item) {
-        console.log(item)
         if (item.category_id === 'all') {
           this.$routePush({...this.$route.query,category_id: undefined})
         } else {

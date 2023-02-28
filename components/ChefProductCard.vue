@@ -30,6 +30,12 @@ export default {
   },
   data () {
     return {
+      form: {
+        vendor: this.$route.query.vendor_id,
+        order_status: "",
+        order_items: [],
+        user: this.$auth.loggedIn  ? this.$auth?.user?.id : null
+      }
     }
   },
   methods: {
@@ -40,7 +46,7 @@ export default {
           "quantity":1
         };
       if (this.$auth.state.loggedIn) {
-        this.$store.dispatch('cart/newOrderCreate', newItem)
+        this.$store.dispatch('carts', newItem)
       } else {
         this.$routePush({...this.$route.query, login: 'login'})
         // const vendor_id = Number(this.$route.query.vendor_id)

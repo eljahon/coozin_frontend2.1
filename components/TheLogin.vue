@@ -73,7 +73,7 @@ export default {
       try {
        const {data:{jwt}}= await this.$auth.loginWith('local', { data: this.login })
         this.$auth.setUserToken(jwt)
-        await this.$routePush({login: undefined})
+        await this.$routePush({...this.$route.query,login: undefined})
         await this.$toast.success('success Login')
         await this.$store.dispatch('cart/getCardList')
       } catch (e) {
@@ -85,7 +85,7 @@ export default {
       }
     },
     handalePhone() {
-      this.$routePush({login: 'otp'})
+      this.$routePush({...this.$route.query,login: 'otp'})
       this.$axios.post('/users-permissions/send_otp', {
         phone: this.login.phone
       })

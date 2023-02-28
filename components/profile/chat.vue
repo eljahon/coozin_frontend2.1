@@ -16,8 +16,40 @@
 </template>
 
 <script>
+import {WS} from "@/utils/socket";
 export default {
-name: ""
+name: "",
+  data () {
+  return {
+    socket: null
+  }
+  },
+  methods: {
+    async creatRoom () {
+
+  },
+    async getOperator () {
+      const {data} = await this.$axios.get('users', {
+        params: {
+        }
+      })
+    },
+    async sendMesage () {},
+    async joinRoom () {},
+    async joined  () {},
+    async leftRoom () {},
+  },
+  mounted() {
+  if(this.$route.query.name === 'chat') {
+    this.socket = WS.socket(WS.url);
+    this.socket.on('message', (req, res) => {
+    })
+  }
+  },
+  beforeDestroy () {
+  this.socket.disconnect()
+    this.socket.emit('hi')
+  }
 }
 </script>
 

@@ -9,7 +9,7 @@ export const mutations = {
 export const actions = {
   async getCards ({commit },payload )  {
     try {
-      const { results }  = await this.$axios.get('cards', {
+      const { data: {results} }  = await this.$axios.get('cards', {
         params: {...payload}
       })
       return results;

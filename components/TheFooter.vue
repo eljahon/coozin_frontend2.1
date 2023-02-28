@@ -8,19 +8,19 @@
         <the-logo logo="true" />
       </div>
       <ul class="md:flex flex-col gap-5 hidden">
-        <li class="cursor-pointer text-gray-700">Наша история</li>
-        <li class="cursor-pointer text-gray-700">Присоединиться</li>
-        <li class="cursor-pointer text-gray-700">Блог</li>
+        <li class="cursor-pointer text-gray-700">{{$t('our-history')}}</li>
+        <li class="cursor-pointer text-gray-700">{{$t('join')}}</li>
+        <li class="cursor-pointer text-gray-700">{{$t('blog')}}</li>
       </ul>
       <ul class="sm:flex hidden flex-col gap-5">
-        <li class="cursor-pointer text-gray-700 font-semibold">Безопасная оплата</li>
+        <li class="cursor-pointer text-gray-700 font-semibold">{{$t('secure-payment')}}</li>
         <li class="flex gap-2 items-center cursor-pointer">
           <the-icon src="apelsin" />
           <span class="text-gray-700">Apelsin</span>
         </li>
       </ul>
       <ul class="sm:flex hidden flex-col gap-5">
-        <li class="text-gray-700 font-semibold">При поддержке</li>
+        <li class="text-gray-700 font-semibold">{{$t('supported-by')}}</li>
         <li class="flex gap-10 items-center">
           <the-icon src="coke" />
           <the-icon src="osce" />
@@ -28,14 +28,14 @@
       </ul>
       <div class="sm:hidden flex flex-col gap-8">
         <ul class="flex flex-col gap-5">
-          <li class="cursor-pointer text-gray-700 font-semibold">Безопасная оплата</li>
+          <li class="cursor-pointer text-gray-700 font-semibold">{{$t('secure-payment')}}</li>
           <li class="flex gap-2 items-center cursor-pointer">
             <the-icon src="apelsin" />
             <span class="text-gray-700">Apelsin</span>
           </li>
         </ul>
         <ul class="flex flex-col gap-5">
-          <li class="text-gray-700 font-semibold">При поддержке</li>
+          <li class="text-gray-700 font-semibold">{{$t('supported-by')}}</li>
           <li class="flex gap-4 items-center">
             <the-icon width="64" src="coke" />
             <the-icon width="64" src="osce" />

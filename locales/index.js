@@ -19,7 +19,7 @@ export const i18n = {
       iso: 'uz'
     }
   ],
-  defaultLocale: "uz",
+  defaultLocale: "ru",
   vueI18n: {
     fallbackLocale: "ru",
     messages: {

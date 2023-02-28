@@ -21,6 +21,7 @@ export default {
       }
     ],
   },
+  target: 'server',
   css: [
     "@/assets/css/main.css",
     "@assets/css/tailwind.css"

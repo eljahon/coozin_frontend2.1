@@ -19,17 +19,19 @@
                     itemVendor?.ratings_avg ? itemVendor.ratings_avg : '0'
                   }}</span>
               </div>
-              <div v-if="itemVendor?.subscribe"
+              <button v-if="$auth.loggedIn && isFollow"
+                      @click="unFollowPatch"
                    class="flex items-center justify-center gap-2 md:py-2 md:px-5 px-3 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef" width="16" height="16"/>
                 <span
-                  class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">Вы подписаны</span>
-              </div>
-              <div v-else
+                    class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">{{$t('you-subscribed')}}</span>
+              </button>
+              <button v-else
+                   @click="followPatch"
                    class="flex items-center justify-center gap-2 md:py-2 py-1 px-5 bg-white rounded-full cursor-pointer">
                 <the-icon src="chef-hat" width="16" height="16"/>
-                <span class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">Подписаться</span>
-              </div>
+                <span class="text-gray-800 md:text-xl sm:text-lg text-base text-gray-800 font-medium">{{$t('subscribe')}}</span>
+              </button>
             </div>
             <div
               class="flex lg:flex-row flex-col lg:gap-0 lg:items-center lg:justify-between xl:px-0 lg:gap-0 sm:gap-6 gap-4">
@@ -167,88 +169,13 @@ export default {
       total: null,
       foodDetail: {},
       coor: [],
-      productData: [
-        {
-          src: 'img-1',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-2',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-3',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-4',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-5',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-1',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-1',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-1',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-1',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-        {
-          src: 'img-1',
-          title: 'Имя Фамилия',
-          price: '12000',
-          delay: 40
-        },
-      ],
+      productData: [],
       isPageCount: false,
       pagination: {
         page: 1,
         pageSize: 12,
       },
-      blogCard: [
-        'img-1',
-        'img-2',
-        'img-3',
-        'img-4',
-        'img-5',
-        'img-1',
-        'img-2',
-        'img-3',
-        'img-4',
-        'img-5',
-        'img-1',
-        'img-2',
-        'img-3',
-      ],
+      blogCard: [],
       itemVendor: {},
       foods: []
     }
@@ -262,6 +189,33 @@ export default {
    }
   },
   methods: {
+    async getUserMe () {
+        const {data} =await this.$axios.get('users/me')
+      console.log(data)
+            this.$auth.setUser(data)
+    },
+    async followPatch () {
+      try {
+        const {data} = await this.$axios.patch(`follow/vendor/${this.$route.query.vendor_id}/user/${this.$auth.user.id}`)
+        console.log(data)
+        if (data.status) {
+          this.$toast.success(data.status)
+          await this.getUserMe()
+          // console.log(data)
+        }
+      } catch (err) {}
+
+    },
+    async unFollowPatch () {
+      try {
+        const {data} = await this.$axios.patch(`unfollow/vendor/${this.$route.query.vendor_id}/user/${this.$auth.user.id}`)
+        if (data.status) {
+          this.$toast.success(data.status)
+          await this.getUserMe()
+        }
+      } catch (err) {}
+
+    },
     showFood(item) {
      this.isShowFood()
       this.foodDetail = item;
@@ -273,6 +227,7 @@ export default {
       const {data:{results, pagination}} = await this.$axios.get('products', {
         params: {
           // limit: 10,
+          locale: this.$i18n.locale,
           populate: '*',
           pagination: this.pagination,
           filters: {
@@ -299,7 +254,6 @@ export default {
           }
         })
         this.itemVendor = data;
-        console.log(this.Itemvendor,'====>>>>')
         this.coor = [data.location.lat, data.location.long]
 
         await this.getFood()
@@ -320,7 +274,6 @@ export default {
       }
     },
     async categoriesFilter(item) {
-      console.log(item)
       if (item.category_id === 'all') {
         // await this.$routePush({...this.$route.query, category_id: undefined});
         await this.getFood()
@@ -345,9 +298,9 @@ export default {
     }
   },
   computed: {
-    blogData() {
-      return !this.more ? this.blogCard.slice(0, 8) : this.blogCard.slice(0, this.blogCard.length - 1)
-    }
+   isFollow () {
+     return this.$auth.user.vendors.map(el => el.id).includes(Number(this.$route.query.vendor_id))
+   }
   }
 }
 </script>

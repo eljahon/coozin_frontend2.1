@@ -51,9 +51,10 @@ export default {
   methods: {
    async getCards() {
       try{
-        await this.$store.dispatch('cards/getCards')
+        await this.$store.dispatch('cards/getCards', {
+          populate: '*'
+        })
           .then(res => {
-            console.log(res)
             this.cards = res;
           })
       } catch (err) {}

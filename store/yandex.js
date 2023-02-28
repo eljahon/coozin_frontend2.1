@@ -24,7 +24,7 @@ export const actions = {
     let param = {...state.params};
     param['geocode'] = payload
     try{
-  const {response}  = await this.$axios.get(state.nameUrl, {
+  const {data:{response}}  = await this.$axios.get(state.nameUrl, {
   params: {...param}
 
 });
@@ -47,7 +47,7 @@ export const actions = {
       param['text'] = payload;
       param.apikey = '5dc6f955-f361-4201-933e-74abe41f8294';
       delete param.sco;
-      const {features} =await this.$axios.get(state.searchUrl, {
+      const {data:{features}} =await this.$axios.get(state.searchUrl, {
         params: {...param}
       })
       const formatLocation = features.map((el) => {

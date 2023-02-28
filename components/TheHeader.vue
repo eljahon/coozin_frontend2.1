@@ -200,7 +200,6 @@ export default {
   methods: {
    async getLocales () {
       const {data: {results, pagination}} = await this.$axios.get('languages');
-     console.log(results)
      this.langList = results
     },
     showLocations (value) {

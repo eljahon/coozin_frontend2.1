@@ -1,8 +1,8 @@
 <template>
   <div class="p-6 bg-white rounded-2xl flex flex-col items-center justify-center w-full">
     <the-icon src="chef-share" />
-    <h2 class="text-gray-800 text-2xl font-semibold mb-3">Поделиться с друзьями</h2>
-    <p class="text-gray-700 text-base mb-8">Поделись со ссылкой с другом и получи 10%  от его первого заказа в свой Coozin кошелёк</p>
+    <h2 class="text-gray-800 text-2xl font-semibold mb-3">{{$t('share-friends')}}</h2>
+    <p class="text-gray-700 text-base mb-8">{{$t('share-description')}}</p>
     <div class="input-styles">
       <input class="input-styles" disabled type="text" value="https://coozin.uz...">
       <div @click="copy">

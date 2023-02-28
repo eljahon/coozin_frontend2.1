@@ -13,16 +13,16 @@
       <div class="container px-4 mx-auto overflow-x-scroll scroll-style lg:flex lg:gap-5">
         <div style="width: 33.333%" class="lg:flex hidden flex-col gap-5">
           <blog-card
-            :src="blogData[0]?.media[0]?.url"
-            :title="blogData[0]?.title"
-            :avatar="blogData[0]?.vendor?.avatar"
+            :src="blogData[0]?.image?.aws_path"
+            :title="blogData[0]?.vendor?.user?.first_name+blogData[0]?.vendor?.user?.last_name"
+            :avatar="blogData[0]?.vendor?.user.avatar?.aws_path"
             width="100%"
             height="600px"
           />
           <blog-card
-            :src="blogData[1]?.media[0]?.url"
-            :title="blogData[1]?.title"
-            :avatar="blogData[1]?.vendor?.avatar"
+            :src="blogData[1]?.image?.aws_path"
+            :title="blogData[1]?.vendor?.user?.first_name+blogData[1]?.vendor?.user?.last_name"
+            :avatar="blogData[1]?.vendor?.user.avatar?.aws_path"
             width="100%"
             height="600px"
           />
@@ -32,16 +32,16 @@
             <div style="width: 50%">
               <div class="flex flex-col gap-5 w-full">
                 <blog-card
-                  :src="blogData[2]?.media[0]?.url"
-                  :title="blogData[2]?.title"
-                  :avatar="blogData[2]?.vendor?.avatar"
+                  :src="blogData[2]?.image?.aws_path"
+                  :title="blogData[2]?.vendor?.user?.first_name+' '+blogData[2]?.vendor?.user?.last_name"
+                  :avatar="blogData[2]?.vendor?.user.avatar?.aws_path"
                   width="100%"
                   height="410px"
                 />
                 <blog-card
-                  :src="blogData[3]?.media[0]?.url"
-                  :title="blogData[3]?.title"
-                  :avatar="blogData[3]?.vendor?.avatar"
+                  :src="blogData[3]?.image?.aws_path"
+                  :title="blogData[3]?.vendor?.user?.first_name+' '+blogData[3]?.vendor?.user?.last_name"
+                  :avatar="blogData[3]?.vendor?.user.avatar?.aws_path"
                   width="100%"
                   height="410px"
                 />
@@ -49,9 +49,9 @@
             </div>
             <div style="width: 50%">
               <blog-card
-                :src="false"
-                title="Имя Фамилия"
-                :avatar="false"
+                :src="blogData[4]?.image?.aws_path"
+                :title="blogData[4]?.vendor?.user?.first_name+' '+blogData[4]?.vendor?.user?.last_name"
+                :avatar="blogData[4]?.vendor?.user.avatar?.aws_path"
                 width="100%"
                 height="840px"
               />
@@ -70,9 +70,9 @@
         <div class="lg:hidden flex items-center gap-3.5">
           <div v-for="(item, idx) in blogData" :key="item.id">
             <blog-card
-              :src="item?.media[0]?.url"
-              :title="item.title"
-              :avatar="item?.vendor?.avatar"
+              :title="`${item?.vendor?.user?.first_name}' ' ${item?.vendor?.user?.last_name}`"
+              :avatar="item?.vendor?.user?.avatar?.aws_path"
+              :src="item?.image?.aws_path"
             />
           </div>
         </div>
@@ -92,8 +92,13 @@ export default {
   methods: {
     async getBlogs() {
       try {
-        const { objects } =  await this.$axios.get('reels');
-        this.blogData = objects
+        const {data: {results, pagination}}  =  await this.$axios.get('reels',{
+          params: {
+            populate: 'image, vendor, background, vendor.user, vendor.background, vendor.user.avatar',
+            locale: this.$i18n.locale
+          }
+        });
+        this.blogData = results
       } catch (e) {
       }
     }

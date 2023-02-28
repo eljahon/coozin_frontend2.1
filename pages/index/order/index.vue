@@ -307,7 +307,6 @@ export default {
       return this.$store.dispatch('set_day')
     },
     setDateSelect (item) {
-      console.log(item.day)
       this.orderTimeDelever(item.day)
       // this.order.delivery_time = item.date
     },
